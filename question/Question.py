@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+# @Time    : 2022/7/28 17:20
+# @Author  : Kazeya
+# @File    : Question.py
+# @Description : 题目类
+
 from enum import Enum
 
 
@@ -11,8 +17,8 @@ class Question:
     def __init__(self, stem:str, type:Type, answer:str, analysis:str):
         self._analysis = analysis
         self._type = type
-        if type == Type.BLANK:
-            answer = str(sorted(answer))
+        if type == Type.CHOICE:
+            answer = "".join(sorted(answer))
             answer = answer.upper()
         self._answer = answer
         self._stem = stem
@@ -26,8 +32,8 @@ class Question:
     def judge(self, answer) -> bool:
         if self._type == Type.ESSAY:
             raise Exception("这是一道主观题")
-        if self._type == Type.BLANK:
-            answer = str(sorted(answer))
+        if self._type == Type.CHOICE:
+            answer = "".join(sorted(answer))
             answer = answer.upper()
         return answer == self._answer
 
@@ -45,3 +51,4 @@ class Question:
 
     def getType(self):
         return self._type
+
