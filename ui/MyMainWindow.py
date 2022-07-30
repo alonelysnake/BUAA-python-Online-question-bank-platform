@@ -17,13 +17,15 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         super(MyMainWindow, self).__init__()
         self.setupUi(mainWindow)
         self.mainWindow = mainWindow
+        self.questions = []
         self.stackedWidget.setCurrentIndex(0)
         self.questionDetail.backSignal.connect(self.backFromDetail)
         self.addQuestionButton.triggered.connect(self.uploadFileEvent)
         self.selfTestButton.triggered.connect(self.selfTestEvent)
 
-        # TODO 从题库中读取所有题目并简略显示
+        # TODO 从题库中读取所有题目并简略显示（考虑global）
         question = Question("问题", Type.CHOICE, "答案", "分析")
+        self.questions.append(question)
         newQuestionCard = MyQuestionCard(self.questionCategory, 0, False)
         newQuestionCard.setText("问题一")
         newQuestionCard.clickDetail.connect(self.seeDetail)
@@ -43,18 +45,18 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
     def selfTestEvent(self):
         # TODO 跳转到自测界面
         newWindow = QMainWindow()
-        chooseWindow = MyChooseQuestion(newWindow, self)
-        self.menu.hide()
+        chooseWindow = MyChooseQuestion(newWindow, self, self.questions)
         newWindow.show()
-        print("gg")
         pass
 
     def seeDetail(self, index):
+        self.menuBar.hide()
         self.stackedWidget.setCurrentIndex(1)
         question = Question("问题", Type.CHOICE, "答案", "分析")
         self.questionDetail.show(question=question)
 
     def backFromDetail(self):
+        self.menuBar.show()
         self.stackedWidget.setCurrentIndex(0)
 
 

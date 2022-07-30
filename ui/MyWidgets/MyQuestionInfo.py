@@ -28,16 +28,19 @@ class MyQuestionInfo(Ui_Form, QWidget):
 
     def setObjectQuestion(self, question: Question):
         self.stackedWidget.setCurrentIndex(1)
-        # 设置选项
-        newSelection = QCheckBox()
         self.objectQuestion.setText(question.getStem())
         self.objectQuestion.setText("这里是问题题干\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ngg\n\n\ngg\n\ng")
         # TODO 根据question设置
-        newSelection.setText("选项的内容")
-        newSelection.setCheckable(True)
-        newSelection.setChecked(False)
-        self.selectionBoxLayout.addWidget(newSelection)
-        print("choice")
+        # 设置选项
+        for child in self.selectionBox.children():
+            if isinstance(child, QCheckBox):
+                self.selectionBoxLayout.removeWidget(child)
+        for i in range(4):
+            newSelection = QCheckBox()
+            newSelection.setText("选项" + chr(ord('A') + i))
+            newSelection.setCheckable(True)
+            newSelection.setChecked(False)
+            self.selectionBoxLayout.addWidget(newSelection)
 
     def setSubjectQuestion(self, question: Question):
         self.stackedWidget.setCurrentIndex(0)
