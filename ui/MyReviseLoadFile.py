@@ -2,9 +2,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal
 import sys
 
-from .ReviseLoadFile import Ui_MainWindow
+from ReviseLoadFile import Ui_MainWindow
 
 
+# 上传题目时，手动修改每一道题的界面
 class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
     switch2mainWindow = pyqtSignal(QMainWindow)
 
@@ -18,7 +19,7 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         self.answerButton.clicked.connect(self.switchQuestionType)
         self.nextButton.clicked.connect(self.nextButtonOperation)
 
-        self.initAttribute("")
+        # self.initAttribute("")
 
     def initAttribute(self, path):
         self.questionType = 0  # 0 选择 1 填空 2 解答
@@ -65,10 +66,12 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
     def object2subject(self):
         self.stackedWidget.setCurrentIndex(0)
         # TODO 更新题面的表示
+        self.showSubjectQuestion()
 
     def subject2object(self):
         self.stackedWidget.setCurrentIndex(1)
         # TODO 更新题面的表示
+        self.showObjectQuestion()
 
     def showNextQuestion(self):
         # TODO 读取下一道题

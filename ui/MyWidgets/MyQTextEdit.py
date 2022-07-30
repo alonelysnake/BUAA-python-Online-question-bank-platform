@@ -2,6 +2,7 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QTextEdit
 
 
+# 上传题库时用的，支持拖入文件的填空框
 class MyQTextEdit(QTextEdit):
     sendmsg = pyqtSignal(object)
 

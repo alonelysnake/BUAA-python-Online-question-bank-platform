@@ -64,7 +64,7 @@ p, li { white-space: pre-wrap; }
   <customwidget>
    <class>MyQTextEdit</class>
    <extends>QTextEdit</extends>
-   <header location="global">MyQTextEdit.h</header>
+   <header location="global">ui.MyWidgets.MyQTextEdit</header>
   </customwidget>
  </customwidgets>
  <resources/>

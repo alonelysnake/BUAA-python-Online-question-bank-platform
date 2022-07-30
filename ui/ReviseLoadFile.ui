@@ -21,16 +21,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="4" column="1">
-     <widget class="QRadioButton" name="answerButton">
-      <property name="text">
-       <string>解答题</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="1">
      <widget class="QCommandLinkButton" name="nextButton">
       <property name="sizePolicy">
@@ -57,6 +47,13 @@
       </property>
      </widget>
     </item>
+    <item row="3" column="1">
+     <widget class="QRadioButton" name="fillButton">
+      <property name="text">
+       <string>填空题</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
@@ -77,11 +74,11 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="0" colspan="4">
-         <widget class="QTextEdit" name="objectQuestion"/>
-        </item>
         <item row="6" column="3">
          <widget class="QTextEdit" name="objectExplanation"/>
+        </item>
+        <item row="4" column="0" colspan="4">
+         <widget class="QTextEdit" name="objectQuestion"/>
         </item>
         <item row="5" column="3">
          <widget class="QLabel" name="objectlabel_3">
@@ -90,14 +87,32 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
-         <widget class="QListWidget" name="objectSelectioins"/>
-        </item>
         <item row="1" column="0">
          <widget class="QLabel" name="objectlabel_1">
           <property name="text">
            <string>问题描述</string>
           </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QScrollArea" name="scrollArea">
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>276</width>
+             <height>172</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout"/>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -131,10 +146,13 @@
       </widget>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QRadioButton" name="fillButton">
+    <item row="4" column="1">
+     <widget class="QRadioButton" name="answerButton">
       <property name="text">
-       <string>填空题</string>
+       <string>解答题</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
       </property>
      </widget>
     </item>

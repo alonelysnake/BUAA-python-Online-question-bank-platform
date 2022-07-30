@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import QApplication, QDialog
 import sys
 
-from .ChooseLoadFile import Ui_chooseLoadFile
+from ChooseLoadFile import Ui_chooseLoadFile
 
 
+# 选择要上传题库的文件界面
 class MyChooseLoadFile(QDialog, Ui_chooseLoadFile):
     def __init__(self, chooseLoadFile):
         super().__init__()

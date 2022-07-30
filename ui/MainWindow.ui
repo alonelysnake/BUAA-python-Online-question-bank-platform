@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>424</width>
-    <height>441</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,12 +16,36 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QListWidget" name="questionList">
-      <item>
-       <property name="text">
-        <string>aa</string>
-       </property>
-      </item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QWidget" name="page0">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QScrollArea" name="scrollArea">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="questionCategory">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>754</width>
+             <height>503</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="questionCategoryLayout"/>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page1">
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="MyQuestionInfo" name="questionDetail" native="true"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -32,7 +56,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>424</width>
+     <width>800</width>
      <height>26</height>
     </rect>
    </property>
@@ -68,6 +92,14 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyQuestionInfo</class>
+   <extends>QWidget</extends>
+   <header>ui.MyWidgets.MyQuestionInfo</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

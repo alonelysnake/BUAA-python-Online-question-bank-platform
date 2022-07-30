@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'MainWindow.ui'
+# Form implementation generated from reading ui file 'E:\coding\python\homework\Online-question-bank-platform\ui\MainWindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,22 +14,43 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(424, 441)
+        MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
-        self.questionList = QtWidgets.QListWidget(self.centralwidget)
-        self.questionList.setObjectName("questionList")
-        item = QtWidgets.QListWidgetItem()
-        self.questionList.addItem(item)
-        self.gridLayout.addWidget(self.questionList, 0, 0, 1, 1)
+        self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
+        self.stackedWidget.setObjectName("stackedWidget")
+        self.page0 = QtWidgets.QWidget()
+        self.page0.setObjectName("page0")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.page0)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.scrollArea = QtWidgets.QScrollArea(self.page0)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.questionCategory = QtWidgets.QWidget()
+        self.questionCategory.setGeometry(QtCore.QRect(0, 0, 754, 503))
+        self.questionCategory.setObjectName("questionCategory")
+        self.questionCategoryLayout = QtWidgets.QVBoxLayout(self.questionCategory)
+        self.questionCategoryLayout.setObjectName("questionCategoryLayout")
+        self.scrollArea.setWidget(self.questionCategory)
+        self.gridLayout_2.addWidget(self.scrollArea, 0, 0, 1, 1)
+        self.stackedWidget.addWidget(self.page0)
+        self.page1 = QtWidgets.QWidget()
+        self.page1.setObjectName("page1")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.page1)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.questionDetail = MyQuestionInfo(self.page1)
+        self.questionDetail.setObjectName("questionDetail")
+        self.gridLayout_3.addWidget(self.questionDetail, 0, 0, 1, 1)
+        self.stackedWidget.addWidget(self.page1)
+        self.gridLayout.addWidget(self.stackedWidget, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 424, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 800, 26))
         self.menuBar.setObjectName("menuBar")
         self.menu = QtWidgets.QMenu(self.menuBar)
         self.menu.setEnabled(True)
@@ -53,16 +74,8 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        __sortingEnabled = self.questionList.isSortingEnabled()
-        self.questionList.setSortingEnabled(False)
-        item = self.questionList.item(0)
-        item.setText(_translate("MainWindow", "aa"))
-        self.questionList.setSortingEnabled(__sortingEnabled)
         self.menu.setTitle(_translate("MainWindow", "菜单"))
         self.addQuestionButton.setText(_translate("MainWindow", "新题上传"))
         self.selfTestButton.setText(_translate("MainWindow", "自测"))
         self.actionclose.setText(_translate("MainWindow", "close"))
-        self.actionclose.triggered.connect(lambda :self.closeSys(MainWindow))
-
-    def closeSys(self,MainWindow):
-        MainWindow.close()
+from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
