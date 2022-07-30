@@ -6,34 +6,41 @@
 
 # 选择题库->题单名字—>自动或手动->题量
 
-from question.QuestionBank import QuestionBank
-from question.Question import Question
-import random
+from DatabaseUtil import DB
 
 class ExamGeneration:
 
     @classmethod
-    def generate(cls, bankName: str, listName: str, amount: int, index, model="auto"):
-        # todo 检查重名
-        bank = QuestionBank(bankName, 0)
-        qList = QuestionBank(listName, 1)
-        questions = ExamGeneration._getQuestions(amount,index,model,list(bank.getQuestions().values()))
-        for question in questions:
-            # print(question)
-            qList.addQuestion(Question(question[0],question[1],question[2],question[3],question[4],question[5]))
-        # todo 是否需要修改
-        qList.saveBank()
-
-    @classmethod
-    def _getQuestions(cls, amount, index, model, bankList) -> list:
-        questions = []
-        print(bankList)
-        if model == 'auto':
-            questions = random.sample(bankList,amount)
+    def generate(cls, bankId: int, listName: str, amount: int, index:list, model="auto"):
+        db = DB()
+        db.cursor.execute('use base_name')
+        db.cursor.execute("select * from bank_name where id='" + str(bankId) + "'")
+        bankName = db.cursor.fetchone()[1]
+        db.createBank(listName,"list")
+        if model == "auto":
+            # print("insert into " + listName + " select * from banks." + bankName + " where id>=((select max(id) from banks." + bankName + " )-(select min(id) from banks." + bankName + "))* RAND() + (SELECT MIN(Id) FROM banks." + bankName + ") limit " + str(amount))
+            db.cursor.execute(
+                "insert into " + listName + " select * from banks." + bankName + \
+                " where id>=((select max(id) from banks." + bankName + " )-(select min(id) from banks." + bankName + \
+                "))* RAND() + (SELECT MIN(Id) FROM banks." + bankName + ") limit " + str(amount))
+            db.conn.commit()
         else:
             for i in index:
-                questions.append(bankList[i])
-        return questions
+                db.cursor.execute(
+                    "insert into " + listName + " select * from banks." + bankName + \
+                    " where id=" + "'" + str(i) + "'")
+            db.conn.commit()
 
 if __name__ == '__main__':
-    ExamGeneration.generate('科目一','科目一试卷1',20,[])
+    # ExamGeneration.generate(8,'科目一试卷1',20,[])
+    db = DB()
+    listName = '科目一试卷1'
+    bankName = '科目一'
+    amount = 20
+    db.cursor.execute("use lists")
+    index = [10,17,19,21,22,25,26,30]
+    for i in index:
+        db.cursor.execute(
+            "insert into " + listName + " select * from banks." + bankName + \
+            " where id=" + "'" + str(i) + "'")
+    db.conn.commit()
