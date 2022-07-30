@@ -4,41 +4,40 @@
 # @File    : Question.py
 # @Description : 题目类
 
-from enum import Enum
-
-
-class Type(Enum):
-    CHOICE = 1
-    BLANK = 2
-    ESSAY = 3
+CHOICE = 1
+BLANK = 2
+ESSAY = 3
 
 
 class Question:
-    def __init__(self, stem:str, type:Type, answer:str, analysis:str):
+    # choice->1,blank->2,essay->3
+    def __init__(self, id:int, stem:str, type:int, answer:str, analysis:str, options:list):
+        self._id = id
+        self._options = options
         self._analysis = analysis
         self._type = type
-        if type == Type.CHOICE:
+        if type == CHOICE:
             answer = "".join(sorted(answer))
             answer = answer.upper()
         self._answer = answer
         self._stem = stem
 
     def __hash__(self):
-        return hash(self._stem)
+        return hash(self._id)
 
     def __eq__(self, other):
-        return self._stem == other._stem
+        return self._id == other._id
 
     def judge(self, answer) -> bool:
-        if self._type == Type.ESSAY:
+        if self._type == ESSAY:
             raise Exception("这是一道主观题")
-        if self._type == Type.CHOICE:
+        if self._type == CHOICE:
             answer = "".join(sorted(answer))
             answer = answer.upper()
         return answer == self._answer
 
     def toList(self):
-        return [self._stem,self._type,self._answer,self._analysis]
+        return [self._id, self._stem, self._type, self._answer, self._analysis, self._options]
 
     def getAnalysis(self):
         return self._analysis
@@ -52,3 +51,11 @@ class Question:
     def getType(self):
         return self._type
 
+    def getIndex(self):
+        return self._id
+
+    def getOptions(self):
+        return self._options
+
+    def setId(self, id):
+        self._id = id
