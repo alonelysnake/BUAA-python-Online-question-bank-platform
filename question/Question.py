@@ -11,7 +11,8 @@ ESSAY = 3
 
 class Question:
     # choice->1,blank->2,essay->3
-    def __init__(self, id:int, stem:str, type:int, answer:str, analysis:str, options:list):
+    def __init__(self, id:int, bid:int, stem:str, type:int, answer:str, analysis:str, options:list):
+        self._bid = bid
         self._id = id
         self._options = options
         self._analysis = analysis
@@ -22,11 +23,11 @@ class Question:
         self._answer = answer
         self._stem = stem
 
-    def __hash__(self):
-        return hash(self._id)
+    def __hash__(self) -> int:
+        return hash([self._bid,self._id])
 
     def __eq__(self, other):
-        return self._id == other._id
+        return self._id == other._id and self._bid == other._bid
 
     def judge(self, answer) -> bool:
         if self._type == ESSAY:
@@ -36,8 +37,11 @@ class Question:
             answer = answer.upper()
         return answer == self._answer
 
+    def toString(self):
+        return str("'" + str(self._bid) + "'" + ',' + "'" + self._stem + "'" + ',' + "'" + str(self._type) + "'" + ',' + "'" + str(self._answer) + "'" + ',' + "'" + str(self._analysis) + "'")
+
     def toList(self):
-        return [self._id, self._stem, self._type, self._answer, self._analysis, self._options]
+        return [self._id, self._bid, self._stem, self._type, self._answer, self._analysis, self._options]
 
     def getAnalysis(self):
         return self._analysis
@@ -57,5 +61,5 @@ class Question:
     def getOptions(self):
         return self._options
 
-    def setId(self, id):
-        self._id = id
+    def getBid(self):
+        return self._bid
