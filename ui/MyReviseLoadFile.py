@@ -23,85 +23,89 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         self.nextButton.clicked.connect(self.nextButtonOperation)
         self.addSelectionButton.clicked.connect(self.addNewSelection)
 
-        self.questionType = Type.CHOICE  # 0 选择 1 填空 2 解答
+        self.curQuestionType = Type.CHOICE  # 0 选择 1 填空 2 解答
         self.pos = 0
-        self.questionList = []
+        self.questionsText = []
+        self.newQuestions = []
 
     def initAttribute(self, path):
-        self.questionType = Type.CHOICE  # 0 选择 1 填空 2 解答
+        self.curQuestionType = Type.CHOICE  # 0 选择 1 填空 2 解答
         self.pos = 0
         # TODO 得到题目列表(可能无法成功读取)
-        self.questionList = [1]  # 切分好的题目列表
+        self.questionsText = [1]  # 切分好的题目列表
 
-        if not self.questionList:
+        if not self.questionsText:
             # TODO 未找到question时
-            pass
-        elif len(self.questionList) == 1:
+            return
+        elif len(self.questionsText) == 1:
             self.nextButton.setText("完成")
         else:
             self.nextButton.setText("下一题")
+        self.showQuestion()
 
     def nextButtonOperation(self):
+        self.generateQuestion()  # 生成并存储
         self.pos += 1
-        if self.pos == len(self.questionList) - 1:
+        if self.pos == len(self.questionsText) - 1:
             self.nextButton.setText("完成")
-        elif self.pos == len(self.questionList):
+            self.showQuestion()
+        elif self.pos == len(self.questionsText):
             # TODO 读取完成，保存到文件
-            if self.questionType == Type.CHOICE:
-                # TODO Question对象创建修改
-                stem = self.objectQuestion.toPlainText()
-                selections = []  # 选择题的选项
-                answer = ""
-                selectChr = ord('A')
-                for selection in self.selectionLayout.children():
-                    assert isinstance(selection, MySelectionCard)
-                    selections.append(selection.textEdit.toPlainText())
-                    if selection.selectButton.isChecked():
-                        answer += chr(selectChr)
-                    selectChr += 1
-                analysis = self.objectExplanation.toPlainText()
-                question = Question(stem, self.questionType, answer, analysis)
-            else:
-                stem = self.subjectQuestion.toPlainText()
-                answer = self.subjectAnswer.toPlainText()
-                analysis = self.subjectAnswer.toPlainText()
-                question = Question(stem, self.questionType, answer, analysis)
             bank = QuestionBank("科目一", "选择")
-            bank.addQuestion([question])
+            bank.addQuestions(self.questions)
+            bank.saveBank()
             # TODO 返回到主界面
             self.switch2mainWindow.emit(self.mainWindow)
         else:
             # TODO 展示下一道题（暂时不会用到）
             pass
 
+    def generateQuestion(self):
+        # TODO 未检查
+        if self.curQuestionType == Type.CHOICE:
+            stem = self.objectQuestion.toPlainText()
+            selections = []  # 选择题的选项
+            answer = ""
+            selectChr = ord('A')
+            for selection in self.selectionLayout.children():
+                assert isinstance(selection, MySelectionCard)
+                selections.append(selection.textEdit.toPlainText())
+                if selection.selectButton.isChecked():
+                    answer += chr(selectChr)
+                selectChr += 1
+            analysis = self.objectExplanation.toPlainText()
+            question = Question(stem, self.curQuestionType, answer, analysis)
+        else:
+            stem = self.subjectQuestion.toPlainText()
+            answer = self.subjectAnswer.toPlainText()
+            analysis = self.subjectAnswer.toPlainText()
+            question = Question(stem, self.curQuestionType, answer, analysis)
+        self.newQuestions.append(question)
+
     def switchQuestionType(self):
         if self.selectButton.isChecked():
-            if self.questionType != Type.CHOICE:
+            if self.curQuestionType != Type.CHOICE:
                 self.object2subject()
-                self.questionType = Type.CHOICE
+                self.curQuestionType = Type.CHOICE
         elif self.fillButton.isChecked():
-            if self.questionType == Type.CHOICE:
+            if self.curQuestionType == Type.CHOICE:
                 self.subject2object()
-            self.questionType = Type.BLANK
+            self.curQuestionType = Type.BLANK
         else:
-            if self.questionType == Type.CHOICE:
+            if self.curQuestionType == Type.CHOICE:
                 self.subject2object()
-            self.questionType = Type.ESSAY
+            self.curQuestionType = Type.ESSAY
 
     def object2subject(self):
         self.stackedWidget.setCurrentIndex(0)
-        # TODO 更新题面的表示
         self.showSubjectQuestion()
 
     def subject2object(self):
         self.stackedWidget.setCurrentIndex(1)
-        # TODO 更新题面的表示
         self.showObjectQuestion()
 
-    def showNextQuestion(self):
-        # TODO 读取下一道题
-        pass
-        if self.questionType == 0:
+    def showQuestion(self):
+        if self.curQuestionType == 0:
             self.showObjectQuestion()
         else:
             self.showSubjectQuestion()

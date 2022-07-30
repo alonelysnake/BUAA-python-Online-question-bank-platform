@@ -20,7 +20,6 @@ class MyQuestionCard(QWidget, Ui_Form):
 
     # 查看详情
     def viewDetail(self):
-        # TODO 传递index参数
         self.clickDetail.emit(self.index)
 
     def setText(self, text):

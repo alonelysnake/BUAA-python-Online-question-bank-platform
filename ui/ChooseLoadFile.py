@@ -15,6 +15,7 @@ class Ui_chooseLoadFile(object):
     def setupUi(self, chooseLoadFile):
         chooseLoadFile.setObjectName("chooseLoadFile")
         chooseLoadFile.resize(400, 105)
+        chooseLoadFile.setSizeGripEnabled(True)
         self.verticalLayout = QtWidgets.QVBoxLayout(chooseLoadFile)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -23,7 +24,7 @@ class Ui_chooseLoadFile(object):
         self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
         self.textEdit = MyQTextEdit(chooseLoadFile)
-        self.textEdit.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.textEdit.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.textEdit.setMarkdown("")
         self.textEdit.setObjectName("textEdit")
         self.horizontalLayout.addWidget(self.textEdit)
@@ -32,7 +33,7 @@ class Ui_chooseLoadFile(object):
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.verticalLayout.addWidget(self.buttonBox)
+        self.verticalLayout.addWidget(self.buttonBox, 0, QtCore.Qt.AlignBottom)
 
         self.retranslateUi(chooseLoadFile)
         self.buttonBox.rejected.connect(chooseLoadFile.reject)

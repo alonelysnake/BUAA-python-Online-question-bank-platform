@@ -3,6 +3,7 @@ from PyQt5.QtCore import pyqtSignal
 import sys
 
 from question.Question import *
+from question.QuestionBank import QuestionBank
 
 from MainWindow import Ui_MainWindow
 from MyWidgets.MyQuestionCard import MyQuestionCard
@@ -17,19 +18,22 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         super(MyMainWindow, self).__init__()
         self.setupUi(mainWindow)
         self.mainWindow = mainWindow
-        self.questions = []
-        self.stackedWidget.setCurrentIndex(0)
+        self.questions = []  # questions集合
         self.questionDetail.backSignal.connect(self.backFromDetail)
         self.addQuestionButton.triggered.connect(self.uploadFileEvent)
         self.selfTestButton.triggered.connect(self.selfTestEvent)
 
         # TODO 从题库中读取所有题目并简略显示（考虑global）
-        question = Question("问题", Type.CHOICE, "答案", "分析")
-        self.questions.append(question)
-        newQuestionCard = MyQuestionCard(self.questionCategory, 0, False)
-        newQuestionCard.setText("问题一")
-        newQuestionCard.clickDetail.connect(self.seeDetail)
-        self.questionCategoryLayout.addWidget(newQuestionCard)
+        self.bank = QuestionBank("科目一", 0)
+        self.questions = self.bank.getQuestions()
+        #TODO 考虑用question的index
+        index = 0
+        for question in self.questions:
+            newQuestionCard = MyQuestionCard(self.questionCategory, index, False)
+            newQuestionCard.setText(question.getIndex())
+            newQuestionCard.clickDetail.connect(self.seeDetail)
+            self.questionCategoryLayout.addWidget(newQuestionCard)
+            index += 1
 
     def uploadFileEvent(self):
         dialog = QDialog()
@@ -47,12 +51,11 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         newWindow = QMainWindow()
         chooseWindow = MyChooseQuestion(newWindow, self, self.questions)
         newWindow.show()
-        pass
 
     def seeDetail(self, index):
         self.menuBar.hide()
         self.stackedWidget.setCurrentIndex(1)
-        question = Question("问题", Type.CHOICE, "答案", "分析")
+        question = self.questions[index]
         self.questionDetail.show(question=question)
 
     def backFromDetail(self):
