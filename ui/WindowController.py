@@ -1,7 +1,9 @@
-from PyQt5.QtWidgets import QMainWindow
+import sys
 
-from .MyMainWindow import MyMainWindow
-from .MyReviseLoadFile import MyReviseLoadFile
+from PyQt5.QtWidgets import *
+
+from MyMainWindow import MyMainWindow
+from MyReviseLoadFile import MyReviseLoadFile
 
 
 class WindowController:
@@ -26,3 +28,9 @@ class WindowController:
         window.hide()
         self.mainWindow.mainWindow.show()
         print("come back to mainwindow success")
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    controller = WindowController()
+    app.exec_()
