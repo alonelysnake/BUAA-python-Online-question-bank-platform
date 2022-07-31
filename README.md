@@ -9,4 +9,6 @@
 
 `pip install -r requirements.txt`
 
+`pip install paddleocr`
+
 调用方法见`test.py`
