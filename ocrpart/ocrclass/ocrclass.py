@@ -7,33 +7,35 @@ class Paddleocr:
     def __init__(
         self,
         img_path=None,
-        img_type='jpg'
+        img_name='1.jpg'
     ):
-        self.img_path = img_path
-        self.type = img_type
+        self.img = img_path + img_name
+    
+    def get_object(self, res_list):
+        all_str = ''
+        for i in res_list:
+            if i == 'A' or i == 'B' or i == 'C' or i == 'D':
+                continue
+            else:
+                all_str += i + ' '
+        return all_str
+    
+    def get_subject(self, res_list):
+        all_str = ''
+        for i in res_list:
+            all_str += i + ' '
+        return all_str
+
     def get_result(self):
         ocr = PaddleOCR(use_angle_cls=True, lang='ch')
-        all_img = sorted(glob.glob(os.path.join(self.img_path, '*.' + self.type)))
-        res = []
-        for img in all_img:
-            result = ocr.ocr(img, cls=True)
-            all_str = ''
-            flag = [False for i in range(4)]
-            for j in range(len(result)):
-                character = result[j][1][0]
-                if character == 'A':
-                    flag[0] = True
-                    cnt = 1
-                elif character == 'B':
-                    flag[1] = True
-                    cnt = 2
-                elif character == 'C':
-                    flag[2] = True
-                    cnt = 3
-                elif character == 'D':
-                    flag[3] = True
-                    cnt = 4
-                else:
-                    all_str += character + ' '
-            res.append(all_str)
+        result = ocr.ocr(self.img, cls=True)
+        res_list = []
+        for j in range(len(result)):
+            character = result[j][1][0]
+            res_list.append(character)
+        # 判断客观题or主观题
+        if res_list.count('A') !=0 or res_list.count('B') !=0 or res_list.count('C') !=0 or res_list.count('D') !=0:
+            res = self.get_object(res_list)
+        else:
+            res = self.get_subject(res_list)
         return res

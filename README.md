@@ -6,6 +6,7 @@
 然后是安装shapely，但是需要先从[这儿](https://www.lfd.uci.edu/~gohlke/pythonlibs/)下载shapely安装包, 我下载的是Shapely‑1.8.2‑cp38‑cp38‑win_amd64.whl
 
 `pip install Shapely‑1.7.1‑cp38‑cp38‑win_amd64.whl`
+
 `pip install -r requirements.txt`
 
 调用方法见`test.py`
