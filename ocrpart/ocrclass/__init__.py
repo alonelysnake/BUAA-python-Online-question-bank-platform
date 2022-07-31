@@ -1,0 +1,1 @@
+from ocrpart.ocrclass.ocrclass import Paddleocr
