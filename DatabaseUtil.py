@@ -9,7 +9,7 @@ import pymysql
 class DB():
     def __init__(self):
         if not hasattr(DB,"_first_init"):
-            self.conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='837826068', charset='utf8')
+            self.conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='123456', charset='utf8')
             self.cursor = self.conn.cursor()
             DB._first_init = True
 
@@ -48,4 +48,34 @@ class DB():
         )default charset=utf8;
         """
         self.cursor.execute('create table ' + name + sql)
+        self.conn.commit()
+
+    def initial(self):
+        if not self.hasBase('base_name'):
+            self.createBase("base_name",["bank_name","list_name"])
+        if not self.hasBase('banks'):
+            self.createBase("banks", [])
+        if not self.hasBase('lists'):
+            self.createBase("lists", [])
+
+    def hasBase(self,baseName) -> bool:
+        self.cursor.execute("show databases like '" + baseName + "'")
+        base = self.cursor.fetchall()
+        if len(base) == 0:
+            return False
+        else:
+            return True
+
+    def createBase(self,name,tables):
+        self.cursor.execute('create database ' + name)
+        self.conn.commit()
+        self.cursor.execute('use ' + name)
+        sql = """
+        (
+            id int not null primary key auto_increment,
+            name text(1024) not null
+        )default charset=utf8;
+        """
+        for table in tables:
+            self.cursor.execute('create table ' + table + sql)
         self.conn.commit()
