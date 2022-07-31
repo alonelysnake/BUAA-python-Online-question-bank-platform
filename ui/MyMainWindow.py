@@ -3,6 +3,7 @@ from PyQt5.QtCore import pyqtSignal
 import sys
 
 from question.Question import *
+from question.QuestionBank import QuestionBank
 
 from MainWindow import Ui_MainWindow
 from MyWidgets.MyQuestionCard import MyQuestionCard
@@ -13,21 +14,24 @@ from MyChooseQuestion import MyChooseQuestion
 class MyMainWindow(Ui_MainWindow, QMainWindow):
     switch2reviseFile = pyqtSignal(QMainWindow, str)  # 跳转到上传后修改的信号
 
-    def __init__(self, mainWindow):
+    def __init__(self, mainWindow, bank: QuestionBank):
         super(MyMainWindow, self).__init__()
         self.setupUi(mainWindow)
         self.mainWindow = mainWindow
-        self.stackedWidget.setCurrentIndex(0)
+        self.questions = []  # questions集合
         self.questionDetail.backSignal.connect(self.backFromDetail)
         self.addQuestionButton.triggered.connect(self.uploadFileEvent)
         self.selfTestButton.triggered.connect(self.selfTestEvent)
 
-        # TODO 从题库中读取所有题目并简略显示
-        question = Question("问题", Type.CHOICE, "答案", "分析")
-        newQuestionCard = MyQuestionCard(self.questionCategory, 0, False)
-        newQuestionCard.setText("问题一")
-        newQuestionCard.clickDetail.connect(self.seeDetail)
-        self.questionCategoryLayout.addWidget(newQuestionCard)
+        self.bank = bank
+        self.questions = self.bank.getQuestions()
+        for question in self.questions:
+            assert isinstance(question, Question)
+            index = question.getIndex()
+            newQuestionCard = MyQuestionCard(self.questionCategory, index, False)
+            newQuestionCard.setText(question.getIndex())
+            newQuestionCard.clickDetail.connect(self.seeDetail)
+            self.questionCategoryLayout.addWidget(newQuestionCard)
 
     def uploadFileEvent(self):
         dialog = QDialog()
@@ -41,27 +45,26 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
             pass
 
     def selfTestEvent(self):
-        # TODO 跳转到自测界面
         newWindow = QMainWindow()
-        chooseWindow = MyChooseQuestion(newWindow, self)
-        self.menu.hide()
+        chooseWindow = MyChooseQuestion(newWindow, self, self.bank)
         newWindow.show()
-        print("gg")
-        pass
 
     def seeDetail(self, index):
+        self.menuBar.hide()
         self.stackedWidget.setCurrentIndex(1)
-        question = Question("问题", Type.CHOICE, "答案", "分析")
+        question = self.questions[index]
         self.questionDetail.show(question=question)
 
     def backFromDetail(self):
+        self.menuBar.show()
         self.stackedWidget.setCurrentIndex(0)
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = QMainWindow()
-    mainWindow = MyMainWindow(window)
+    bank = QuestionBank("科目一", 0)
+    mainWindow = MyMainWindow(window, bank)
     # dialog.show()
     window.show()
     app.exec_()

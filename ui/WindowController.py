@@ -4,17 +4,18 @@ from PyQt5.QtWidgets import *
 
 from MyMainWindow import MyMainWindow
 from MyReviseLoadFile import MyReviseLoadFile
+from question.QuestionBank import QuestionBank
 
 
 class WindowController:
-    def __init__(self):
+    def __init__(self, bank: QuestionBank):
         window = QMainWindow()
-        self.mainWindow = MyMainWindow(window)
+        self.mainWindow = MyMainWindow(window, bank)
         self.mainWindow.switch2reviseFile.connect(self.showReviseFile)
         window.show()
 
         window = QMainWindow()
-        self.reviseFileWindow = MyReviseLoadFile(window)
+        self.reviseFileWindow = MyReviseLoadFile(window, bank)
         self.reviseFileWindow.switch2mainWindow.connect(self.showMainWindow)
 
     # 显示上传后修改的界面
@@ -32,5 +33,6 @@ class WindowController:
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    controller = WindowController()
+    bank = QuestionBank("科目一", 0)
+    controller = WindowController(bank)
     app.exec_()

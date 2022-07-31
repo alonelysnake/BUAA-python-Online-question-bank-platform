@@ -59,7 +59,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="object">
+      <widget class="QWidget" name="page0">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
          <horstretch>6</horstretch>
@@ -73,12 +73,6 @@
            <string>选项与答案</string>
           </property>
          </widget>
-        </item>
-        <item row="6" column="3">
-         <widget class="QTextEdit" name="objectExplanation"/>
-        </item>
-        <item row="4" column="0" colspan="4">
-         <widget class="QTextEdit" name="objectQuestion"/>
         </item>
         <item row="5" column="3">
          <widget class="QLabel" name="objectlabel_3">
@@ -94,6 +88,13 @@
           </property>
          </widget>
         </item>
+        <item row="7" column="0">
+         <widget class="QPushButton" name="addSelectionButton">
+          <property name="text">
+           <string>添加新选项</string>
+          </property>
+         </widget>
+        </item>
         <item row="6" column="0">
          <widget class="QScrollArea" name="scrollArea">
           <property name="autoFillBackground">
@@ -102,22 +103,28 @@
           <property name="widgetResizable">
            <bool>true</bool>
           </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents">
+          <widget class="QWidget" name="selectionBox">
            <property name="geometry">
             <rect>
              <x>0</x>
              <y>0</y>
              <width>276</width>
-             <height>172</height>
+             <height>137</height>
             </rect>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout"/>
+           <layout class="QVBoxLayout" name="selectionLayout"/>
           </widget>
          </widget>
         </item>
+        <item row="4" column="0" colspan="4">
+         <widget class="QTextEdit" name="objectQuestion"/>
+        </item>
+        <item row="6" column="3" rowspan="2">
+         <widget class="QTextEdit" name="objectExplanation"/>
+        </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="subject">
+      <widget class="QWidget" name="page1">
        <property name="cursor">
         <cursorShape>WaitCursor</cursorShape>
        </property>

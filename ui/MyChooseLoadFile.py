@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QApplication, QDialog
+from PyQt5.QtCore import Qt
 import sys
 
 from ChooseLoadFile import Ui_chooseLoadFile
@@ -11,6 +12,8 @@ class MyChooseLoadFile(QDialog, Ui_chooseLoadFile):
         self.setupUi(chooseLoadFile)
         self.buttonBox.accepted.connect(self.accept)
         self.filepath = ""
+
+        chooseLoadFile.setWindowFlags(Qt.WindowCloseButtonHint)
 
     # 成功返回时要记录文件路径
     def accept(self):

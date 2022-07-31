@@ -14,16 +14,36 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(400, 300)
+        Form.resize(400, 65)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
+        Form.setSizePolicy(sizePolicy)
+        Form.setMinimumSize(QtCore.QSize(0, 30))
+        Form.setMaximumSize(QtCore.QSize(16777215, 122))
+        Form.setSizeIncrement(QtCore.QSize(0, 30))
+        Form.setBaseSize(QtCore.QSize(0, 30))
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.selectButton = QtWidgets.QCheckBox(Form)
         self.selectButton.setText("")
         self.selectButton.setObjectName("selectButton")
-        self.horizontalLayout.addWidget(self.selectButton)
+        self.horizontalLayout.addWidget(self.selectButton, 0, QtCore.Qt.AlignTop)
         self.textEdit = QtWidgets.QTextEdit(Form)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.textEdit.sizePolicy().hasHeightForWidth())
+        self.textEdit.setSizePolicy(sizePolicy)
+        self.textEdit.setMinimumSize(QtCore.QSize(0, 30))
+        self.textEdit.setMaximumSize(QtCore.QSize(16777215, 100))
+        self.textEdit.setSizeIncrement(QtCore.QSize(0, 30))
+        self.textEdit.setBaseSize(QtCore.QSize(0, 30))
+        self.textEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.textEdit.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
         self.textEdit.setObjectName("textEdit")
-        self.horizontalLayout.addWidget(self.textEdit)
+        self.horizontalLayout.addWidget(self.textEdit, 0, QtCore.Qt.AlignTop)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -31,3 +51,8 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
+        self.textEdit.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">新选项</p></body></html>"))
