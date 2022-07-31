@@ -8,4 +8,4 @@
 `pip install Shapely‑1.7.1‑cp38‑cp38‑win_amd64.whl`
 `pip install -r requirements.txt`
 
-具体代码可见`infer.ipynb`
+调用方法见`test.py`
