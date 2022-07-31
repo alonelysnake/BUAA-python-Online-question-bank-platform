@@ -129,5 +129,10 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
         self.jumpQuestion(self.curIndex + 1)
 
     def submit(self):
-        # 跳转道反馈界面
-        pass
+        # 简单显示，只给出是否正确
+        children = self.questionButtons.children()[1:]
+        for i in range(len(self.tests)):
+            if self.answers[i] != self.tests[i].getAnswer():
+                children[i].setStyleSheet("color:red")
+            else:
+                children[i].setStyleSheet("color:green")
