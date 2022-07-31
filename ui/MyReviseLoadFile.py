@@ -12,7 +12,7 @@ from MyWidgets.MySelectionCard import MySelectionCard
 class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
     switch2mainWindow = pyqtSignal(QMainWindow)
 
-    def __init__(self, mainWindow):
+    def __init__(self, mainWindow, bank: QuestionBank):
         super(MyReviseLoadFile, self).__init__()
         self.setupUi(mainWindow)
         self.mainWindow = mainWindow
@@ -23,13 +23,15 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         self.nextButton.clicked.connect(self.nextButtonOperation)
         self.addSelectionButton.clicked.connect(self.addNewSelection)
 
-        self.curQuestionType = Type.CHOICE  # 0 选择 1 填空 2 解答
+        self.bank = bank
+        self.curQuestionType = CHOICE
+        self.baseIndex = len(bank.getQuestions())
         self.pos = 0
         self.questionsText = []
         self.newQuestions = []
 
     def initAttribute(self, path):
-        self.curQuestionType = Type.CHOICE  # 0 选择 1 填空 2 解答
+        self.curQuestionType = CHOICE  # 0 选择 1 填空 2 解答
         self.pos = 0
         # TODO 得到题目列表(可能无法成功读取)
         self.questionsText = [1]  # 切分好的题目列表
@@ -50,11 +52,7 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
             self.nextButton.setText("完成")
             self.showQuestion()
         elif self.pos == len(self.questionsText):
-            # TODO 读取完成，保存到文件
-            bank = QuestionBank("科目一", "选择")
-            bank.addQuestions(self.questions)
-            bank.saveBank()
-            # TODO 返回到主界面
+            # 返回到主界面
             self.switch2mainWindow.emit(self.mainWindow)
         else:
             # TODO 展示下一道题（暂时不会用到）
@@ -62,39 +60,38 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
 
     def generateQuestion(self):
         # TODO 未检查
-        if self.curQuestionType == Type.CHOICE:
+        if self.curQuestionType == CHOICE:
             stem = self.objectQuestion.toPlainText()
             selections = []  # 选择题的选项
             answer = ""
-            selectChr = ord('A')
-            for selection in self.selectionLayout.children():
-                assert isinstance(selection, MySelectionCard)
-                selections.append(selection.textEdit.toPlainText())
-                if selection.selectButton.isChecked():
-                    answer += chr(selectChr)
-                selectChr += 1
+            for selection in self.selection.children():
+                if isinstance(selection, MySelectionCard):
+                    selections.append(selection.textEdit.toPlainText())
+                    if selection.selectButton.isChecked():
+                        answer += selection.getChoice()
             analysis = self.objectExplanation.toPlainText()
-            question = Question(stem, self.curQuestionType, answer, analysis)
+            question = Question(self.baseIndex + self.pos, self.pos, stem, self.curQuestionType, answer, analysis,
+                                selections)
         else:
             stem = self.subjectQuestion.toPlainText()
             answer = self.subjectAnswer.toPlainText()
             analysis = self.subjectAnswer.toPlainText()
-            question = Question(stem, self.curQuestionType, answer, analysis)
+            question = Question(self.baseIndex + self.pos, self.pos, stem, self.curQuestionType, answer, analysis, [])
         self.newQuestions.append(question)
 
     def switchQuestionType(self):
         if self.selectButton.isChecked():
-            if self.curQuestionType != Type.CHOICE:
+            if self.curQuestionType != CHOICE:
                 self.object2subject()
-                self.curQuestionType = Type.CHOICE
+                self.curQuestionType = CHOICE
         elif self.fillButton.isChecked():
-            if self.curQuestionType == Type.CHOICE:
+            if self.curQuestionType == CHOICE:
                 self.subject2object()
-            self.curQuestionType = Type.BLANK
+            self.curQuestionType = BLANK
         else:
-            if self.curQuestionType == Type.CHOICE:
+            if self.curQuestionType == CHOICE:
                 self.subject2object()
-            self.curQuestionType = Type.ESSAY
+            self.curQuestionType = ESSAY
 
     def object2subject(self):
         self.stackedWidget.setCurrentIndex(0)
@@ -118,7 +115,5 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
 
     def addNewSelection(self):
         newSelection = MySelectionCard(self.selectionBox)
-        # TODO 怎么直接调整顺序
-        self.selectionLayout.removeWidget(self.addSelectionButton)
+        newSelection.setChoice(len(self.selectionBox.children()) - 1)
         self.selectionLayout.addWidget(newSelection)
-        self.selectionLayout.addWidget(self.addSelectionButton)

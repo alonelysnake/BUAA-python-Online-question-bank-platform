@@ -16,7 +16,7 @@ class MyQuestionInfo(Ui_Form, QWidget):
     def show(self, question: Question = None):
         if question:
             # 主客观题的差异化设置
-            if question.getType() == Type.CHOICE:
+            if question.getType() == CHOICE:
                 self.setObjectQuestion(question)
             else:
                 self.setSubjectQuestion(question)

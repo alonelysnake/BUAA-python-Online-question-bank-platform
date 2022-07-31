@@ -14,7 +14,7 @@ from MyChooseQuestion import MyChooseQuestion
 class MyMainWindow(Ui_MainWindow, QMainWindow):
     switch2reviseFile = pyqtSignal(QMainWindow, str)  # 跳转到上传后修改的信号
 
-    def __init__(self, mainWindow):
+    def __init__(self, mainWindow, bank: QuestionBank):
         super(MyMainWindow, self).__init__()
         self.setupUi(mainWindow)
         self.mainWindow = mainWindow
@@ -23,17 +23,15 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         self.addQuestionButton.triggered.connect(self.uploadFileEvent)
         self.selfTestButton.triggered.connect(self.selfTestEvent)
 
-        # TODO 从题库中读取所有题目并简略显示（考虑global）
-        self.bank = QuestionBank("科目一", 0)
+        self.bank = bank
         self.questions = self.bank.getQuestions()
-        #TODO 考虑用question的index
-        index = 0
         for question in self.questions:
+            assert isinstance(question, Question)
+            index = question.getIndex()
             newQuestionCard = MyQuestionCard(self.questionCategory, index, False)
             newQuestionCard.setText(question.getIndex())
             newQuestionCard.clickDetail.connect(self.seeDetail)
             self.questionCategoryLayout.addWidget(newQuestionCard)
-            index += 1
 
     def uploadFileEvent(self):
         dialog = QDialog()
@@ -47,9 +45,8 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
             pass
 
     def selfTestEvent(self):
-        # TODO 跳转到自测界面
         newWindow = QMainWindow()
-        chooseWindow = MyChooseQuestion(newWindow, self, self.questions)
+        chooseWindow = MyChooseQuestion(newWindow, self, self.bank)
         newWindow.show()
 
     def seeDetail(self, index):
@@ -66,7 +63,8 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = QMainWindow()
-    mainWindow = MyMainWindow(window)
+    bank = QuestionBank("科目一", 0)
+    mainWindow = MyMainWindow(window, bank)
     # dialog.show()
     window.show()
     app.exec_()
