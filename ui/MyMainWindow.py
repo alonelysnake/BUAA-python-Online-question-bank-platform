@@ -4,10 +4,10 @@ import sys
 
 from question.Question import *
 
-from MainWindow import Ui_MainWindow
-from MyWidgets.MyQuestionCard import MyQuestionCard
-from MyChooseLoadFile import MyChooseLoadFile
-from MyChooseQuestion import MyChooseQuestion
+from ui.MainWindow import Ui_MainWindow
+from ui.MyWidgets.MyQuestionCard import MyQuestionCard
+from ui.MyChooseLoadFile import MyChooseLoadFile
+from ui.MyChooseQuestion import MyChooseQuestion
 
 
 class MyMainWindow(Ui_MainWindow, QMainWindow):
