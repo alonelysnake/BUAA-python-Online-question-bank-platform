@@ -1,13 +1,12 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal
 
+from ocrpart.ocrclass import Paddleocr
 from question.Question import *
 from question.QuestionBank import QuestionBank
 
 from ui.ReviseLoadFile import Ui_MainWindow
 from ui.MyWidgets.MySelectionCard import MySelectionCard
-import ocrpart.ocrclass
-#from ocrpart.ocrclass import Paddleocr
 import os
 
 
@@ -38,11 +37,11 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         self.pos = 0
         # 得到题目列表
         self.questionsText.clear()
-        recognize = Paddleocr()
         for path in paths.split("\n"):
+            print(path)
             if os.path.exists(path):
-                recognize.img_path = path
-                recognize.type = path.split(".")[1]
+                recognize = Paddleocr(path.split(".")[0],path.split(".")[1])
+                print(recognize.get_result())
                 self.questionsText.append(recognize.get_result())
             else:
                 # TODO 路径非法时操作
