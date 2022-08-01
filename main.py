@@ -16,3 +16,4 @@ if __name__ == '__main__':
     # sys.exit(app.exec_())
     db = DB()
     db.initial()
+    db.createBank('科目一',0)

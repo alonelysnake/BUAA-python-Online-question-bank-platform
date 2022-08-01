@@ -31,6 +31,11 @@ class DB():
 
     def createBank(self,name:str,type:int):
         self.cursor.execute('use base_name')
+        self.cursor.execute('select * from ' + self.LOC[type] + "_name where name='" + name + "'")
+        rst = self.cursor.fetchall()
+        if len(rst) != 0:
+            print("存在重名题库")
+            return
         self.cursor.execute("insert into " + self.LOC[type] + "_name(name) values('" + name + "')")
         self.conn.commit()
         self.cursor.execute('use ' + self.LOC[type] + 's')
