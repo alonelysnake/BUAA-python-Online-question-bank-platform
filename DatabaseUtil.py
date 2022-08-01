@@ -23,6 +23,12 @@ class DB():
     def selectDatabase(self,name):
         self.cursor.execute('use ' + name + 's')
 
+    def fetchOne(self,baseName,tableName,key,value):
+        self.selectDatabase(baseName)
+        self.cursor.execute("select * from " + tableName + " where " + key + "='" + value + "'")
+        return self.cursor.fetchone()
+
+    # op->'delete' or 'select'
     def option(self,op,baseName,id):
         if op == "select":
             op += " *"
@@ -43,10 +49,10 @@ class DB():
         (
             id int not null primary key auto_increment,
             bid int not null,
-            stem text(21845) not null,
+            stem text(4096) not null,
             type int not null,
-            answer text(21845) not null,
-            analysis text(21845) not null,
+            answer text(4096) not null,
+            analysis text(8192) not null,
             optionA text(1024) null,
             optionB text(1024) null,
             optionC text(1024) null,
@@ -64,6 +70,20 @@ class DB():
             self.createBase("banks", [])
         if not self.hasBase('lists'):
             self.createBase("lists", [])
+        if not self.hasBase('datas'):
+            self.cursor.execute('create database datas')
+            self.conn.commit()
+            sql = """
+            (
+                id int not null primary key auto_increment,
+                name varchar(512) not null,
+                pwd text(128) not null,
+                unique ix_name (name)
+            )default charset=utf8;
+            """
+            self.cursor.execute("use datas")
+            self.cursor.execute("create table users" + sql)
+            self.conn.commit()
 
     def hasBase(self,baseName) -> bool:
         self.cursor.execute("show databases like '" + baseName + "'")
@@ -80,7 +100,8 @@ class DB():
         sql = """
         (
             id int not null primary key auto_increment,
-            name text(1024) not null
+            name text(128) not null,
+            unique ix_name (name)
         )default charset=utf8;
         """
         for table in tables:
