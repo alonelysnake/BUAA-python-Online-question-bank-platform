@@ -7,6 +7,8 @@
 import pymysql
 
 class DB():
+    LOC = ['bank', 'list']
+
     def __init__(self):
         if not hasattr(DB,"_first_init"):
             self.conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='123456', charset='utf8')
@@ -27,11 +29,11 @@ class DB():
         op += " from "
         self.cursor.execute(op + baseName + " where id=" + "'" + str(id) + "'")
 
-    def createBank(self,name,type):
+    def createBank(self,name:str,type:int):
         self.cursor.execute('use base_name')
-        self.cursor.execute("insert into " + type + "_name(name) values('" + name + "')")
+        self.cursor.execute("insert into " + self.LOC[type] + "_name(name) values('" + name + "')")
         self.conn.commit()
-        self.cursor.execute('use ' + type + 's')
+        self.cursor.execute('use ' + self.LOC[type] + 's')
         sql = """
         (
             id int not null primary key auto_increment,
