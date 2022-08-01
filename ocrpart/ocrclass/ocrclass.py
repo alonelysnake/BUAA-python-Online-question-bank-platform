@@ -10,6 +10,9 @@ class Paddleocr:
         img_name='1.jpg'
     ):
         self.img = img_path + img_name
+
+    def change_img(self, img_path, img_name):
+        self.img = img_path + img_name
     
     def get_object(self, res_list):
         all_str = ''
