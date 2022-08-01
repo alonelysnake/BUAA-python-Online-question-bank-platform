@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QApplication, QDialog
 from PyQt5.QtCore import Qt
 import sys
 
-from ChooseLoadFile import Ui_chooseLoadFile
+from ui.ChooseLoadFile import Ui_chooseLoadFile
 
 
 # 选择要上传题库的文件界面

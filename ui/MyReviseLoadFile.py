@@ -4,8 +4,11 @@ from PyQt5.QtCore import pyqtSignal
 from question.Question import *
 from question.QuestionBank import QuestionBank
 
-from ReviseLoadFile import Ui_MainWindow
-from MyWidgets.MySelectionCard import MySelectionCard
+from ui.ReviseLoadFile import Ui_MainWindow
+from ui.MyWidgets.MySelectionCard import MySelectionCard
+import ocrpart.ocrclass
+#from ocrpart.ocrclass import Paddleocr
+import os
 
 
 # 上传题目时，手动修改每一道题的界面
@@ -30,11 +33,20 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         self.questionsText = []
         self.newQuestions = []
 
-    def initAttribute(self, path):
+    def initAttribute(self, paths: str):
         self.curQuestionType = CHOICE  # 0 选择 1 填空 2 解答
         self.pos = 0
-        # TODO 得到题目列表(可能无法成功读取)
-        self.questionsText = [1]  # 切分好的题目列表
+        # 得到题目列表
+        self.questionsText.clear()
+        recognize = Paddleocr()
+        for path in paths.split("\n"):
+            if os.path.exists(path):
+                recognize.img_path = path
+                recognize.type = path.split(".")[1]
+                self.questionsText.append(recognize.get_result())
+            else:
+                # TODO 路径非法时操作
+                pass
 
         if not self.questionsText:
             # TODO 未找到question时
@@ -50,16 +62,15 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         self.pos += 1
         if self.pos == len(self.questionsText) - 1:
             self.nextButton.setText("完成")
-            self.showQuestion()
         elif self.pos == len(self.questionsText):
-            # 返回到主界面
+            # 存储并返回到主界面
+            self.bank.addQuestions(self.newQuestions)
             self.switch2mainWindow.emit(self.mainWindow)
-        else:
-            # TODO 展示下一道题（暂时不会用到）
-            pass
+            return
+        self.showQuestion()
 
+    # 生成question并暂存（此时未进入bank）
     def generateQuestion(self):
-        # TODO 未检查
         if self.curQuestionType == CHOICE:
             stem = self.objectQuestion.toPlainText()
             selections = []  # 选择题的选项
@@ -108,9 +119,11 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
             self.showSubjectQuestion()
 
     def showObjectQuestion(self):
+        self.objectQuestion.setText(self.questionsText[self.pos])
         self.stackedWidget.setCurrentIndex(0)
 
     def showSubjectQuestion(self):
+        self.subjectQuestion.setText(self.questionsText[self.pos])
         self.stackedWidget.setCurrentIndex(1)
 
     def addNewSelection(self):

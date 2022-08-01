@@ -1,7 +1,7 @@
 import random
 
-from ChooseQuestion import Ui_MainWindow
-from MyWidgets.MyQuestionCard import MyQuestionCard
+from ui.ChooseQuestion import Ui_MainWindow
+from ui.MyWidgets.MyQuestionCard import MyQuestionCard
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal
 

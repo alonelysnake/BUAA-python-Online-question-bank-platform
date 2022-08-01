@@ -2,8 +2,8 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-from MyMainWindow import MyMainWindow
-from MyReviseLoadFile import MyReviseLoadFile
+from ui.MyMainWindow import MyMainWindow
+from ui.MyReviseLoadFile import MyReviseLoadFile
 from question.QuestionBank import QuestionBank
 
 

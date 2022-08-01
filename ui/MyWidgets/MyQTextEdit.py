@@ -4,18 +4,24 @@ from PyQt5.QtWidgets import QTextEdit
 
 # 上传题库时用的，支持拖入文件的填空框
 class MyQTextEdit(QTextEdit):
-    # sendmsg = pyqtSignal(object)
+    sendmsg = pyqtSignal(object)
 
     def __init__(self, parent=None):
         super(MyQTextEdit, self).__init__(parent)
         self.setAcceptDrops(True)
-        self.paths = set()
+        self.path = ""
+
+    def dragEnterEvent(self, e):
+        self.path = e.mimeData().text().replace('file:///', '')
+        if self.path.endswith('.pdf') or self.path.endswith('.png'):
+            e.accept()
+        else:
+            self.path = ""
+            e.ignore()
 
     def dropEvent(self, e):
-        self.paths = set(self.toPlainText().split("\n"))
-        newPaths = set(e.mimeData().text().replace('file:///', '').split('\n'))
-        for path in newPaths:
-            if (path.endswith('.pdf') or path.endswith('.png')
-                or path.endswith(".jpg") or path.endswith(".jpeg")) and path not in self.paths:
-                self.paths.add(path)
-                self.append(path)
+        super().dropEvent(e)  # 加这一句即可
+        # 只有在框内松开才会读取
+        self.setText(self.path)
+        # 发射信号
+        self.sendmsg.emit(self.path)
