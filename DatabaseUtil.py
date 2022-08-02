@@ -28,6 +28,11 @@ class DB():
         self.cursor.execute("select * from " + tableName + " where " + key + "='" + value + "'")
         return self.cursor.fetchone()
 
+    def fetchAll(self,baseName,tableName,key,value):
+        self.selectDatabase(baseName)
+        self.cursor.execute("select * from " + tableName + " where " + key + "='" + value + "'")
+        return self.cursor.fetchall()
+
     # op->'delete' or 'select'
     def option(self,op,baseName,id):
         if op == "select":
