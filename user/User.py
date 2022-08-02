@@ -23,18 +23,20 @@ class User:
         if not self.isLogin:
             return
         db.selectDatabase('data')
-        db.cursor.execute("insert into " + str(self.id) + "_likes(bid,qid) values('" + str(bid) + "','" + str(qid) + "')")
+        db.cursor.execute(
+            "insert into " + str(self.id) + "_likes(bid,qid) values('" + str(bid) + "','" + str(qid) + "')")
         db.conn.commit()
 
     def delLike(self, bid: int, qid: int):
         if not self.isLogin:
             return
         db.selectDatabase('data')
-        db.cursor.execute("delete from " + str(self.id) + "_likes where bid='" + str(bid) + "' and qid='" + str(qid) + "'")
+        db.cursor.execute(
+            "delete from " + str(self.id) + "_likes where bid='" + str(bid) + "' and qid='" + str(qid) + "'")
         db.conn.commit()
 
     # isWrong:0->正确，1->错误
-    def addExercise(self, bid:int, qid:int, isWrong:int):
+    def addExercise(self, bid: int, qid: int, isWrong: int):
         if not self.isLogin:
             return
         db.selectDatabase('data')
@@ -45,15 +47,16 @@ class User:
         db.conn.commit()
 
     # mistakes: "index1,index2,index3,...", date:"yyyy-mm-dd hh:mm:ss"
-    def addListExercise(self, bid:int,lid:int,qsum:int, listName:str, mistakes:str, date:str):
+    def addListExercise(self, bid: int, lid: int, qsum: int, listName: str, mistakes: str, date: str):
         if not self.isLogin:
             return
         db.selectDatabase('data')
-        values = "('" + str(bid) + "','" + str(lid) + "','" + str(qsum) + "','" + listName + "','" + mistakes + "','" + date + "')"
+        values = "('" + str(bid) + "','" + str(lid) + "','" + str(
+            qsum) + "','" + listName + "','" + mistakes + "','" + date + "')"
         db.cursor.execute("insert into " + str(self.id) + "_logs(bid,lid,qsum, name,mistakes,date) values" + values)
         db.conn.commit()
 
-    def getMistakes(self,bid=-1):
+    def getMistakes(self, bid=-1):
         if not self.isLogin:
             return
         table = str(self.id) + "_mistakes"
@@ -62,10 +65,10 @@ class User:
             db.cursor.execute("select * from " + table)
             mistakes = db.cursor.fetchall()
         else:
-            mistakes = db.fetchAll('data',table,'bid',str(bid))
+            mistakes = db.fetchAll('data', table, 'bid', str(bid))
         return mistakes
 
-    def getLogs(self,bid=-1):
+    def getLogs(self, bid=-1):
         if not self.isLogin:
             return
         table = str(self.id) + "_logs"
@@ -74,7 +77,7 @@ class User:
             db.cursor.execute("select * from " + table)
             logs = db.cursor.fetchall()
         else:
-            logs = db.fetchAll('data',table,'bid',str(bid))
+            logs = db.fetchAll('data', table, 'bid', str(bid))
         return logs
 
     @property
@@ -141,6 +144,7 @@ class UserUtil:
         db.conn.commit()
         return True
 
+
 if __name__ == '__main__':
     UserUtil.register('Kazeya', '123456')
     CUR_USER.addLike(1, 1)
@@ -153,7 +157,8 @@ if __name__ == '__main__':
     CUR_USER.addExercise(1, 1, 1)
     CUR_USER.addExercise(1, 1, 1)
     CUR_USER.addExercise(1, 2, 1)
-    CUR_USER.addListExercise(1,1,25,'科目一试卷1','11,13,15,17,21',time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time())))
+    CUR_USER.addListExercise(1, 1, 25, '科目一试卷1', '11,13,15,17,21',
+                             time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))
     print(CUR_USER.getMistakes())
     print(CUR_USER.getLogs())
     print(CUR_USER.getMistakes(1))

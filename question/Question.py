@@ -11,7 +11,7 @@ ESSAY = 3
 
 class Question:
     # choice->1,blank->2,essay->3
-    def __init__(self, id:int, bid:int, stem:str, type:int, answer:str, analysis:str, options:list):
+    def __init__(self, id: int, bid: int, stem: str, type: int, answer: str, analysis: str, options: list):
         self._bid = bid
         self._id = id
         self._options = options
@@ -24,7 +24,7 @@ class Question:
         self._stem = stem
 
     def __hash__(self) -> int:
-        return hash([self._bid,self._id])
+        return hash([self._bid, self._id])
 
     def __eq__(self, other):
         return self._id == other._id and self._bid == other._bid
@@ -38,7 +38,8 @@ class Question:
         return answer == self._answer
 
     def toString(self):
-        return str("'" + str(self._bid) + "'" + ',' + "'" + self._stem + "'" + ',' + "'" + str(self._type) + "'" + ',' + "'" + str(self._answer) + "'" + ',' + "'" + str(self._analysis) + "'")
+        return str("'" + str(self._bid) + "'" + ',' + "'" + self._stem + "'" + ',' + "'" + str(
+            self._type) + "'" + ',' + "'" + str(self._answer) + "'" + ',' + "'" + str(self._analysis) + "'")
 
     def toList(self):
         return [self._id, self._bid, self._stem, self._type, self._answer, self._analysis, self._options]
