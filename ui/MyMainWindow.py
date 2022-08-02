@@ -18,18 +18,18 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         super(MyMainWindow, self).__init__()
         self.setupUi(mainWindow)
         self.mainWindow = mainWindow
-        self.questions = []  # questions集合
+        self.questions = {}  # questions集合
         self.questionDetail.backSignal.connect(self.backFromDetail)
         self.addQuestionButton.triggered.connect(self.uploadFileEvent)
         self.selfTestButton.triggered.connect(self.selfTestEvent)
 
         self.bank = bank
-        self.questions = self.bank.getQuestions()
-        for question in self.questions:
+        for question in self.bank.getQuestions():
             assert isinstance(question, Question)
             index = question.getIndex()
+            self.questions[index] = question
             newQuestionCard = MyQuestionCard(self.questionCategory, index, False)
-            newQuestionCard.setText(question.getIndex())
+            newQuestionCard.setText(str(question.getIndex()))
             newQuestionCard.clickDetail.connect(self.seeDetail)
             self.questionCategoryLayout.addWidget(newQuestionCard)
 
@@ -46,7 +46,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
 
     def selfTestEvent(self):
         newWindow = QMainWindow()
-        chooseWindow = MyChooseQuestion(newWindow, self, self.bank)
+        chooseWindow = MyChooseQuestion(newWindow, self, self.bank,self.questions)
         newWindow.show()
 
     def seeDetail(self, index):

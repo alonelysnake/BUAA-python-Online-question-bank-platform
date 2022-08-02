@@ -15,6 +15,7 @@ class MyQuestionInfo(Ui_Form, QWidget):
 
     def show(self, question: Question = None):
         if question:
+            print("ok")
             # 主客观题的差异化设置
             if question.getType() == CHOICE:
                 self.setObjectQuestion(question)
@@ -22,22 +23,24 @@ class MyQuestionInfo(Ui_Form, QWidget):
                 self.setSubjectQuestion(question)
             # 相同的设置
             self.seeAnswerFlag.setChecked(False)
-            self.answerText.setText("这里是答案")
+            self.answerText.setText(question.getAnswer() + "\n" + question.getAnalysis())
             self.answerText.hide()
         super(Ui_Form, self).show()
 
     def setObjectQuestion(self, question: Question):
         self.stackedWidget.setCurrentIndex(1)
         self.objectQuestion.setText(question.getStem())
-        self.objectQuestion.setText("这里是问题题干\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ngg\n\n\ngg\n\ng")
         # TODO 根据question设置
         # 设置选项
         for child in self.selectionBox.children():
             if isinstance(child, QCheckBox):
                 self.selectionBoxLayout.removeWidget(child)
-        for i in range(4):
+        options = question.getOptions()
+        for i in range(len(options)):
+            if not options[i]:
+                continue
             newSelection = QCheckBox()
-            newSelection.setText("选项" + chr(ord('A') + i))
+            newSelection.setText(chr(ord('A') + i) + options[i])
             newSelection.setCheckable(True)
             newSelection.setChecked(False)
             self.selectionBoxLayout.addWidget(newSelection)
@@ -45,7 +48,6 @@ class MyQuestionInfo(Ui_Form, QWidget):
     def setSubjectQuestion(self, question: Question):
         self.stackedWidget.setCurrentIndex(0)
         self.subjectQuestion.setText(question.getStem())
-        self.subjectQuestion.setText("这里是问题题干")
 
     def showAnswer(self):
         if self.seeAnswerFlag.isChecked():
