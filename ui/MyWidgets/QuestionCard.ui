@@ -7,14 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>107</height>
+    <height>50</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>50</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
-   <item alignment="Qt::AlignTop">
+   <item alignment="Qt::AlignVCenter">
     <widget class="QCheckBox" name="chooseButton">
      <property name="maximumSize">
       <size>
@@ -46,7 +52,7 @@
      </property>
     </widget>
    </item>
-   <item alignment="Qt::AlignTop">
+   <item alignment="Qt::AlignVCenter">
     <widget class="QPushButton" name="detialButton">
      <property name="maximumSize">
       <size>

@@ -14,14 +14,15 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(400, 107)
+        Form.resize(400, 50)
+        Form.setMaximumSize(QtCore.QSize(16777215, 50))
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.chooseButton = QtWidgets.QCheckBox(Form)
         self.chooseButton.setMaximumSize(QtCore.QSize(16777215, 30))
         self.chooseButton.setText("")
         self.chooseButton.setObjectName("chooseButton")
-        self.horizontalLayout.addWidget(self.chooseButton, 0, QtCore.Qt.AlignTop)
+        self.horizontalLayout.addWidget(self.chooseButton, 0, QtCore.Qt.AlignVCenter)
         self.label = QtWidgets.QLabel(Form)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -35,7 +36,7 @@ class Ui_Form(object):
         self.detialButton = QtWidgets.QPushButton(Form)
         self.detialButton.setMaximumSize(QtCore.QSize(100, 30))
         self.detialButton.setObjectName("detialButton")
-        self.horizontalLayout.addWidget(self.detialButton, 0, QtCore.Qt.AlignTop)
+        self.horizontalLayout.addWidget(self.detialButton, 0, QtCore.Qt.AlignVCenter)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

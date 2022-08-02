@@ -27,6 +27,7 @@ class WindowController:
 
     def showMainWindow(self, window):
         window.hide()
+        self.mainWindow.updateQuestions()
         self.mainWindow.mainWindow.show()
         print("come back to mainwindow success")
 

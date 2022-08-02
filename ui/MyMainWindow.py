@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, Qt
 import sys
 
 from question.Question import *
@@ -22,16 +22,10 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         self.questionDetail.backSignal.connect(self.backFromDetail)
         self.addQuestionButton.triggered.connect(self.uploadFileEvent)
         self.selfTestButton.triggered.connect(self.selfTestEvent)
+        self.questionCategoryLayout.setAlignment(Qt.AlignTop)
 
         self.bank = bank
-        for question in self.bank.getQuestions():
-            assert isinstance(question, Question)
-            index = question.getIndex()
-            self.questions[index] = question
-            newQuestionCard = MyQuestionCard(self.questionCategory, index, False)
-            newQuestionCard.setText(str(question.getIndex()))
-            newQuestionCard.clickDetail.connect(self.seeDetail)
-            self.questionCategoryLayout.addWidget(newQuestionCard)
+        self.updateQuestions()
 
     def uploadFileEvent(self):
         dialog = QDialog()
@@ -46,7 +40,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
 
     def selfTestEvent(self):
         newWindow = QMainWindow()
-        chooseWindow = MyChooseQuestion(newWindow, self, self.bank,self.questions)
+        chooseWindow = MyChooseQuestion(newWindow, self, self.bank, self.questions)
         newWindow.show()
 
     def seeDetail(self, index):
@@ -58,6 +52,18 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
     def backFromDetail(self):
         self.menuBar.show()
         self.stackedWidget.setCurrentIndex(0)
+
+    def updateQuestions(self):
+        for question in self.bank.getQuestions():
+            assert isinstance(question, Question)
+            index = question.getIndex()
+            if index not in self.questions.keys():
+                self.questions[index] = question
+                newQuestionCard = MyQuestionCard(self.questionCategory, index, False)
+                newQuestionCard.setText(str(question.getIndex()))
+                newQuestionCard.clickDetail.connect(self.seeDetail)
+                self.questionCategoryLayout.addWidget(newQuestionCard)
+
 
 
 if __name__ == "__main__":

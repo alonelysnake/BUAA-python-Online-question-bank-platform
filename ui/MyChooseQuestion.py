@@ -3,7 +3,7 @@ import random
 from ui.ChooseQuestion import Ui_MainWindow
 from ui.MyWidgets.MyQuestionCard import MyQuestionCard
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, Qt
 
 from question.Question import *
 from question.QuestionBank import QuestionBank
@@ -27,12 +27,16 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
     def __init__(self, window, parent, bank: QuestionBank, questions: dict):
         super(MyChooseQuestion, self).__init__(parent=parent)
         self.setupUi(window)
-        self.mainWindow = window
         self.questionDetail.backSignal.connect(self.backFromDetail)
+        self.questionCategoryLayout.setAlignment(Qt.AlignTop)
+        self.selectionsLayout.setAlignment(Qt.AlignTop)
+
+        self.mainWindow = window
         self.bank = bank
         self.questions = questions
         self.tests = []
         self.curIndex = 0
+
         self.answers = []
         for index in self.questions.keys():
             newQuestionCard = MyQuestionCard(self.questionCategory, index, True)
@@ -46,13 +50,15 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
 
     def randomGenerate(self):
         num = int(min(len(self.questions) / 5, 100))
-        self.tests = random.sample(self.questions, num)
+        self.tests = random.sample(list(self.questions.values()), num)
+        self.answers.clear()
         for i in range(num):
             self.answers.append("")
         self.showTest()
 
     def manualGenerate(self):
         self.tests.clear()
+        self.answers.clear()
         for card in self.questionCategory.children():
             if isinstance(card, MyQuestionCard) and card.isChecked():
                 self.tests.append(self.questions[card.index])
@@ -63,7 +69,7 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
     def showTest(self):
         for i in range(len(self.tests)):
             button = MyPushButton(i)
-            button.clicked.connect(self.jumpQuestion)
+            button.jump2Question.connect(self.jumpQuestion)
             self.questionButtonsLayout.addWidget(button)
         self.curIndex = 0
         self.stackedWidget.setCurrentIndex(2)
@@ -93,6 +99,7 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
         else:
             self.nextButton.setText("下一题")
         # 显示跳转到的题
+        self.curIndex = index
         question = self.tests[index]
         assert isinstance(question, Question)
         self.stem.setText(question.getStem())
@@ -123,7 +130,7 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
                 if isinstance(select, QCheckBox) and select.isChecked():
                     answer += select.text().split(".")[0]
         else:
-            answer = self.answerText
+            answer = self.answerText.toPlainText()
         self.answers[self.curIndex] = answer
 
     def jumpLastQuestion(self):

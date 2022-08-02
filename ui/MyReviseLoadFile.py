@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, Qt
 
 from ocrpart.ocrclass import Paddleocr
 from question.Question import *
@@ -24,6 +24,7 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         self.answerButton.clicked.connect(self.switchQuestionType)
         self.nextButton.clicked.connect(self.nextButtonOperation)
         self.addSelectionButton.clicked.connect(self.addNewSelection)
+        self.selectionLayout.setAlignment(Qt.AlignTop)
 
         self.bank = bank
         self.curQuestionType = CHOICE
@@ -42,9 +43,7 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
             print(path)
             if os.path.exists(path):
                 recognize.change_img(path, "")
-                self.questionsText.append(
-                    "色驾考宝典 11:14  三》口 答题模式 背题模式 设置 去除广告 本周游戏推荐 蚁族崛起：神树之战 小广告 单选 如图所示，直行车辆遇到前方路口堵塞 以下说法正确的是什么？ 等其他机动车进入路口时跟随行驶 等前方道路疏通后，且信号灯为绿灯时方 可继续行驶 可以直接驶入路口内等候通行 只要信号灯为绿灯，就可以通行 1544?7 ☆收藏 品1591/2194 ")
-                # self.questionsText.append(recognize.get_result())
+                self.questionsText.append(recognize.get_result())
             else:
                 # TODO 路径非法时操作
                 pass
@@ -119,6 +118,11 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
     def showQuestion(self):
         self.objectQuestion.setText(self.questionsText[self.pos])
         self.subjectQuestion.setText(self.questionsText[self.pos])
+        self.subjectAnswer.setText("")
+        self.objectExplanation.setText("")
+        for child in self.selectionBox.children():
+            if isinstance(child, MySelectionCard):
+                self.selectionLayout.removeWidget(child)
         if self.curQuestionType == CHOICE:
             self.showObjectQuestion()
         else:
