@@ -11,7 +11,7 @@ class MySelectionCard(Ui_Form, QWidget):
 
     # 设置选项的ABCD
     def setChoice(self, index):
-        self.selectButton.setText(chr(ord('A') + index) + ". ")
+        self.selectButton.setText(chr(ord('A') + index) + ".")
 
     # 得到ABCD
     def getChoice(self):

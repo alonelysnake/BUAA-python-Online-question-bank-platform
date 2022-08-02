@@ -26,6 +26,8 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         self.bank = bank
         self.questions = self.bank.getQuestions()
         for question in self.questions:
+            print(question)
+            print(type(question))
             assert isinstance(question, Question)
             index = question.getIndex()
             newQuestionCard = MyQuestionCard(self.questionCategory, index, False)
