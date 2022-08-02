@@ -62,7 +62,10 @@ class QuestionBank:
         db = DB()
         db.selectDatabase(self.LOC[self._type])
         db.cursor.execute("select * from " + self._name)
-        questions = db.cursor.fetchall()
+        rst = db.cursor.fetchall()
+        questions = []
+        for question in rst:
+            questions.append(Question(question[0],question[1],question[2],question[3],question[4],question[5],[question[6],question[7],question[8],question[9],question[10]]))
         return questions
 
 '''
