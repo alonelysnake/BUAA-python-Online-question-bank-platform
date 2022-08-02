@@ -10,6 +10,7 @@ import pandas as pd
 
 from question.Question import Question
 
+
 class QuestionBank:
     LOC = ['bank', 'list']
 
@@ -22,7 +23,7 @@ class QuestionBank:
         db.cursor.execute("select * from " + self.LOC[self._type] + "_name where name=" + "'" + name + "'")
         self._id = db.cursor.fetchone()[0]
 
-    def addQuestion(self, question:Question):
+    def addQuestion(self, question: Question):
         db = DB()
         db.selectDatabase(self.LOC[self._type])
         sql = '(bid,stem,type,answer,analysis)'
@@ -32,7 +33,8 @@ class QuestionBank:
         id = db.cursor.fetchone()[0]
         op = ord('A')
         for option in question.getOptions():
-            db.cursor.execute("update " + self._name + " set option" + chr(op) + "='" + option + "' " + "where id=" + str(id))
+            db.cursor.execute(
+                "update " + self._name + " set option" + chr(op) + "='" + option + "' " + "where id=" + str(id))
             db.conn.commit()
             op += 1
 
@@ -43,7 +45,7 @@ class QuestionBank:
     def deleteQuestion(self, id):
         db = DB()
         db.selectDatabase(self.LOC[self._type])
-        db.option("delete",self._name,id)
+        db.option("delete", self._name, id)
         db.conn.commit()
 
     def deleteQuestions(self, ids):
@@ -53,10 +55,10 @@ class QuestionBank:
     def getQuestion(self, id):
         db = DB()
         db.selectDatabase(self.LOC[self._type])
-        db.option("select",self._name,id)
+        db.option("select", self._name, id)
         question = db.cursor.fetchone()
-        options = [question[-5],question[-4],question[-3],question[-2],question[-1]]
-        return Question(question[0],question[1],question[2],question[3],question[4],question[5],options)
+        options = [question[-5], question[-4], question[-3], question[-2], question[-1]]
+        return Question(question[0], question[1], question[2], question[3], question[4], question[5], options)
 
     def getQuestions(self):
         db = DB()
@@ -65,8 +67,10 @@ class QuestionBank:
         rst = db.cursor.fetchall()
         questions = []
         for question in rst:
-            questions.append(Question(question[0],question[1],question[2],question[3],question[4],question[5],[question[6],question[7],question[8],question[9],question[10]]))
+            questions.append(Question(question[0], question[1], question[2], question[3], question[4], question[5],
+                                      [question[6], question[7], question[8], question[9], question[10]]))
         return questions
+
 
 '''
     def readFromFileWithPath(self, filePath):
@@ -88,7 +92,7 @@ class QuestionBank:
 
 if __name__ == '__main__':
     db = DB()
-    #db.createBank("科目一","bank")
+    # db.createBank("科目一","bank")
     bank = QuestionBank("科目一", 0)
     # for i in range(150):
     #     bank.addQuestion(Question(1,0,chr(i+ord('a')),i%3+1,'bad','cc',['a','b','c']))
