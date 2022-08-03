@@ -21,7 +21,10 @@ class QuestionBank:
         db = DB()
         db.cursor.execute('use base_name')
         db.cursor.execute("select * from " + self.LOC[self._type] + "_name where name=" + "'" + name + "'")
-        self._id = db.cursor.fetchone()[0]
+        self._bid = db.cursor.fetchone()[0]
+
+    def getBid(self):
+        return self._bid
 
     def addQuestion(self, question: Question):
         db = DB()
@@ -92,7 +95,7 @@ class QuestionBank:
 
 if __name__ == '__main__':
     db = DB()
-    # db.createBank("科目一","bank")
+    # db.create Bank("科目一","bank")
     bank = QuestionBank("科目一", 0)
     # for i in range(150):
     #     bank.addQuestion(Question(1,0,chr(i+ord('a')),i%3+1,'bad','cc',['a','b','c']))
