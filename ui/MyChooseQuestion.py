@@ -39,8 +39,8 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
 
         self.answers = []
         for index in self.questions.keys():
-            newQuestionCard = MyQuestionCard(self.questionCategory, index, True)
-            newQuestionCard.setText(str(index))
+            newQuestionCard = MyQuestionCard(self.questionCategory, index, select=True)
+            newQuestionCard.setText(str(index) + ". " + self.questions[index].getStem())
             newQuestionCard.clickDetail.connect(self.seeDetail)
             self.questionCategoryLayout.addWidget(newQuestionCard)
         self.manualButton.clicked.connect(self.manualGenerate)

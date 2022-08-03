@@ -80,10 +80,10 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
             index = question.getIndex()
             if index not in self.questions.keys():
                 self.questions[index] = question
-                newQuestionCard = MyQuestionCard(self.questionCategory, index, False)
-                newQuestionCard.setText(str(question.getIndex()))
-                newQuestionCard.clickDetail.connect(self.seeDetail)
+                newQuestionCard = MyQuestionCard(self.questionCategory, index, select=False)
                 self.questionCategoryLayout.addWidget(newQuestionCard)
+                newQuestionCard.setText(str(question.getIndex()) + ". " + question.getStem())
+                newQuestionCard.clickDetail.connect(self.seeDetail)
 
 
 if __name__ == "__main__":
