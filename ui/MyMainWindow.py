@@ -9,6 +9,8 @@ from ui.MainWindow import Ui_MainWindow
 from ui.MyWidgets.MyQuestionCard import MyQuestionCard
 from ui.MyChooseLoadFile import MyChooseLoadFile
 from ui.MyChooseQuestion import MyChooseQuestion
+from ui.MyRegister import MyRegister
+from ui.MyLogin import MyLogin
 
 
 class MyMainWindow(Ui_MainWindow, QMainWindow):
@@ -22,11 +24,14 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         self.questionDetail.backSignal.connect(self.backFromDetail)
         self.addQuestionButton.triggered.connect(self.uploadFileEvent)
         self.selfTestButton.triggered.connect(self.selfTestEvent)
+        self.registerButton.triggered.connect(self.registerEvent)
+        self.loginButton.triggered.connect(self.loginEvent)
         self.questionCategoryLayout.setAlignment(Qt.AlignTop)
 
         self.bank = bank
         self.updateQuestions()
 
+    # 主界面到上传界面
     def uploadFileEvent(self):
         dialog = QDialog()
         uploadWindow = MyChooseLoadFile(dialog)
@@ -38,10 +43,26 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
             # 取消读取，正常返回
             pass
 
+    # 主界面到自测界面
     def selfTestEvent(self):
         newWindow = QMainWindow()
         chooseWindow = MyChooseQuestion(newWindow, self, self.bank, self.questions)
         newWindow.show()
+
+    def registerEvent(self):
+        dialog = QDialog()
+        registerWindow = MyRegister(dialog)
+        print("gg")
+        res = dialog.exec_()
+        while res != QDialog.Accepted and res != QDialog.Rejected:
+            res = dialog.exec_()
+
+    def loginEvent(self):
+        dialog = QDialog()
+        loginWindow = MyLogin(dialog)
+        res = dialog.exec_()
+        while res != QDialog.Accepted and res != QDialog.Rejected:
+            res = dialog.exec_()
 
     def seeDetail(self, index):
         self.menuBar.hide()
@@ -63,7 +84,6 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
                 newQuestionCard.setText(str(question.getIndex()))
                 newQuestionCard.clickDetail.connect(self.seeDetail)
                 self.questionCategoryLayout.addWidget(newQuestionCard)
-
 
 
 if __name__ == "__main__":

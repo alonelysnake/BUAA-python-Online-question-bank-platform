@@ -71,7 +71,15 @@
     <addaction name="selfTestButton"/>
     <addaction name="actionclose"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>我的</string>
+    </property>
+    <addaction name="registerButton"/>
+    <addaction name="loginButton"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <action name="addQuestionButton">
    <property name="checkable">
@@ -89,6 +97,16 @@
   <action name="actionclose">
    <property name="text">
     <string>close</string>
+   </property>
+  </action>
+  <action name="registerButton">
+   <property name="text">
+    <string>注册</string>
+   </property>
+  </action>
+  <action name="loginButton">
+   <property name="text">
+    <string>登录</string>
    </property>
   </action>
  </widget>
