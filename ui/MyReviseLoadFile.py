@@ -74,8 +74,9 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
 
     # 生成question并暂存（此时未进入bank）
     def generateQuestion(self):
+        stem = self.question.toPlainText()
+        analysis = self.explanation.toPlainText()
         if self.curQuestionType == CHOICE:
-            stem = self.objectQuestion.toPlainText()
             selections = []  # 选择题的选项
             answer = ""
             for selection in self.selectionBox.children():
@@ -83,14 +84,12 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
                     selections.append(selection.textEdit.toPlainText())
                     if selection.selectButton.isChecked():
                         answer += selection.getChoice()
-            analysis = self.objectExplanation.toPlainText()
-            question = Question(self.baseIndex + self.pos, 0, stem, self.curQuestionType, answer, analysis,
-                                selections)
+            question = Question(self.baseIndex + self.pos, self.bank.getBid(), stem,
+                                self.curQuestionType, answer, analysis, selections)
         else:
-            stem = self.subjectQuestion.toPlainText()
             answer = self.subjectAnswer.toPlainText()
-            analysis = self.subjectAnswer.toPlainText()
-            question = Question(self.baseIndex + self.pos, 0, stem, self.curQuestionType, answer, analysis, [])
+        question = Question(self.baseIndex + self.pos, self.bank.getBid(),
+                            stem, self.curQuestionType, answer,analysis, [])
         self.newQuestions.append(question)
 
     def switchQuestionType(self):
@@ -116,10 +115,9 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         self.showObjectQuestion()
 
     def showQuestion(self):
-        self.objectQuestion.setText(self.questionsText[self.pos])
-        self.subjectQuestion.setText(self.questionsText[self.pos])
+        self.question.setText(self.questionsText[self.pos])
         self.subjectAnswer.setText("")
-        self.objectExplanation.setText("")
+        self.explanation.setText("")
         for child in self.selectionBox.children():
             if isinstance(child, MySelectionCard):
                 self.selectionLayout.removeWidget(child)

@@ -21,40 +21,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="5" column="1">
-     <widget class="QCommandLinkButton" name="nextButton">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="text">
-       <string>下一题</string>
-      </property>
-     </widget>
+    <item row="1" column="0" colspan="2">
+     <widget class="QTextEdit" name="question"/>
     </item>
-    <item row="2" column="1">
-     <widget class="QRadioButton" name="selectButton">
-      <property name="text">
-       <string>选择题</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QRadioButton" name="fillButton">
-      <property name="text">
-       <string>填空题</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
+    <item row="2" column="0" rowspan="2">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -67,27 +37,6 @@
         </sizepolicy>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="5" column="0">
-         <widget class="QLabel" name="objectlabel_2">
-          <property name="text">
-           <string>选项与答案</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="3">
-         <widget class="QLabel" name="objectlabel_3">
-          <property name="text">
-           <string>答案解析</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="objectlabel_1">
-          <property name="text">
-           <string>问题描述</string>
-          </property>
-         </widget>
-        </item>
         <item row="7" column="0">
          <widget class="QPushButton" name="addSelectionButton">
           <property name="text">
@@ -108,7 +57,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>276</width>
+             <width>272</width>
              <height>137</height>
             </rect>
            </property>
@@ -116,11 +65,12 @@
           </widget>
          </widget>
         </item>
-        <item row="4" column="0" colspan="4">
-         <widget class="QTextEdit" name="objectQuestion"/>
-        </item>
-        <item row="6" column="3" rowspan="2">
-         <widget class="QTextEdit" name="objectExplanation"/>
+        <item row="5" column="0">
+         <widget class="QLabel" name="objectlabel_2">
+          <property name="text">
+           <string>选项与答案</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -130,19 +80,9 @@
        </property>
        <layout class="QVBoxLayout" name="subjectLayout">
         <item>
-         <widget class="QLabel" name="subjectlabel_2">
-          <property name="text">
-           <string>问题描述</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTextEdit" name="subjectQuestion"/>
-        </item>
-        <item>
          <widget class="QLabel" name="subjectlabel_1">
           <property name="text">
-           <string>答案与解析</string>
+           <string>答案</string>
           </property>
          </widget>
         </item>
@@ -153,13 +93,63 @@
       </widget>
      </widget>
     </item>
-    <item row="4" column="1">
+    <item row="3" column="1">
+     <widget class="QTextEdit" name="explanation"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLabel" name="objectlabel_3">
+      <property name="text">
+       <string>答案解析</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="objectlabel_1">
+      <property name="text">
+       <string>问题描述</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QRadioButton" name="selectButton">
+      <property name="text">
+       <string>选择题</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="2">
+     <widget class="QRadioButton" name="fillButton">
+      <property name="text">
+       <string>填空题</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="2">
      <widget class="QRadioButton" name="answerButton">
       <property name="text">
        <string>解答题</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="2">
+     <widget class="QCommandLinkButton" name="nextButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>下一题</string>
       </property>
      </widget>
     </item>
