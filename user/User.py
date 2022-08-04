@@ -6,6 +6,7 @@
 import time
 
 from DatabaseUtil import DB
+from question.Question import Question
 
 db = DB()
 
@@ -36,9 +37,11 @@ class User:
         db.conn.commit()
 
     # isWrong:0->正确，1->错误
-    def addExercise(self, bid: int, qid: int, isWrong: int):
+    def addExercise(self, question:Question, isWrong: int):
         if not self.isLogin:
             return
+        bid = question.getBid()
+        qid = question.getId()
         db.selectDatabase('data')
         table = str(self.id) + "_mistakes(bid,qid,wrong_times,exc_times)"
         values = " values('" + str(bid) + "','" + str(qid) + "','" + str(isWrong) + "','1')"

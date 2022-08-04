@@ -64,3 +64,6 @@ class Question:
 
     def getBid(self):
         return self._bid
+
+    def getId(self):
+        return self._id
