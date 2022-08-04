@@ -6,7 +6,6 @@
 
 import pymysql
 from DatabaseUtil import DB
-import pandas as pd
 
 from question.Question import Question
 
@@ -21,10 +20,18 @@ class QuestionBank:
         db = DB()
         db.cursor.execute('use base_name')
         db.cursor.execute("select * from " + self.LOC[self._type] + "_name where name=" + "'" + name + "'")
-        self._bid = db.cursor.fetchone()[0]
+        info = db.cursor.fetchone()
+        self._bid = info[0]
+        self._fid = info[1]
 
     def getBid(self):
         return self._bid
+
+    def getFid(self):
+        return self._fid
+
+    def getName(self):
+        return self._name
 
     def addQuestion(self, question: Question):
         db = DB()

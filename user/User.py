@@ -7,6 +7,7 @@ import time
 
 from DatabaseUtil import DB
 from question.Question import Question
+from question.QuestionBank import QuestionBank
 
 db = DB()
 
@@ -50,9 +51,15 @@ class User:
         db.conn.commit()
 
     # mistakes: "index1,index2,index3,...", date:"yyyy-mm-dd hh:mm:ss"
-    def addListExercise(self, bid: int, lid: int, qsum: int, listName: str, mistakes: str, date: str):
+    def addListExercise(self,questionBank:QuestionBank, mistakes: str, date: str):
         if not self.isLogin:
             return
+        lid = questionBank.getBid()
+        listName = questionBank.getName()
+        bid = questionBank.getFid()
+        db.selectDatabase('list')
+        db.cursor.execute("select count(*) from " + listName)
+        qsum = db.cursor.fetchone()
         db.selectDatabase('data')
         values = "('" + str(bid) + "','" + str(lid) + "','" + str(
             qsum) + "','" + listName + "','" + mistakes + "','" + date + "')"
