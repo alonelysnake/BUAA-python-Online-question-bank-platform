@@ -49,7 +49,7 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
         self.nextButton.clicked.connect(self.jumpNextQuestion)
 
     def randomGenerate(self):
-        num = int(min(len(self.questions) / 5, 100))
+        num = int(min(len(self.questions) / 5 + 1, 100))
         self.tests = random.sample(list(self.questions.values()), num)
         self.answers.clear()
         for i in range(num):
