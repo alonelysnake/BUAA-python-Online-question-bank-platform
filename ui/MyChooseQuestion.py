@@ -7,6 +7,7 @@ from PyQt5.QtCore import pyqtSignal, Qt
 
 from question.Question import *
 from question.QuestionBank import QuestionBank
+from user.User import CUR_USER
 
 
 class MyPushButton(QPushButton):
@@ -78,9 +79,9 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
         self.jumpQuestion(0)
 
     # 选题界面查看详情
-    def seeDetail(self, index):
+    def seeDetail(self, bid, qid):
         self.stackedWidget.setCurrentIndex(1)
-        question = self.bank.getQuestion(index)
+        question = self.bank.getQuestion(qid)
         self.questionDetail.show(question=question)
 
     # 从查看详情返回选题界面
@@ -151,5 +152,7 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
             for i in range(len(self.tests)):
                 if self.answers[i] != self.tests[i].getAnswer():
                     children[i].setStyleSheet("color:red")
+                    CUR_USER.addExercise(self.tests[i],1)
                 else:
                     children[i].setStyleSheet("color:green")
+                    CUR_USER.addExercise(self.tests[i],0)

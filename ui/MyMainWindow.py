@@ -4,7 +4,7 @@ import sys
 
 from question.Question import *
 from question.QuestionBank import QuestionBank
-from user.User import UserUtil
+from user.User import UserUtil, CUR_USER
 
 from ui.MainWindow import Ui_MainWindow
 from ui.MyWidgets.MyQuestionCard import MyQuestionCard
@@ -12,6 +12,7 @@ from ui.MyChooseLoadFile import MyChooseLoadFile
 from ui.MyChooseQuestion import MyChooseQuestion
 from ui.MyRegister import MyRegister
 from ui.MyLogin import MyLogin
+from ui.MyAnalysis import MyAnalysis
 
 
 class MyMainWindow(Ui_MainWindow, QMainWindow):
@@ -28,6 +29,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         self.registerButton.triggered.connect(self.registerEvent)
         self.loginButton.triggered.connect(self.loginEvent)
         self.logoutButton.triggered.connect(self.logoutEvent)
+        self.analyseButton.triggered.connect(self.analyseEvent)
         self.questionCategoryLayout.setAlignment(Qt.AlignTop)
 
         self.bank = bank
@@ -67,10 +69,19 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         UserUtil.logout()
         QMessageBox.information(self, "成功", "已退出登录")
 
-    def seeDetail(self, index):
+    def analyseEvent(self):
+        if CUR_USER.isLogin:
+            newWindow = QMainWindow()
+            analyseWindow = MyAnalysis(newWindow, self, self.bank)
+            newWindow.show()
+        else:
+            QMessageBox.information(self, "错误", "请先登录")
+            self.loginEvent()
+
+    def seeDetail(self, bid, qid):
         self.menuBar.hide()
         self.stackedWidget.setCurrentIndex(1)
-        question = self.questions[index]
+        question = self.questions[qid]
         self.questionDetail.show(question=question)
 
     def backFromDetail(self):

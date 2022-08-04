@@ -78,6 +78,7 @@
     <addaction name="registerButton"/>
     <addaction name="loginButton"/>
     <addaction name="logoutButton"/>
+    <addaction name="analyseButton"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -113,6 +114,11 @@
   <action name="logoutButton">
    <property name="text">
     <string>退出登录</string>
+   </property>
+  </action>
+  <action name="analyseButton">
+   <property name="text">
+    <string>成绩分析</string>
    </property>
   </action>
  </widget>

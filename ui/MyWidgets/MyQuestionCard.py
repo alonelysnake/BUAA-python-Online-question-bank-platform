@@ -7,12 +7,13 @@ from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
 
 # 题目的缩略表示
 class MyQuestionCard(QWidget, Ui_Form):
-    clickDetail = pyqtSignal(int)
+    clickDetail = pyqtSignal(int, int)
 
-    def __init__(self, parent, index=0, text: str = "", select=False):
+    def __init__(self, parent, index=0, bid=0, text: str = "", select=False):
         super(MyQuestionCard, self).__init__(parent)
         self.setupUi(self)
         self.index = index
+        self.bid = bid
         self.text = text  # 题目文本
         self.select = select  # 是否显示选择按钮
         if not select:
@@ -25,7 +26,7 @@ class MyQuestionCard(QWidget, Ui_Form):
         print(self.chooseButton.width())
         print(self.detialButton.width())
         print(self.label.width())
-        self.clickDetail.emit(self.index)
+        self.clickDetail.emit(self.bid, self.index)
 
     def setText(self, text):
         self.text = text

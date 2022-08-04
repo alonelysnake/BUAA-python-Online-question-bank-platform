@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:\coding\python\homework\Online-question-bank-platform\ui\MainWindow.ui'
+# Form implementation generated from reading ui file 'MainWindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -71,12 +71,15 @@ class Ui_MainWindow(object):
         self.loginButton.setObjectName("loginButton")
         self.logoutButton = QtWidgets.QAction(MainWindow)
         self.logoutButton.setObjectName("logoutButton")
+        self.analyseButton = QtWidgets.QAction(MainWindow)
+        self.analyseButton.setObjectName("analyseButton")
         self.menu.addAction(self.addQuestionButton)
         self.menu.addAction(self.selfTestButton)
         self.menu.addAction(self.actionclose)
         self.menu_2.addAction(self.registerButton)
         self.menu_2.addAction(self.loginButton)
         self.menu_2.addAction(self.logoutButton)
+        self.menu_2.addAction(self.analyseButton)
         self.menuBar.addAction(self.menu.menuAction())
         self.menuBar.addAction(self.menu_2.menuAction())
 
@@ -94,4 +97,5 @@ class Ui_MainWindow(object):
         self.registerButton.setText(_translate("MainWindow", "注册"))
         self.loginButton.setText(_translate("MainWindow", "登录"))
         self.logoutButton.setText(_translate("MainWindow", "退出登录"))
+        self.analyseButton.setText(_translate("MainWindow", "成绩分析"))
 from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
