@@ -29,6 +29,15 @@ class User:
             "insert into " + str(self.id) + "_likes(bid,qid) values('" + str(bid) + "','" + str(qid) + "')")
         db.conn.commit()
 
+    def isLike(self,bid:int,qid:int) -> bool:
+        if not self.isLogin:
+            return False
+        db.selectDatabase('data')
+        print('select * from ' + str(self.id) + "_likes where bid='" + str(bid) + "' and qid='" + str(qid) + "'")
+        db.cursor.execute('select * from ' + str(self.id) + "_likes where bid='" + str(bid) + "' and qid='" + str(qid) + "'")
+        logs = db.cursor.fetchall()
+        return len(logs) != 0
+
     def delLike(self, bid: int, qid: int):
         if not self.isLogin:
             return
@@ -70,13 +79,29 @@ class User:
         if not self.isLogin:
             return
         table = str(self.id) + "_mistakes"
+        questions = []
         if bid == -1:
             db.selectDatabase('data')
             db.cursor.execute("select * from " + table)
             mistakes = db.cursor.fetchall()
         else:
-            mistakes = db.fetchAll('data', table, 'bid', str(bid))
-        return mistakes
+            mistakes = db.fetchAll('data', table, 'bid', str(bid),'qid')
+        db.cursor.execute("use base_name")
+        db.cursor.execute("select name from bank_name where id='" + str(bid) + "'")
+        bankName = db.cursor.fetchone()[0]
+        db.selectDatabase('bank')
+        qid = "('" + str(mistakes[0][0]) + "'"
+        for m in mistakes[1:]:
+            qid += ",'" + str(m[0]) + "'"
+        qid += ")"
+        # print(qid)
+        db.cursor.execute("select * from " + bankName + " where id in " + qid)
+        logs = db.cursor.fetchall()
+        for log in logs:
+            # print(log[0])
+            options = [log[-5],log[-4],log[-3],log[-2],log[-1]]
+            questions.append(Question(log[0],log[1],log[2],log[3],log[4],log[5],options))
+        return questions
 
     def getLogs(self, bid=-1):
         if not self.isLogin:
@@ -87,7 +112,7 @@ class User:
             db.cursor.execute("select * from " + table)
             logs = db.cursor.fetchall()
         else:
-            logs = db.fetchAll('data', table, 'bid', str(bid))
+            logs = db.fetchAll('data', table, 'bid', str(bid),'*')
         return logs
 
     @property
@@ -161,15 +186,4 @@ if __name__ == '__main__':
     UserUtil.login('Kazeya', '1234567')
     UserUtil.login('kazeyaa', '123456')
     UserUtil.login('Kazeya', '123456')
-    CUR_USER.addLike(1, 1)
-    CUR_USER.delLike(1, 1)
-    CUR_USER.addExercise(1, 1, 0)
-    CUR_USER.addExercise(1, 1, 1)
-    CUR_USER.addExercise(1, 1, 1)
-    CUR_USER.addExercise(1, 2, 1)
-    CUR_USER.addListExercise(1, 1, 25, '科目一试卷1', '11,13,15,17,21',
-                             time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))
-    print(CUR_USER.getMistakes())
-    print(CUR_USER.getLogs())
-    print(CUR_USER.getMistakes(1))
-    print(CUR_USER.getLogs(1))
+    print(CUR_USER.isLike(1,3))
