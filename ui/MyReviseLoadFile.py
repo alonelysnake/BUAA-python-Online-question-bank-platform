@@ -88,8 +88,8 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
                                 self.curQuestionType, answer, analysis, selections)
         else:
             answer = self.subjectAnswer.toPlainText()
-        question = Question(self.baseIndex + self.pos, self.bank.getBid(),
-                            stem, self.curQuestionType, answer,analysis, [])
+            question = Question(self.baseIndex + self.pos, self.bank.getBid(),
+                                stem, self.curQuestionType, answer, analysis, [])
         self.newQuestions.append(question)
 
     def switchQuestionType(self):
