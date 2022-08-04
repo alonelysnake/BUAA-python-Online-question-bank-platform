@@ -5,9 +5,18 @@ from ui.MyWidgets.BankCard import Ui_Form
 
 from question.QuestionBank import QuestionBank
 
-class MyAnalysisCard(Ui_Form, QWidget):
-    def __init__(self, parent, bank:QuestionBank):
-        super(MyAnalysisCard, self).__init__(parent)
-        self.setupUi(self)
-        self.bankName.setText()
 
+class MyBankCard(Ui_Form, QWidget):
+    clickDetail = pyqtSignal(int)
+
+    def __init__(self, parent, bank: QuestionBank):
+        super(MyBankCard, self).__init__(parent)
+        self.setupUi(self)
+        self.bankName.setText(bank.getName())
+        self.bid = bank.getBid()
+
+        self.detailButton.clicked.connect(self.click)
+        self.testButton.clicked.connect(self.click)
+
+    def click(self):
+        self.clickDetail.emit(self.bid)

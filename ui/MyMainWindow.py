@@ -71,9 +71,11 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
 
     def analyseEvent(self):
         if CUR_USER.isLogin:
+            #TODO 新建窗口后一直只闪一下
             newWindow = QMainWindow()
             analyseWindow = MyAnalysis(newWindow, self, self.bank)
             newWindow.show()
+            print("gg")
         else:
             QMessageBox.information(self, "错误", "请先登录")
             self.loginEvent()

@@ -28,7 +28,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="analyseButton">
+    <widget class="QPushButton" name="detailButton">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -37,6 +37,19 @@
      </property>
      <property name="text">
       <string>查看详情</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="testButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>开始测试</string>
      </property>
     </widget>
    </item>

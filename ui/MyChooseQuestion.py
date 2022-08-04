@@ -24,7 +24,7 @@ class MyPushButton(QPushButton):
 
 
 # 自测前生成题单界面
-class MyChooseQuestion(QMainWindow, Ui_MainWindow):
+class MyChooseQuestion(Ui_MainWindow, QMainWindow):
     def __init__(self, window, parent, bank: QuestionBank, questions: dict):
         super(MyChooseQuestion, self).__init__(parent=parent)
         self.setupUi(window)
@@ -152,7 +152,7 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
             for i in range(len(self.tests)):
                 if self.answers[i] != self.tests[i].getAnswer():
                     children[i].setStyleSheet("color:red")
-                    CUR_USER.addExercise(self.tests[i],1)
+                    CUR_USER.addExercise(self.tests[i], 1)
                 else:
                     children[i].setStyleSheet("color:green")
-                    CUR_USER.addExercise(self.tests[i],0)
+                    CUR_USER.addExercise(self.tests[i], 0)
