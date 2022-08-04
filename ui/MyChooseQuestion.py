@@ -30,6 +30,8 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
         self.questionDetail.backSignal.connect(self.backFromDetail)
         self.questionCategoryLayout.setAlignment(Qt.AlignTop)
         self.selectionsLayout.setAlignment(Qt.AlignTop)
+        self.answerLabel.hide()
+        self.groundTruth.hide()
 
         self.mainWindow = window
         self.bank = bank
@@ -103,6 +105,7 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
         question = self.tests[index]
         assert isinstance(question, Question)
         self.stem.setText(question.getStem())
+        self.groundTruth.setText(question.getAnswer() + "\n" + question.getAnalysis())
         if question.getType() == CHOICE:
             # 先清空
             for selection in self.selections.children():
@@ -141,9 +144,12 @@ class MyChooseQuestion(QMainWindow, Ui_MainWindow):
 
     def submit(self):
         # 简单显示，只给出是否正确
-        children = self.questionButtons.children()[1:]
-        for i in range(len(self.tests)):
-            if self.answers[i] != self.tests[i].getAnswer():
-                children[i].setStyleSheet("color:red")
-            else:
-                children[i].setStyleSheet("color:green")
+        if self.groundTruth.isHidden():
+            self.answerLabel.show()
+            self.groundTruth.show()
+            children = self.questionButtons.children()[1:]
+            for i in range(len(self.tests)):
+                if self.answers[i] != self.tests[i].getAnswer():
+                    children[i].setStyleSheet("color:red")
+                else:
+                    children[i].setStyleSheet("color:green")
