@@ -14,7 +14,7 @@ from ui.MyRegister import MyRegister
 from ui.MyLogin import MyLogin
 from ui.MyAnalysis import MyAnalysis
 
-
+newWindow=None
 class MyMainWindow(Ui_MainWindow, QMainWindow):
     switch2reviseFile = pyqtSignal(QMainWindow, str)  # 跳转到上传后修改的信号
 
@@ -72,6 +72,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
     def analyseEvent(self):
         if CUR_USER.isLogin:
             #TODO 新建窗口后一直只闪一下
+            global newWindow
             newWindow = QMainWindow()
             analyseWindow = MyAnalysis(newWindow, self, self.bank)
             newWindow.show()

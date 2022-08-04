@@ -18,7 +18,6 @@ class MyQuestionCard(QWidget, Ui_Form):
         self.select = select  # 是否显示选择按钮
         if not select:
             self.chooseButton.hide()
-
         self.detialButton.clicked.connect(self.viewDetail)
 
     # 查看详情

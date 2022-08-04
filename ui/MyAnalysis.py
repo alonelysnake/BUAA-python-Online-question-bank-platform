@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 import sys
 
-#from function.ScoreAnalysis import ApplicationWindow
+# from function.ScoreAnalysis import ApplicationWindow
 
 from question.QuestionBank import QuestionBank
 from question.Question import Question
@@ -43,8 +43,8 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
 
     # 查看详细的分析结果图
     def seeAnalysis(self, bid):
-        #analysisWindow = ApplicationWindow(CUR_USER.getLogs(bid))
-        #analysisWindow.show()
+        # analysisWindow = ApplicationWindow(CUR_USER.getLogs(bid))
+        # analysisWindow.show()
         pass
 
     # 查看错题的详细内容
@@ -62,9 +62,9 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
     def loadWrongQuestionCards(self):
         for question in CUR_USER.getMistakes():
             print(1)
+            print(type(question))
             assert isinstance(question, Question)
-            newQuestionCard = MyQuestionCard(self.wrongQuestions, question.getIndex(),
-                                             question.getBid(), question.getStem())
+            newQuestionCard = MyQuestionCard(self.wrongQuestions, question.getIndex(), question.getBid())
             newQuestionCard.setText(str(question.getIndex()) + ". " + question.getStem())
             newQuestionCard.clickDetail.connect(self.seeWrongDetail)
             self.wrongQuestionsLayout.addWidget(newQuestionCard)

@@ -17,7 +17,7 @@ if __name__ == '__main__':
     db.initial()
     db.createBank('科目一',0,0)
     bank = QuestionBank("科目一", 0)
-    db.createBank('科目一试卷1',1,bank.getBid())
+    #db.createBank('科目一试卷1',1,bank.getBid())
     app = QApplication(sys.argv)
     controller = WindowController(bank)
     app.exec_()
