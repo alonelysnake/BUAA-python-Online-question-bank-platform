@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 import sys
 
+#from function.ScoreAnalysis import ApplicationWindow
+
 from question.QuestionBank import QuestionBank
 from question.Question import Question
 from user.User import CUR_USER
@@ -9,6 +11,7 @@ from user.User import CUR_USER
 from ui.Analysis import Ui_MainWindow
 from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
 from ui.MyWidgets.MyQuestionCard import MyQuestionCard
+from ui.MyWidgets.MyA import Ui_Form
 
 
 class MyAnalysis(Ui_MainWindow, QMainWindow):
@@ -22,6 +25,9 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
 
         self.analysisButton.clicked.connect(self.analysisButtonEvent)
         self.wrongButton.clicked.connect(self.wrongButton)
+
+        self.loadAnalysisCards()
+        self.loadWrongQuestionCards()
 
         self.analysisButtonEvent()
 
@@ -37,8 +43,8 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
 
     # 查看详细的分析结果图
     def seeAnalysis(self, bid):
-        self.stackedWidget.setCurrentIndex(2)
-        # TODO 实际分析结果显示
+        #analysisWindow = ApplicationWindow(CUR_USER.getLogs(bid))
+        #analysisWindow.show()
         pass
 
     # 查看错题的详细内容
@@ -46,13 +52,18 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
         self.stackedWidget.setCurrentIndex(3)
         self.questionInfo.show(self.banks[bid].getQuestion(qid))
 
-    def loadBankCards(self):
-        pass
+    def loadAnalysisCards(self):
+        for bank in self.banks:
+            assert isinstance(bank, QuestionBank)
+            analysisCard = MyBankCard(self.analysisCards, bank.getBid(), bank.getBid())
+            analysisCard.clickDetail.connect(self.seeAnalysis)
+            self.analysisCardsLayout.addWidget(analysisCard)
 
     def loadWrongQuestionCards(self):
         for question in CUR_USER.getMistakes():
             assert isinstance(question, Question)
             newQuestionCard = MyQuestionCard(self.wrongQuestions, question.getIndex(),
                                              question.getBid(), question.getStem())
+            newQuestionCard.setText(str(question.getIndex()) + ". " + question.getStem())
+            newQuestionCard.clickDetail.connect(self.seeWrongDetail)
             self.wrongQuestionsLayout.addWidget(newQuestionCard)
-        pass

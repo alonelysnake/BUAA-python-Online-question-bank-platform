@@ -35,12 +35,12 @@ class Ui_MainWindow(object):
         self.scrollArea = QtWidgets.QScrollArea(self.page0)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
-        self.banks = QtWidgets.QWidget()
-        self.banks.setGeometry(QtCore.QRect(0, 0, 754, 494))
-        self.banks.setObjectName("banks")
-        self.banksLayout = QtWidgets.QGridLayout(self.banks)
-        self.banksLayout.setObjectName("banksLayout")
-        self.scrollArea.setWidget(self.banks)
+        self.analysisCards = QtWidgets.QWidget()
+        self.analysisCards.setGeometry(QtCore.QRect(0, 0, 754, 494))
+        self.analysisCards.setObjectName("analysisCards")
+        self.analysisCardsLayout = QtWidgets.QGridLayout(self.analysisCards)
+        self.analysisCardsLayout.setObjectName("analysisCardsLayout")
+        self.scrollArea.setWidget(self.analysisCards)
         self.gridLayout_2.addWidget(self.scrollArea, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.page0)
         self.page1 = QtWidgets.QWidget()
@@ -81,7 +81,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
