@@ -19,6 +19,10 @@
      <property name="text">
       <string>返回</string>
      </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../resource/back.png</normaloff>../../resource/back.png</iconset>
+     </property>
     </widget>
    </item>
    <item row="1" column="0">
