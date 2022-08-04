@@ -1,9 +1,10 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
+from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal, Qt
 import sys
 
 from question.Question import *
 from question.QuestionBank import QuestionBank
+from user.User import UserUtil
 
 from ui.MainWindow import Ui_MainWindow
 from ui.MyWidgets.MyQuestionCard import MyQuestionCard
@@ -26,6 +27,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         self.selfTestButton.triggered.connect(self.selfTestEvent)
         self.registerButton.triggered.connect(self.registerEvent)
         self.loginButton.triggered.connect(self.loginEvent)
+        self.logoutButton.triggered.connect(self.logoutEvent)
         self.questionCategoryLayout.setAlignment(Qt.AlignTop)
 
         self.bank = bank
@@ -52,17 +54,18 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
     def registerEvent(self):
         dialog = QDialog()
         registerWindow = MyRegister(dialog)
-        print("gg")
-        res = dialog.exec_()
-        while res != QDialog.Accepted and res != QDialog.Rejected:
-            res = dialog.exec_()
+        while dialog.exec_() == 1 and not registerWindow.isRegister:
+            continue
 
     def loginEvent(self):
         dialog = QDialog()
         loginWindow = MyLogin(dialog)
-        res = dialog.exec_()
-        while res != QDialog.Accepted and res != QDialog.Rejected:
-            res = dialog.exec_()
+        while dialog.exec_() == 1 and not loginWindow.isLogin:
+            continue
+
+    def logoutEvent(self):
+        UserUtil.logout()
+        QMessageBox.information(self, "成功", "已退出登录")
 
     def seeDetail(self, index):
         self.menuBar.hide()

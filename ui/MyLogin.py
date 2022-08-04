@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QEvent
 import sys
 
 from ui.Login import Ui_Dialog
@@ -13,6 +13,8 @@ class MyLogin(QDialog, Ui_Dialog):
         super().__init__()
         self.setupUi(dialog)
         self.registerButton.clicked.connect(self.register)
+        self.buttonBox.accepted.connect(self.accept)
+        self.isLogin = False
 
         dialog.setWindowFlags(Qt.WindowCloseButtonHint)
 
@@ -20,26 +22,22 @@ class MyLogin(QDialog, Ui_Dialog):
         password = self.password.toPlainText()
         user = self.user.toPlainText()
         # TODO 不存在用户或密码不对的判断条件
-        if user:
-            msg = QMessageBox(QMessageBox.Retry, "错误", "已存在相同用户")
-            msg.exec_()
+        print("ff")
+        if not UserUtil.login(user, password):
+            print("da")
+            QMessageBox.information(self, "错误", "用户名或密码错误")
         else:
-            UserUtil.register(user, password)
-            return super().accept()
+            self.isLogin = True
+            QMessageBox.information(self, "成功", "登录成功！")
         self.user.setPlainText("")
         self.password.setPlainText("")
-        return None
+        return super(MyLogin, self).accept()
 
     def register(self):
         dialog = QDialog()
         registerWindow = MyRegister(dialog)
-        print("a")
         self.hide()
-        print("b")
         execRes = dialog.exec_()
-        while execRes != QDialog.Accepted and execRes != QDialog.Rejected:
+        while execRes == 1 and not registerWindow.isRegister:
             execRes = dialog.exec_()
-        # 注册完成或取消了注册
-        if execRes == QDialog.Accepted:
-            # 在注册成功时已经自动完成登录，直接返回即可
-            super(MyLogin, self).accept()
+        print(dialog.size())

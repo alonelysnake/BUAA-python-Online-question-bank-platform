@@ -13,8 +13,6 @@ class WindowController:
         self.mainWindow = MyMainWindow(window, bank)
         self.mainWindow.switch2reviseFile.connect(self.showReviseFile)
         window.show()
-        print("width:::",end="")
-        print(self.mainWindow.questionCategory.children()[1].label.width())
 
         window = QMainWindow()
         self.reviseFileWindow = MyReviseLoadFile(window, bank)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'QuestionCard.ui'
+# Form implementation generated from reading ui file 'E:\coding\python\homework\Online-question-bank-platform\ui\MyWidgets\QuestionCard.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #

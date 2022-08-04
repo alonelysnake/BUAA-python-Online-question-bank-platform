@@ -12,25 +12,23 @@ class MyRegister(Ui_Dialog, QDialog):
         super().__init__()
         self.setupUi(dialog)
         self.buttonBox.accepted.connect(self.accept)
-        print("aaaa")
+        self.isRegister = False
         dialog.setWindowFlags(Qt.WindowCloseButtonHint)
 
     def accept(self):
         password = self.password.toPlainText()
         check = self.checkAgain.toPlainText()
         user = self.user.toPlainText()
-        # TODO 已存在用户的判断条件
-        if user:
-            msg = QMessageBox(QMessageBox.Retry, "错误", "已存在相同用户")
-            msg.exec_()
-        # 两次密码不一致
+        if password == "" or user == "":
+            QMessageBox.information(self, "错误", "用户名或密码不能为空")
         elif password != check:
-            msg = QMessageBox(QMessageBox.Retry, '错误', "两次密码不一致")
-            msg.exec_()
+            QMessageBox.information(self, "错误", "两次密码不一致")
+        elif not UserUtil.register(user, password):
+            QMessageBox.information(self, "错误", "已存在相同用户")
         else:
-            UserUtil.register(user, password)
-            #TODO 注册的话会自动登录刚注册的用户
-            return super().accept()
+            self.isRegister = True
+            QMessageBox.information(self, "成功", "注册成功！")
         self.user.setPlainText("")
         self.password.setPlainText("")
         self.checkAgain.setPlainText("")
+        return super().accept()

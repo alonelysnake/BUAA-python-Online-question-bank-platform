@@ -69,11 +69,14 @@ class Ui_MainWindow(object):
         self.registerButton.setObjectName("registerButton")
         self.loginButton = QtWidgets.QAction(MainWindow)
         self.loginButton.setObjectName("loginButton")
+        self.logoutButton = QtWidgets.QAction(MainWindow)
+        self.logoutButton.setObjectName("logoutButton")
         self.menu.addAction(self.addQuestionButton)
         self.menu.addAction(self.selfTestButton)
         self.menu.addAction(self.actionclose)
         self.menu_2.addAction(self.registerButton)
         self.menu_2.addAction(self.loginButton)
+        self.menu_2.addAction(self.logoutButton)
         self.menuBar.addAction(self.menu.menuAction())
         self.menuBar.addAction(self.menu_2.menuAction())
 
@@ -90,4 +93,5 @@ class Ui_MainWindow(object):
         self.actionclose.setText(_translate("MainWindow", "close"))
         self.registerButton.setText(_translate("MainWindow", "注册"))
         self.loginButton.setText(_translate("MainWindow", "登录"))
+        self.logoutButton.setText(_translate("MainWindow", "退出登录"))
 from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
