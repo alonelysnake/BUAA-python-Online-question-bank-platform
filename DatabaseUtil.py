@@ -41,14 +41,14 @@ class DB():
         op += " from "
         self.cursor.execute(op + baseName + " where id=" + "'" + str(id) + "'")
 
-    def createBank(self, name: str, type: int):
+    def createBank(self, name: str, type: int, bid:int):
         self.cursor.execute('use base_name')
         self.cursor.execute('select * from ' + self.LOC[type] + "_name where name='" + name + "'")
         rst = self.cursor.fetchall()
         if len(rst) != 0:
             print("存在重名题库")
             return
-        self.cursor.execute("insert into " + self.LOC[type] + "_name(name) values('" + name + "')")
+        self.cursor.execute("insert into " + self.LOC[type] + "_name(bid,name) values('" + str(bid) + "','" + name + "')")
         self.conn.commit()
         self.cursor.execute('use ' + self.LOC[type] + 's')
         sql = """
@@ -106,10 +106,20 @@ class DB():
         sql = """
         (
             id int not null primary key auto_increment,
-            name text(128) not null,
+            bid int not null,
+            name varchar(255) not null,
             unique ix_name (name)
         )default charset=utf8;
         """
         for table in tables:
             self.cursor.execute('create table ' + table + sql)
         self.conn.commit()
+
+    def reset(self):
+        self.cursor.execute('drop database base_name')
+
+
+if __name__ == '__main__':
+    db = DB()
+    db.reset()
+    db.initial()

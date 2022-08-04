@@ -6,7 +6,6 @@
 
 import pymysql
 from DatabaseUtil import DB
-import pandas as pd
 
 from question.Question import Question
 
@@ -21,10 +20,38 @@ class QuestionBank:
         db = DB()
         db.cursor.execute('use base_name')
         db.cursor.execute("select * from " + self.LOC[self._type] + "_name where name=" + "'" + name + "'")
-        self._bid = db.cursor.fetchone()[0]
+        info = db.cursor.fetchone()
+        self._bid = info[0]
+        self._fid = info[1]
+
+    @classmethod
+    def getBanks(cls):
+        db.cursor.execute('use base_name')
+        db.cursor.execute('select name from bank_name')
+        infos = db.cursor.fetchall()
+        banks = []
+        for info in infos:
+            banks.append(QuestionBank(info[0],0))
+        return banks
+
+    @classmethod
+    def getLists(cls):
+        db.cursor.execute('use base_name')
+        db.cursor.execute('select name from list_name')
+        infos = db.cursor.fetchall()
+        lists = []
+        for info in infos:
+            lists.append(QuestionBank(info[0], 1))
+        return lists
 
     def getBid(self):
         return self._bid
+
+    def getFid(self):
+        return self._fid
+
+    def getName(self):
+        return self._name
 
     def addQuestion(self, question: Question):
         db = DB()
@@ -98,5 +125,10 @@ if __name__ == '__main__':
     # db.create Bank("科目一","bank")
     bank = QuestionBank("科目一", 0)
     # for i in range(150):
-    #     bank.addQuestion(Question(1,0,chr(i+ord('a')),i%3+1,'bad','cc',['a','b','c']))
-    print(bank.getQuestions())
+    bank.addQuestion(Question(4,1,'a',1,'bad','cc',['a','b','c']))
+    banks = bank.getBanks()
+    for b in banks:
+        print(b.getName())
+    lists = bank.getLists()
+    for l in lists:
+        print(l.getName())
