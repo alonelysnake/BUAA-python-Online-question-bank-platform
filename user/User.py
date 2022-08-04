@@ -33,7 +33,7 @@ class User:
         if not self.isLogin:
             return False
         db.selectDatabase('data')
-        print('select * from ' + str(self.id) + "_likes where bid='" + str(bid) + "' and qid='" + str(qid) + "'")
+        # print('select * from ' + str(self.id) + "_likes where bid='" + str(bid) + "' and qid='" + str(qid) + "'")
         db.cursor.execute('select * from ' + str(self.id) + "_likes where bid='" + str(bid) + "' and qid='" + str(qid) + "'")
         logs = db.cursor.fetchall()
         return len(logs) != 0
