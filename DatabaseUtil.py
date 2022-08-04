@@ -119,6 +119,7 @@ class DB():
         self.cursor.execute('drop database base_name')
         self.cursor.execute('drop database banks')
         self.cursor.execute('drop database lists')
+        self.cursor.execute('drop database datas')
 
 if __name__ == '__main__':
     db = DB()
