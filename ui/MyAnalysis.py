@@ -20,6 +20,7 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
     def __init__(self, window, parent, bank: QuestionBank):
         super(MyAnalysis, self).__init__(parent=parent)
         self.setupUi(window)
+
         self.analysisCardsLayout.setAlignment(Qt.AlignTop)
         self.wrongQuestionsLayout.setAlignment(Qt.AlignTop)
 
@@ -57,20 +58,14 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
 
     # 题单
     def loadAnalysisCards(self):
-        print("d")
         for bank in QuestionBank.getLists():
-            print(type(bank))
             assert isinstance(bank, QuestionBank)
             analysisCard = MyBankCard(self.analysisCards, bank)
             analysisCard.clickDetail.connect(self.seeAnalysis)
             self.analysisCardsLayout.addWidget(analysisCard)
 
     def loadWrongQuestionCards(self):
-        print(self.bank.getBid())
-        print(CUR_USER.getMistakes(self.bank.getBid()))
         for question in CUR_USER.getMistakes(self.bank.getBid()):
-            print(1)
-            print(type(question))
             assert isinstance(question, Question)
             newQuestionCard = MyQuestionCard(self.wrongQuestions, question)
             newQuestionCard.setText(str(question.getIndex()) + ". " + question.getStem())
