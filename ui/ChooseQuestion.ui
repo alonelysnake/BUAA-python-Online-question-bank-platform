@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page0">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -127,7 +127,7 @@
       <widget class="QWidget" name="page1">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
-         <widget class="MyQuestionInfo" name="questionDetail" native="true"/>
+         <widget class="myWindow" name="questionDetail" native="true"/>
         </item>
        </layout>
       </widget>
@@ -303,9 +303,9 @@ p, li { white-space: pre-wrap; }
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyQuestionInfo</class>
+   <class>myWindow</class>
    <extends>QWidget</extends>
-   <header>ui.MyWidgets.MyQuestionInfo</header>
+   <header>function.Analysis</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

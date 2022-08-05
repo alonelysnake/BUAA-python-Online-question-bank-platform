@@ -27,7 +27,7 @@ class MyFigure(FigureCanvas):
         # 第三步：创建一个子图，用于绘制图形用，111表示子图编号，如matlab的subplot(1,1,1)
         self.axes = None
 
-    def plot_2d(self,logs):
+    def plot_2d(self, logs):
         self.axes = self.fig.add_subplot(111)
         times = np.arange(1, len(logs) + 1)
         acc = []
@@ -42,19 +42,22 @@ class MyFigure(FigureCanvas):
         self.axes.axhline(y=avg, color="gray", ls='--')
         self.axes.legend(labels=('正确率', '平均正确率'))
 
+
 # 运行模块
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from ui.WyyAnalysis import Ui_matplot_demo
+from user.User import CUR_USER
+
 
 class myWindow(QWidget, Ui_matplot_demo):
-    def __init__(self,logs):
-        super(myWindow, self).__init__()
+    def __init__(self, parent, logs=CUR_USER.getLogs()):
+        super(myWindow, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle("显示matplotlib绘制图形")
         self.setMinimumSize(0, 0)
-        self.logs = logs
+        self.logs = CUR_USER.getLogs()
 
         # 第五步：定义MyFigure类的一个实例
         self.F = MyFigure(width=10, height=6, dpi=100)
@@ -65,11 +68,6 @@ class myWindow(QWidget, Ui_matplot_demo):
         self.groupBox = QGroupBox(self.plt3d_module)
         self.groupBox.setMinimumSize(QSize(1100, 610))
         self.groupBox.setTitle("画图demo")
-
-        def connect_bind():
-            self.bt_open.clicked.connect(self.open_pic)
-            self.bt_close.clicked.connect(self.close_pic)
-        connect_bind()
 
         self.glo_plt_figure = QGridLayout(self.groupBox)
 
@@ -88,7 +86,7 @@ class myWindow(QWidget, Ui_matplot_demo):
 
 def main():
     app = QApplication(sys.argv)
-    UserUtil.login('123','123')
+    UserUtil.login('123', '123')
     win = myWindow(CUR_USER.getLogs(1))
     win.show()
     sys.exit(app.exec_())

@@ -33,7 +33,7 @@
      <widget class="QStackedWidget" name="stackedWidget">
       <widget class="QWidget" name="page0">
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
+        <item row="1" column="0">
          <widget class="QScrollArea" name="scrollArea">
           <property name="widgetResizable">
            <bool>true</bool>
@@ -44,11 +44,21 @@
              <x>0</x>
              <y>0</y>
              <width>754</width>
-             <height>494</height>
+             <height>242</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="analysisCardsLayout"/>
           </widget>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="myWindow" name="graph" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
          </widget>
         </item>
        </layout>
@@ -76,16 +86,12 @@
        </layout>
       </widget>
       <widget class="QWidget" name="page2">
-       <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="0">
-         <widget class="QWidget" name="widget" native="true"/>
-        </item>
-       </layout>
+       <layout class="QGridLayout" name="gridLayout_4"/>
       </widget>
       <widget class="QWidget" name="page3">
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
-         <widget class="MyQuestionInfo" name="questionInfo" native="true"/>
+         <widget class="myWindow" name="questionInfo" native="true"/>
         </item>
        </layout>
       </widget>
@@ -97,9 +103,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyQuestionInfo</class>
+   <class>myWindow</class>
    <extends>QWidget</extends>
-   <header>ui.MyWidgets.MyQuestionInfo</header>
+   <header>function.Analysis</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

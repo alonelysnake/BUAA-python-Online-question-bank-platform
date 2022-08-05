@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:\coding\python\homework\Online-question-bank-platform\ui\ChooseQuestion.ui'
+# Form implementation generated from reading ui file 'ChooseQuestion.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -87,7 +87,7 @@ class Ui_MainWindow(object):
         self.page1.setObjectName("page1")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.page1)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.questionDetail = MyQuestionInfo(self.page1)
+        self.questionDetail = myWindow(self.page1)
         self.questionDetail.setObjectName("questionDetail")
         self.gridLayout_3.addWidget(self.questionDetail, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.page1)
@@ -196,7 +196,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
         self.testQuestionType.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -218,4 +218,4 @@ class Ui_MainWindow(object):
         self.lastButton.setText(_translate("MainWindow", "上一题"))
         self.nextButton.setText(_translate("MainWindow", "下一题"))
         self.addBankButton.setText(_translate("MainWindow", "新建题单"))
-from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
+from function.Analysis import myWindow
