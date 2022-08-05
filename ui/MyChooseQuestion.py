@@ -184,7 +184,8 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         self.loadQuestionCategory(self.banks[bid], False)
 
     def chooseFilter(self):
-        self.loadQuestionCategory(self.bank, self.chooseLikeButton.isChecked(), self.chooseWrongButton.isChecked())
+        self.loadQuestionCategory(self.bank, True, self.chooseLikeButton.isChecked(),
+                                  self.chooseWrongButton.isChecked())
 
     # 加载某一题单（或题库）的所有questionCard
     def loadQuestionCategory(self, bank: QuestionBank, select: bool, selLike: bool = False, selWrong: bool = False):
@@ -195,7 +196,7 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
             assert isinstance(question, Question)
             bid = question.getBid()
             qid = question.getIndex()
-            if not((selLike and not CUR_USER.isLike(bid,qid)) or (selWrong and not CUR_USER.isWrong(bid,qid))):
+            if not ((selLike and not CUR_USER.isLike(bid, qid)) or (selWrong and not CUR_USER.isWrong(bid, qid))):
                 newQuestionCard = MyQuestionCard(self.questionCategory, question, select=select)
                 newQuestionCard.clickDetail.connect(self.seeDetail)
                 self.questionCategoryLayout.addWidget(newQuestionCard)
