@@ -11,4 +11,6 @@
 
 `pip install paddleocr`
 
+`pip install PyMuPDF`
+
 调用方法见`test.py`
