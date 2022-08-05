@@ -39,11 +39,13 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         # 得到题目列表
         self.questionsText.clear()
         recognize = Paddleocr("", "")
-        for path in paths.split("\n"):
+        for path in set(paths.split("\n")):
             print(path)
             if os.path.exists(path):
-                recognize.change_img(path, "")
-                self.questionsText.append(recognize.get_result())
+                nms = path.split(".")
+                recognize.change_img(nms[0], "", nms[1])
+                for res in recognize.forward():
+                    self.questionsText.append(res)
             else:
                 # TODO 路径非法时操作
                 pass

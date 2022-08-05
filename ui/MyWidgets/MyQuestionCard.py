@@ -4,22 +4,25 @@ from PyQt5.QtGui import QFontMetrics, QResizeEvent
 from ui.MyWidgets.QuestionCard import Ui_Form
 from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
 
+from question.Question import Question
 
 # 题目的缩略表示
 class MyQuestionCard(QWidget, Ui_Form):
     clickDetail = pyqtSignal(int, int)
 
-    def __init__(self, parent, index=0, bid=0, text: str = "", select=False):
+    def __init__(self, parent, question:Question, select=False):
         super(MyQuestionCard, self).__init__(parent)
         self.setupUi(self)
-        self.index = index
-        self.bid = bid
-        self.text = text  # 题目文本
+        self.index = question.getIndex()
+        self.bid = question.getBid()
+        self.text = question.getStem()  # 题目文本
         self.select = select  # 是否显示选择按钮
         if not select:
             self.chooseButton.hide()
-
         self.detialButton.clicked.connect(self.viewDetail)
+
+    def getIndex(self):
+        return self.index
 
     # 查看详情
     def viewDetail(self):

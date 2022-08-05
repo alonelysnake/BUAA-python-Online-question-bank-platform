@@ -2,12 +2,14 @@ import random
 
 from ui.ChooseQuestion import Ui_MainWindow
 from ui.MyWidgets.MyQuestionCard import MyQuestionCard
+from ui.MyWidgets.MyBankCard import MyBankCard
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal, Qt
 
 from question.Question import *
 from question.QuestionBank import QuestionBank
 from user.User import CUR_USER
+from function.ExamGeneration import ExamGeneration
 
 
 class MyPushButton(QPushButton):
@@ -25,55 +27,72 @@ class MyPushButton(QPushButton):
 
 # 自测前生成题单界面
 class MyChooseQuestion(Ui_MainWindow, QMainWindow):
-    def __init__(self, window, parent, bank: QuestionBank, questions: dict):
+    def __init__(self, window, parent, bank: QuestionBank):
         super(MyChooseQuestion, self).__init__(parent=parent)
         self.setupUi(window)
         self.questionDetail.backSignal.connect(self.backFromDetail)
+        self.addBankButton.clicked.connect(self.jumpBankGenerate)
+        self.backButton.clicked.connect(self.back2BankChoose)
         self.questionCategoryLayout.setAlignment(Qt.AlignTop)
         self.selectionsLayout.setAlignment(Qt.AlignTop)
         self.answerLabel.hide()
         self.groundTruth.hide()
 
         self.mainWindow = window
+        self.banks = {}
+        self.updateBanks()
         self.bank = bank
-        self.questions = questions
         self.tests = []
         self.curIndex = 0
 
         self.answers = []
-        for index in self.questions.keys():
-            newQuestionCard = MyQuestionCard(self.questionCategory, index, select=True)
-            newQuestionCard.setText(str(index) + ". " + self.questions[index].getStem())
+        self.updateBanks()
+        for question in self.bank.getQuestions():
+            newQuestionCard = MyQuestionCard(self.questionCategory, question, select=True)
+            newQuestionCard.setText(question.getIndex() + ". " + question.getStem())
             newQuestionCard.clickDetail.connect(self.seeDetail)
             self.questionCategoryLayout.addWidget(newQuestionCard)
+        # for index in self.questions.keys():
+        #     newQuestionCard = MyQuestionCard(self.questionCategory, self.questions[index], select=True)
+        #     newQuestionCard.setText(str(index) + ". " + self.questions[index].getStem())
+        #     newQuestionCard.clickDetail.connect(self.seeDetail)
+        #     self.questionCategoryLayout.addWidget(newQuestionCard)
         self.manualButton.clicked.connect(self.manualGenerate)
         self.randomButton.clicked.connect(self.randomGenerate)
         self.lastButton.clicked.connect(self.jumpLastQuestion)
         self.nextButton.clicked.connect(self.jumpNextQuestion)
 
     def randomGenerate(self):
-        num = int(min(len(self.questions) / 5 + 1, 100))
-        self.tests = random.sample(list(self.questions.values()), num)
-        self.answers.clear()
-        for i in range(num):
-            self.answers.append("")
-        self.showTest()
+        # TODO 题单名
+        num = int(min(len(self.bank.getQuestions()) / 5 + 1, 100))
+        ExamGeneration.generate(self.bank.getBid(), "题单的名字", num, [], "auto")
+        # self.tests = random.sample(list(self.questions.values()), num)
+        # self.answers.clear()
+        # for i in range(num):
+        #     self.answers.append("")
+        # self.showTest()
 
     def manualGenerate(self):
-        self.tests.clear()
-        self.answers.clear()
+        # self.tests.clear()
+        # self.answers.clear()
+        indexList = []
         for card in self.questionCategory.children():
             if isinstance(card, MyQuestionCard) and card.isChecked():
-                self.tests.append(self.questions[card.index])
-                self.answers.append("")
-        self.showTest()
+                indexList.append(card.getIndex())
+        #         self.tests.append(self.questions[card.index])
+        #         self.answers.append("")
+        # self.showTest()
+        # TODO 题单名
+        ExamGeneration.generate(self.bank.getBid(), "题单名字", len(indexList), indexList, "manual")
 
     # 显示自测界面
-    def showTest(self):
+    def showTest(self, bid: int):
+        self.tests = self.banks[bid].getQuestions()
         for i in range(len(self.tests)):
             button = MyPushButton(i)
             button.jump2Question.connect(self.jumpQuestion)
             self.questionButtonsLayout.addWidget(button)
+            self.answers.append("")
         self.curIndex = 0
         self.stackedWidget.setCurrentIndex(2)
         self.jumpQuestion(0)
@@ -84,9 +103,22 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         question = self.bank.getQuestion(qid)
         self.questionDetail.show(question=question)
 
-    # 从查看详情返回选题界面
+    # 从查看详情返回questionCategory界面
     def backFromDetail(self):
         self.stackedWidget.setCurrentIndex(0)
+
+    # 跳转到生成题单界面
+    def jumpBankGenerate(self):
+        self.stackedWidget.setCurrentIndex(0)
+        self.randomButton.show()
+        self.manualButton.show()
+        self.newBankName.setPlainText("")
+        self.newBankName.show()
+        self.label.show()
+
+    # 回到题单选择界面
+    def back2BankChoose(self):
+        self.stackedWidget.setCurrentIndex(3)
 
     # 自测时跳转到第index道题
     def jumpQuestion(self, index: int):
@@ -156,3 +188,30 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
                 else:
                     children[i].setStyleSheet("color:green")
                     CUR_USER.addExercise(self.tests[i], 0)
+
+    # 查看某一题单详细信息时的槽函数（和选题生成题单共用一个界面）
+    def seeBankDetail(self, bid: int):
+        self.stackedWidget.setCurrentIndex(0)
+        self.randomButton.hide()
+        self.manualButton.hide()
+        self.label.hide()
+        self.newBankName.hide()
+        self.loadQuestionCategory(self.banks[bid], False)
+
+    # 加载某一题单（或题库）的所有questionCard
+    def loadQuestionCategory(self, bank: QuestionBank, select: bool):
+        for widget in self.questionCategory.children():
+            if isinstance(widget, MyQuestionCard):
+                self.questionCategoryLayout.removeWidget(widget)
+        for question in bank.getQuestions():
+            assert isinstance(question, Question)
+            newQuestionCard = MyQuestionCard(self.questionCategory, question, select=select)
+            newQuestionCard.clickDetail.connect(self.seeDetail)
+            self.questionCategoryLayout.addWidget(newQuestionCard)
+
+    def updateBanks(self):
+        for bank in QuestionBank.getBanks():
+            if not bank.getBid() in self.banks.keys():
+                newBankCard = MyBankCard(self.bankCategory, bank, True)
+                newBankCard.clickDetail.connect(self.seeBankDetail)
+                newBankCard.clickTest.connect(self.showTest)

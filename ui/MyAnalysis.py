@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 import sys
 
-#from function.ScoreAnalysis import ApplicationWindow
+# from function.ScoreAnalysis import ApplicationWindow
 
 from question.QuestionBank import QuestionBank
 from question.Question import Question
@@ -21,14 +21,14 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
         self.analysisCardsLayout.setAlignment(Qt.AlignTop)
         self.wrongQuestionsLayout.setAlignment(Qt.AlignTop)
 
-        self.banks = {bank.getBid(): bank}
+        self.bank = bank
 
         self.analysisButton.clicked.connect(self.analysisButtonEvent)
         self.wrongButton.clicked.connect(self.wrongButtonEvent)
-
+        print("b")
         self.loadAnalysisCards()
         self.loadWrongQuestionCards()
-
+        print("c")
         self.analysisButtonEvent()
 
     def analysisButtonEvent(self):
@@ -43,28 +43,35 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
 
     # 查看详细的分析结果图
     def seeAnalysis(self, bid):
-        #analysisWindow = ApplicationWindow(CUR_USER.getLogs(bid))
-        #analysisWindow.show()
+        # analysisWindow = ApplicationWindow(CUR_USER.getLogs(bid))
+        # analysisWindow.show()
         pass
 
     # 查看错题的详细内容
     def seeWrongDetail(self, bid, qid):
         self.stackedWidget.setCurrentIndex(3)
-        self.questionInfo.show(self.banks[bid].getQuestion(qid))
+        self.questionInfo.show(self.bank.getQuestion(qid))
 
+    #题单
     def loadAnalysisCards(self):
-        for bank in self.banks.values():
+        return
+        print(QuestionBank.getBanks())
+        print("d")
+        for bank in QuestionBank.getBanks():
+            print(type(bank))
             assert isinstance(bank, QuestionBank)
             analysisCard = MyBankCard(self.analysisCards, bank)
             analysisCard.clickDetail.connect(self.seeAnalysis)
             self.analysisCardsLayout.addWidget(analysisCard)
 
     def loadWrongQuestionCards(self):
-        for question in CUR_USER.getMistakes():
+        print(self.bank.getBid())
+        print(CUR_USER.getMistakes(self.bank.getBid()))
+        for question in CUR_USER.getMistakes(self.bank.getBid()):
             print(1)
+            print(type(question))
             assert isinstance(question, Question)
-            newQuestionCard = MyQuestionCard(self.wrongQuestions, question.getIndex(),
-                                             question.getBid(), question.getStem())
+            newQuestionCard = MyQuestionCard(self.wrongQuestions, question)
             newQuestionCard.setText(str(question.getIndex()) + ". " + question.getStem())
             newQuestionCard.clickDetail.connect(self.seeWrongDetail)
             self.wrongQuestionsLayout.addWidget(newQuestionCard)
