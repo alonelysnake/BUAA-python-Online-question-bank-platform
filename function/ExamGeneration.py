@@ -16,7 +16,7 @@ class ExamGeneration:
         db = DB()
         db.cursor.execute('use base_name')
         db.cursor.execute("select * from bank_name where id='" + str(bankId) + "'")
-        bankName = db.cursor.fetchone()[1]
+        bankName = db.cursor.fetchone()[2]
         db.createBank(listName, 1, bankId)
         if model == "auto":
             # print("insert into " + listName + " select * from banks." + bankName + " where id>=((select max(id)
@@ -36,15 +36,15 @@ class ExamGeneration:
 
 
 if __name__ == '__main__':
-    # ExamGeneration.generate(8,'科目一试卷1',20,[])
-    db = DB()
-    listName = '科目一试卷1'
-    bankName = '科目一'
-    amount = 20
-    db.cursor.execute("use lists")
-    index = [10, 17, 19, 21, 22, 25, 26, 30]
-    for i in index:
-        db.cursor.execute(
-            "insert into " + listName + " select * from banks." + bankName + \
-            " where id=" + "'" + str(i) + "'")
-    db.conn.commit()
+    ExamGeneration.generate(1,'科目一试卷3',2,[])
+    # db = DB()
+    # listName = '科目一试卷1'
+    # bankName = '科目一'
+    # amount = 20
+    # db.cursor.execute("use lists")
+    # index = [10, 17, 19, 21, 22, 25, 26, 30]
+    # for i in index:
+    #     db.cursor.execute(
+    #         "insert into " + listName + " select * from banks." + bankName + \
+    #         " where id=" + "'" + str(i) + "'")
+    # db.conn.commit()
