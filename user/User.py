@@ -38,6 +38,15 @@ class User:
         logs = db.cursor.fetchall()
         return len(logs) != 0
 
+    def isWrong(self,bid:int,qid:int) -> bool:
+        if not self.isLogin:
+            return False
+        db.selectDatabase('data')
+        db.cursor.execute(
+            'select * from ' + str(self.id) + "_mistakes where bid='" + str(bid) + "' and qid='" + str(qid) + "'")
+        logs = db.cursor.fetchall()
+        return len(logs) != 0
+
     def delLike(self, bid: int, qid: int):
         if not self.isLogin:
             return
