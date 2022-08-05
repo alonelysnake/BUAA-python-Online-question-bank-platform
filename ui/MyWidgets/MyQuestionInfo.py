@@ -30,8 +30,7 @@ class MyQuestionInfo(Ui_Form, QWidget):
             self.seeAnswerFlag.setChecked(False)
             self.answerText.setText(question.getAnswer() + "\n" + question.getAnalysis())
             self.answerText.hide()
-            if True:
-                # TODO
+            if CUR_USER.isLike(question.getBid(),question.getIndex()):
                 self.likeButton.setText("取消收藏")
             else:
                 self.likeButton.setText("收藏")
@@ -40,7 +39,6 @@ class MyQuestionInfo(Ui_Form, QWidget):
     def setObjectQuestion(self, question: Question):
         self.stackedWidget.setCurrentIndex(1)
         self.objectQuestion.setText(question.getStem())
-        # TODO 根据question设置
         # 设置选项
         for child in self.selectionBox.children():
             if isinstance(child, QCheckBox):
@@ -69,8 +67,7 @@ class MyQuestionInfo(Ui_Form, QWidget):
         self.backSignal.emit()
 
     def like(self):
-        if True:
-            # TODO 如果未收藏
+        if not CUR_USER.isLike(self.question.getBid(),self.question.getIndex()):
             self.likeButton.setText("收藏")
             CUR_USER.addLike(self.question.getBid(), self.question.getIndex())
         else:

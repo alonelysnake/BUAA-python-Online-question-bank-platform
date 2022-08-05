@@ -21,14 +21,14 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
         self.analysisCardsLayout.setAlignment(Qt.AlignTop)
         self.wrongQuestionsLayout.setAlignment(Qt.AlignTop)
 
-        self.banks = {bank.getBid(): bank}
+        self.bank = bank
 
         self.analysisButton.clicked.connect(self.analysisButtonEvent)
         self.wrongButton.clicked.connect(self.wrongButtonEvent)
-
+        print("b")
         self.loadAnalysisCards()
         self.loadWrongQuestionCards()
-
+        print("c")
         self.analysisButtonEvent()
 
     def analysisButtonEvent(self):
@@ -50,17 +50,22 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
     # 查看错题的详细内容
     def seeWrongDetail(self, bid, qid):
         self.stackedWidget.setCurrentIndex(3)
-        self.questionInfo.show(self.banks[bid].getQuestion(qid))
+        self.questionInfo.show(self.bank.getQuestion(qid))
 
+    #题单
     def loadAnalysisCards(self):
-        for bank in self.banks.values():
+
+        print(QuestionBank.getBanks())
+        print("d")
+        for bank in QuestionBank.getBanks():
+            print(type(bank))
             assert isinstance(bank, QuestionBank)
             analysisCard = MyBankCard(self.analysisCards, bank)
             analysisCard.clickDetail.connect(self.seeAnalysis)
             self.analysisCardsLayout.addWidget(analysisCard)
 
     def loadWrongQuestionCards(self):
-        for question in CUR_USER.getMistakes():
+        for question in CUR_USER.getMistakes(self.bank):
             print(1)
             print(type(question))
             assert isinstance(question, Question)

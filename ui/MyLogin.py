@@ -21,7 +21,6 @@ class MyLogin(QDialog, Ui_Dialog):
     def accept(self):
         password = self.password.toPlainText()
         user = self.user.toPlainText()
-        # TODO 不存在用户或密码不对的判断条件
         if not UserUtil.login(user, password):
             QMessageBox.information(self, "错误", "用户名或密码错误")
         else:
