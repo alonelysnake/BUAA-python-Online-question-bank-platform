@@ -43,6 +43,7 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
 
     # 查看详细的分析结果图
     def seeAnalysis(self, bid):
+        # TODO 创建一个新的子窗口，展示分析结果
         # analysisWindow = ApplicationWindow(CUR_USER.getLogs(bid))
         # analysisWindow.show()
         pass
@@ -52,7 +53,7 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
         self.stackedWidget.setCurrentIndex(3)
         self.questionInfo.show(self.bank.getQuestion(qid))
 
-    #题单
+    # 题单
     def loadAnalysisCards(self):
         print("d")
         for bank in QuestionBank.getLists():
