@@ -23,6 +23,9 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
 
         self.analysisCardsLayout.setAlignment(Qt.AlignTop)
         self.wrongQuestionsLayout.setAlignment(Qt.AlignTop)
+        self.graph.logs = CUR_USER.getLogs(bank.getBid())
+        print(bank.getBid())
+        print(CUR_USER.getLogs(bank.getBid()))
 
         self.bank = bank
 
