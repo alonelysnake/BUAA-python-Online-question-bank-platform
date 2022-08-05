@@ -8,6 +8,7 @@ from question.QuestionBank import QuestionBank
 
 class MyBankCard(Ui_Form, QWidget):
     clickDetail = pyqtSignal(int)
+    clickTest =pyqtSignal(int)
 
     def __init__(self, parent, bank: QuestionBank, select=False):
         super(MyBankCard, self).__init__(parent)
@@ -18,8 +19,11 @@ class MyBankCard(Ui_Form, QWidget):
         if not select:
             self.testButton.hide()
 
-        self.detailButton.clicked.connect(self.click)
-        self.testButton.clicked.connect(self.click)
+        self.detailButton.clicked.connect(self.detailClick)
+        self.testButton.clicked.connect(self.detailClick)
 
-    def click(self):
+    def detailClick(self):
         self.clickDetail.emit(self.bid)
+
+    def testClick(self):
+        self.clickTest.emit(self.bid)

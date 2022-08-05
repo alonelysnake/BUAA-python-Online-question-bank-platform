@@ -54,7 +54,7 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
 
     #题单
     def loadAnalysisCards(self):
-
+        return
         print(QuestionBank.getBanks())
         print("d")
         for bank in QuestionBank.getBanks():
@@ -65,11 +65,13 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
             self.analysisCardsLayout.addWidget(analysisCard)
 
     def loadWrongQuestionCards(self):
-        for question in CUR_USER.getMistakes(self.bank):
+        print(self.bank.getBid())
+        print(CUR_USER.getMistakes(self.bank.getBid()))
+        for question in CUR_USER.getMistakes(self.bank.getBid()):
             print(1)
             print(type(question))
             assert isinstance(question, Question)
-            newQuestionCard = MyQuestionCard(self.wrongQuestions, question.getIndex(), question.getBid())
+            newQuestionCard = MyQuestionCard(self.wrongQuestions, question)
             newQuestionCard.setText(str(question.getIndex()) + ". " + question.getStem())
             newQuestionCard.clickDetail.connect(self.seeWrongDetail)
             self.wrongQuestionsLayout.addWidget(newQuestionCard)

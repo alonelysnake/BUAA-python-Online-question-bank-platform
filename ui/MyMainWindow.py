@@ -14,7 +14,9 @@ from ui.MyRegister import MyRegister
 from ui.MyLogin import MyLogin
 from ui.MyAnalysis import MyAnalysis
 
-newWindow=None
+newWindow = None
+
+
 class MyMainWindow(Ui_MainWindow, QMainWindow):
     switch2reviseFile = pyqtSignal(QMainWindow, str)  # 跳转到上传后修改的信号
 
@@ -50,7 +52,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
     # 主界面到自测界面
     def selfTestEvent(self):
         newWindow = QMainWindow()
-        chooseWindow = MyChooseQuestion(newWindow, self, self.bank, self.questions)
+        chooseWindow = MyChooseQuestion(newWindow, self, self.bank)
         newWindow.show()
 
     def registerEvent(self):
@@ -71,7 +73,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
 
     def analyseEvent(self):
         if CUR_USER.isLogin:
-            #TODO 新建窗口后一直只闪一下
+            # TODO 新建窗口后一直只闪一下
             global newWindow
             newWindow = QMainWindow()
             analyseWindow = MyAnalysis(newWindow, self, self.bank)
@@ -97,7 +99,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
             index = question.getIndex()
             if index not in self.questions.keys():
                 self.questions[index] = question
-                newQuestionCard = MyQuestionCard(self.questionCategory, index, select=False)
+                newQuestionCard = MyQuestionCard(self.questionCategory, question, select=False)
                 self.questionCategoryLayout.addWidget(newQuestionCard)
                 newQuestionCard.setText(str(question.getIndex()) + ". " + question.getStem())
                 newQuestionCard.clickDetail.connect(self.seeDetail)
