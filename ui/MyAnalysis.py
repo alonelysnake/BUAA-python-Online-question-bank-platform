@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
-import sys
+import datetime
 
 # from function.ScoreAnalysis import ApplicationWindow
 
@@ -14,6 +14,7 @@ from ui.Analysis import Ui_MainWindow
 from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
 from ui.MyWidgets.MyQuestionCard import MyQuestionCard
 from ui.MyWidgets.MyBankCard import MyBankCard
+from ui.MyWidgets.MyHistoryCard import MyHistoryCard
 
 
 class MyAnalysis(Ui_MainWindow, QMainWindow):
@@ -32,7 +33,7 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
         self.analysisButton.clicked.connect(self.analysisButtonEvent)
         self.wrongButton.clicked.connect(self.wrongButtonEvent)
 
-        self.loadAnalysisCards()
+        self.loadHistory()
         self.loadWrongQuestionCards()
 
         self.analysisButtonEvent()
@@ -60,12 +61,17 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
         self.questionInfo.show(self.bank.getQuestion(qid))
 
     # 题单
-    def loadAnalysisCards(self):
-        for bank in QuestionBank.getLists():
-            assert isinstance(bank, QuestionBank)
-            analysisCard = MyBankCard(self.analysisCards, bank)
-            analysisCard.clickDetail.connect(self.seeAnalysis)
-            self.analysisCardsLayout.addWidget(analysisCard)
+    def loadHistory(self):
+        for log in CUR_USER.getLogs(self.bank.getBid()):
+            historyCard = MyHistoryCard(self.analysisCards)
+            historyCard.setName(log[3])
+            assert isinstance(log[5], datetime.datetime)
+            historyCard.setTime(str(log[5]).split('.')[0])
+        # for bank in QuestionBank.getLists():
+        #     assert isinstance(bank, QuestionBank)
+        #     analysisCard = MyBankCard(self.analysisCards, bank)
+        #     analysisCard.clickDetail.connect(self.seeAnalysis)
+        #     self.analysisCardsLayout.addWidget(analysisCard)
 
     def loadWrongQuestionCards(self):
         for question in CUR_USER.getMistakes(self.bank.getBid()):
