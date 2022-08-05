@@ -78,7 +78,6 @@ class myWindow(QWidget, Ui_matplot_demo):
         # self.F.plot_3d()
         self.F.plot_2d(self.logs)
         self.glo_plt_figure.addWidget(self.F, 0, 0)
-        print("here")
         self.show()
         self.glo_plt_figure.addWidget(self.F, 0, 0)
 
