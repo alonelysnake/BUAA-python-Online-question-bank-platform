@@ -24,7 +24,6 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         super(MyMainWindow, self).__init__()
         self.setupUi(mainWindow)
         self.mainWindow = mainWindow
-        self.questions = {}  # questions集合
         self.questionDetail.backSignal.connect(self.backFromDetail)
         self.addQuestionButton.triggered.connect(self.uploadFileEvent)
         self.selfTestButton.triggered.connect(self.selfTestEvent)
@@ -32,6 +31,9 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         self.loginButton.triggered.connect(self.loginEvent)
         self.logoutButton.triggered.connect(self.logoutEvent)
         self.analyseButton.triggered.connect(self.analyseEvent)
+        self.checkLikeFlag.clicked.connect(self.updateQuestions)
+        self.freshButton.clicked.connect(self.updateQuestions)
+
         self.questionCategoryLayout.setAlignment(Qt.AlignTop)
 
         self.bank = bank
@@ -86,7 +88,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
     def seeDetail(self, bid, qid):
         self.menuBar.hide()
         self.stackedWidget.setCurrentIndex(1)
-        question = self.questions[qid]
+        question=self.bank.getQuestion(qid)
         self.questionDetail.show(question=question)
 
     def backFromDetail(self):
@@ -94,15 +96,28 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         self.stackedWidget.setCurrentIndex(0)
 
     def updateQuestions(self):
+        for widget in self.questionCategory.children():
+            if isinstance(widget, MyQuestionCard):
+                self.questionCategoryLayout.removeWidget(widget)
         for question in self.bank.getQuestions():
             assert isinstance(question, Question)
-            index = question.getIndex()
-            if index not in self.questions.keys():
-                self.questions[index] = question
+            bid = question.getBid()
+            qid = question.getIndex()
+            if not (self.checkLikeFlag.isChecked() and not CUR_USER.isLike(bid, qid)):
                 newQuestionCard = MyQuestionCard(self.questionCategory, question, select=False)
-                self.questionCategoryLayout.addWidget(newQuestionCard)
                 newQuestionCard.setText(str(question.getIndex()) + ". " + question.getStem())
                 newQuestionCard.clickDetail.connect(self.seeDetail)
+                self.questionCategoryLayout.addWidget(newQuestionCard)
+
+        # for question in self.bank.getQuestions():
+        #     assert isinstance(question, Question)
+        #     index = question.getIndex()
+        #     if index not in self.questions.keys():
+        #         self.questions[index] = question
+        #         newQuestionCard = MyQuestionCard(self.questionCategory, question, select=False)
+        #         self.questionCategoryLayout.addWidget(newQuestionCard)
+        #         newQuestionCard.setText(str(question.getIndex()) + ". " + question.getStem())
+        #         newQuestionCard.clickDetail.connect(self.seeDetail)
 
 
 if __name__ == "__main__":

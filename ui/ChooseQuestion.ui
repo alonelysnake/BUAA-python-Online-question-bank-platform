@@ -18,29 +18,24 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page0">
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="5" column="0">
-         <widget class="QScrollArea" name="scrollAera">
-          <property name="widgetResizable">
-           <bool>true</bool>
+        <item row="4" column="1">
+         <widget class="QLabel" name="label">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <widget class="QWidget" name="questionCategory">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>547</width>
-             <height>367</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="questionCategoryLayout"/>
-          </widget>
+          <property name="text">
+           <string>新建题单名</string>
+          </property>
          </widget>
         </item>
-        <item row="8" column="1" alignment="Qt::AlignRight">
+        <item row="11" column="1" alignment="Qt::AlignRight">
          <widget class="QCommandLinkButton" name="randomButton">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -55,8 +50,27 @@
         </item>
         <item row="0" column="0">
          <widget class="QCommandLinkButton" name="backButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>返回</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1" alignment="Qt::AlignRight">
+         <widget class="QCommandLinkButton" name="manualButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>手动生成</string>
           </property>
          </widget>
         </item>
@@ -76,29 +90,35 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
-         <widget class="QLabel" name="label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+        <item row="4" column="0" rowspan="4">
+         <widget class="QScrollArea" name="scrollAera">
+          <property name="widgetResizable">
+           <bool>true</bool>
           </property>
+          <widget class="QWidget" name="questionCategory">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>547</width>
+             <height>389</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="questionCategoryLayout"/>
+          </widget>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QCheckBox" name="chooseLikeButton">
           <property name="text">
-           <string>新建题单名</string>
+           <string>从收藏中选</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="1" alignment="Qt::AlignRight">
-         <widget class="QCommandLinkButton" name="manualButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+        <item row="7" column="1">
+         <widget class="QCheckBox" name="chooseWrongButton">
           <property name="text">
-           <string>手动生成</string>
+           <string>从错题中选</string>
           </property>
          </widget>
         </item>
