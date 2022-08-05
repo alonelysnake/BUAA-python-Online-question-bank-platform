@@ -20,7 +20,7 @@ class MyBankCard(Ui_Form, QWidget):
             self.testButton.hide()
 
         self.detailButton.clicked.connect(self.detailClick)
-        self.testButton.clicked.connect(self.detailClick)
+        self.testButton.clicked.connect(self.testClick)
 
     def detailClick(self):
         self.clickDetail.emit(self.bid)

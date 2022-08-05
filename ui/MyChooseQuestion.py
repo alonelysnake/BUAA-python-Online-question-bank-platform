@@ -59,33 +59,16 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         # TODO 题单名
         num = int(min(len(self.bank.getQuestions()) / 5 + 1, 100))
         ExamGeneration.generate(self.bank.getBid(), self.newBankName.toPlainText(), num, [], "auto")
+        self.updateBanks()
         self.back2BankChoose()
-        # self.tests = random.sample(list(self.questions.values()), num)
-        # self.answers.clear()
-        # for i in range(num):
-        #     self.answers.append("")
-        # self.showTest()
 
     def manualGenerate(self):
-        # self.tests.clear()
-        # self.answers.clear()
-        print("begin")
         indexList = []
         for card in self.questionCategory.children():
             if isinstance(card, MyQuestionCard) and card.isChecked():
                 indexList.append(card.getIndex())
-        #         self.tests.append(self.questions[card.index])
-        #         self.answers.append("")
-        # self.showTest()
-        # TODO 题单名
-        print("ok")
-        print(self.bank.getBid())
-        print(self.newBankName.toPlainText())
-        print(len(indexList))
-        print(indexList)
-        print(self.bank.getQuestions()[0].getStem())
         ExamGeneration.generate(self.bank.getBid(), self.newBankName.toPlainText(), len(indexList), indexList, "manual")
-        print("gg")
+        self.updateBanks()
         self.back2BankChoose()
 
     # 显示自测界面

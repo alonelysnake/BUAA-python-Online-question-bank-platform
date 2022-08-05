@@ -72,3 +72,4 @@ class MyQuestionInfo(Ui_Form, QWidget):
             CUR_USER.addLike(self.question.getBid(), self.question.getIndex())
         else:
             self.likeButton.setText("取消收藏")
+            CUR_USER.delLike(self.question.getBid(),self.question.getIndex())
