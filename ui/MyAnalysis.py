@@ -8,6 +8,8 @@ from question.QuestionBank import QuestionBank
 from question.Question import Question
 from user.User import CUR_USER
 
+from function.Analysis import myWindow
+
 from ui.Analysis import Ui_MainWindow
 from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
 from ui.MyWidgets.MyQuestionCard import MyQuestionCard
@@ -25,10 +27,10 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
 
         self.analysisButton.clicked.connect(self.analysisButtonEvent)
         self.wrongButton.clicked.connect(self.wrongButtonEvent)
-        print("b")
+
         self.loadAnalysisCards()
         self.loadWrongQuestionCards()
-        print("c")
+
         self.analysisButtonEvent()
 
     def analysisButtonEvent(self):
