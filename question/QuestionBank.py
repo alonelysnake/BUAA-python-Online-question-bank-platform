@@ -26,6 +26,7 @@ class QuestionBank:
 
     @classmethod
     def getBanks(cls):
+        db = DB()
         db.cursor.execute('use base_name')
         db.cursor.execute('select name from bank_name')
         infos = db.cursor.fetchall()
@@ -36,6 +37,7 @@ class QuestionBank:
 
     @classmethod
     def getLists(cls):
+        db = DB()
         db.cursor.execute('use base_name')
         db.cursor.execute('select name from list_name')
         infos = db.cursor.fetchall()
@@ -126,9 +128,9 @@ if __name__ == '__main__':
     bank = QuestionBank("科目一", 0)
     # for i in range(150):
     bank.addQuestion(Question(4,1,'a',1,'bad','cc',['a','b','c']))
-    banks = bank.getBanks()
+    banks = QuestionBank.getBanks()
     for b in banks:
         print(b.getName())
-    lists = bank.getLists()
+    lists = QuestionBank.getLists()
     for l in lists:
         print(l.getName())
