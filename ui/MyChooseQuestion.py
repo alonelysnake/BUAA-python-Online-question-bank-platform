@@ -44,17 +44,10 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         self.bank = bank
         self.tests = []
         self.curIndex = 0
-
         self.answers = []
-        self.updateBanks()
-        for question in self.bank.getQuestions():
-            newQuestionCard = MyQuestionCard(self.questionCategory, question, select=True)
-            newQuestionCard.setText(question.getIndex() + ". " + question.getStem())
-            newQuestionCard.clickDetail.connect(self.seeDetail)
-            self.questionCategoryLayout.addWidget(newQuestionCard)
-        # for index in self.questions.keys():
-        #     newQuestionCard = MyQuestionCard(self.questionCategory, self.questions[index], select=True)
-        #     newQuestionCard.setText(str(index) + ". " + self.questions[index].getStem())
+        # for question in self.bank.getQuestions():
+        #     newQuestionCard = MyQuestionCard(self.questionCategory, question, select=True)
+        #     newQuestionCard.setText(question.getIndex() + ". " + question.getStem())
         #     newQuestionCard.clickDetail.connect(self.seeDetail)
         #     self.questionCategoryLayout.addWidget(newQuestionCard)
         self.manualButton.clicked.connect(self.manualGenerate)
@@ -65,7 +58,8 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
     def randomGenerate(self):
         # TODO 题单名
         num = int(min(len(self.bank.getQuestions()) / 5 + 1, 100))
-        ExamGeneration.generate(self.bank.getBid(), "题单的名字", num, [], "auto")
+        ExamGeneration.generate(self.bank.getBid(), self.newBankName.toPlainText(), num, [], "auto")
+        self.back2BankChoose()
         # self.tests = random.sample(list(self.questions.values()), num)
         # self.answers.clear()
         # for i in range(num):
@@ -75,6 +69,7 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
     def manualGenerate(self):
         # self.tests.clear()
         # self.answers.clear()
+        print("begin")
         indexList = []
         for card in self.questionCategory.children():
             if isinstance(card, MyQuestionCard) and card.isChecked():
@@ -83,7 +78,14 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         #         self.answers.append("")
         # self.showTest()
         # TODO 题单名
-        ExamGeneration.generate(self.bank.getBid(), "题单名字", len(indexList), indexList, "manual")
+        print("ok")
+        print(self.bank.getBid())
+        print(self.newBankName.toPlainText())
+        print(len(indexList))
+        print(indexList)
+        ExamGeneration.generate(self.bank.getBid(), self.newBankName.toPlainText(), len(indexList), indexList, "manual")
+        print("gg")
+        self.back2BankChoose()
 
     # 显示自测界面
     def showTest(self, bid: int):
@@ -110,6 +112,7 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
     # 跳转到生成题单界面
     def jumpBankGenerate(self):
         self.stackedWidget.setCurrentIndex(0)
+        self.loadQuestionCategory(self.bank, True)
         self.randomButton.show()
         self.manualButton.show()
         self.newBankName.setPlainText("")
@@ -210,8 +213,9 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
             self.questionCategoryLayout.addWidget(newQuestionCard)
 
     def updateBanks(self):
-        for bank in QuestionBank.getBanks():
+        for bank in QuestionBank.getLists():
             if not bank.getBid() in self.banks.keys():
                 newBankCard = MyBankCard(self.bankCategory, bank, True)
                 newBankCard.clickDetail.connect(self.seeBankDetail)
                 newBankCard.clickTest.connect(self.showTest)
+                self.banks[bank.getBid()] = bank

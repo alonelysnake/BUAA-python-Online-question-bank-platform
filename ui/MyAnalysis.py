@@ -54,10 +54,8 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
 
     #题单
     def loadAnalysisCards(self):
-        return
-        print(QuestionBank.getBanks())
         print("d")
-        for bank in QuestionBank.getBanks():
+        for bank in QuestionBank.getLists():
             print(type(bank))
             assert isinstance(bank, QuestionBank)
             analysisCard = MyBankCard(self.analysisCards, bank)
