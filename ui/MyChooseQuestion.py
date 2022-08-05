@@ -45,15 +45,13 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         self.tests = []
         self.curIndex = 0
         self.answers = []
-        # for question in self.bank.getQuestions():
-        #     newQuestionCard = MyQuestionCard(self.questionCategory, question, select=True)
-        #     newQuestionCard.setText(question.getIndex() + ". " + question.getStem())
-        #     newQuestionCard.clickDetail.connect(self.seeDetail)
-        #     self.questionCategoryLayout.addWidget(newQuestionCard)
+
         self.manualButton.clicked.connect(self.manualGenerate)
         self.randomButton.clicked.connect(self.randomGenerate)
         self.lastButton.clicked.connect(self.jumpLastQuestion)
         self.nextButton.clicked.connect(self.jumpNextQuestion)
+        self.chooseLikeButton.clicked.connect(self.chooseFilter)
+        self.chooseWrongButton.clicked.connect(self.chooseFilter)
 
     def randomGenerate(self):
         # TODO 题单名
@@ -185,16 +183,22 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         self.newBankName.hide()
         self.loadQuestionCategory(self.banks[bid], False)
 
+    def chooseFilter(self):
+        self.loadQuestionCategory(self.bank, self.chooseLikeButton.isChecked(), self.chooseWrongButton.isChecked())
+
     # 加载某一题单（或题库）的所有questionCard
-    def loadQuestionCategory(self, bank: QuestionBank, select: bool):
+    def loadQuestionCategory(self, bank: QuestionBank, select: bool, selLike: bool = False, selWrong: bool = False):
         for widget in self.questionCategory.children():
             if isinstance(widget, MyQuestionCard):
                 self.questionCategoryLayout.removeWidget(widget)
         for question in bank.getQuestions():
             assert isinstance(question, Question)
-            newQuestionCard = MyQuestionCard(self.questionCategory, question, select=select)
-            newQuestionCard.clickDetail.connect(self.seeDetail)
-            self.questionCategoryLayout.addWidget(newQuestionCard)
+            bid = question.getBid()
+            qid = question.getIndex()
+            if not((selLike and not CUR_USER.isLike(bid,qid)) or (selWrong and not CUR_USER.isWrong(bid,qid))):
+                newQuestionCard = MyQuestionCard(self.questionCategory, question, select=select)
+                newQuestionCard.clickDetail.connect(self.seeDetail)
+                self.questionCategoryLayout.addWidget(newQuestionCard)
 
     def updateBanks(self):
         for bank in QuestionBank.getLists():

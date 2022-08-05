@@ -85,6 +85,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.analysisButton.setText(_translate("MainWindow", "analysisButton"))
-        self.wrongButton.setText(_translate("MainWindow", "PushButton"))
+        self.analysisButton.setText(_translate("MainWindow", "成绩分析"))
+        self.wrongButton.setText(_translate("MainWindow", "错题统计"))
 from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
