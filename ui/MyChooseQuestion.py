@@ -83,6 +83,7 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         print(self.newBankName.toPlainText())
         print(len(indexList))
         print(indexList)
+        print(self.bank.getQuestions()[0].getStem())
         ExamGeneration.generate(self.bank.getBid(), self.newBankName.toPlainText(), len(indexList), indexList, "manual")
         print("gg")
         self.back2BankChoose()
@@ -218,4 +219,5 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
                 newBankCard = MyBankCard(self.bankCategory, bank, True)
                 newBankCard.clickDetail.connect(self.seeBankDetail)
                 newBankCard.clickTest.connect(self.showTest)
+                self.bankCategoryLaout.addWidget(newBankCard)
                 self.banks[bank.getBid()] = bank

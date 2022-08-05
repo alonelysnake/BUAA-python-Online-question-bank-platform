@@ -185,7 +185,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
         self.testQuestionType.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
