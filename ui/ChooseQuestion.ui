@@ -127,7 +127,7 @@
       <widget class="QWidget" name="page1">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
-         <widget class="myWindow" name="questionDetail" native="true"/>
+         <widget class="MyQuestionInfo" name="questionDetail" native="true"/>
         </item>
        </layout>
       </widget>
@@ -303,9 +303,9 @@ p, li { white-space: pre-wrap; }
  </widget>
  <customwidgets>
   <customwidget>
-   <class>myWindow</class>
+   <class>MyQuestionInfo</class>
    <extends>QWidget</extends>
-   <header>function.Analysis</header>
+   <header>ui.MyWidgets.MyQuestionInfo</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
