@@ -6,6 +6,7 @@ from ui.MyWidgets.HistoryCard import Ui_Form
 class MyHistoryCard(Ui_Form, QWidget):
     def __init__(self, parent):
         super(MyHistoryCard, self).__init__(parent=parent)
+        self.setupUi(self)
 
     def setName(self, name):
         self.name.setText(name)
