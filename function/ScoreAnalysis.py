@@ -73,7 +73,7 @@ if __name__ == "__main__":
     qapp = QtWidgets.QApplication.instance()
     if not qapp:
         qapp = QtWidgets.QApplication(sys.argv)
-    UserUtil.login('Kazeya', '123456')
+    UserUtil.login('123', '123')
     app = ApplicationWindow(CUR_USER.getLogs(1))
     app.show()
     app.activateWindow()

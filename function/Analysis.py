@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 matplotlib.rcParams["font.sans-serif"] = ["SimHei"]  # 设置字体
 matplotlib.rcParams["axes.unicode_minus"] = False  # 该语句解决图像中的“-”负号的乱码问题
@@ -50,33 +51,33 @@ from PyQt5.QtCore import *
 from ui.WyyAnalysis import Ui_matplot_demo
 from user.User import CUR_USER
 
-
 class myWindow(QWidget, Ui_matplot_demo):
-    def __init__(self, parent, logs=CUR_USER.getLogs()):
+    def __init__(self, parent, logs=CUR_USER.getLogs(1)):
         super(myWindow, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle("显示matplotlib绘制图形")
         self.setMinimumSize(0, 0)
-        self.logs = CUR_USER.getLogs()
-
+        self.logs = CUR_USER.getLogs(1)
         # 第五步：定义MyFigure类的一个实例
-        self.F = MyFigure(width=10, height=6, dpi=100)
+        self.F = MyFigure(width=10, height=10, dpi=100)
         # self.F.plot_cos()
 
         # 第六步：在GUI的groupBox中创建一个布局，用于添加MyFigure类的实例（即图形）后其他部件。
         # 在容器中添加一个groupbox对象，在groupbox对象中创建布局
         self.groupBox = QGroupBox(self.plt3d_module)
         self.groupBox.setMinimumSize(QSize(1100, 610))
-        self.groupBox.setTitle("画图demo")
-
+        self.groupBox.setTitle("历史成绩分析")
+        self.toolbar = None
         self.glo_plt_figure = QGridLayout(self.groupBox)
+        self.open_pic()
 
     def open_pic(self):
-        self.F = MyFigure(width=10, height=6, dpi=100)
+        self.F = MyFigure(width=10, height=3, dpi=100)
         # self.F.plot_3d()
         self.F.plot_2d(self.logs)
+        self.toolbar = NavigationToolbar(self.F, self)
+        self.glo_plt_figure.addWidget(self.toolbar, 2, 0)
         self.glo_plt_figure.addWidget(self.F, 0, 0)
-        print("here")
         self.show()
         self.glo_plt_figure.addWidget(self.F, 0, 0)
 

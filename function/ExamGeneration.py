@@ -24,7 +24,7 @@ class ExamGeneration:
             # FROM banks." + bankName + ") limit " + str(amount))
             db.cursor.execute(
                 "insert into " + listName + " select * from banks." + bankName + \
-                " where id>=((select max(id) from banks." + bankName + " )-(select min(id) from banks." + bankName + \
+                " where id>=((select max(id) from banks."  + bankName + " )-(select min(id) from banks." + bankName + \
                 "))* RAND() + (SELECT MIN(Id) FROM banks." + bankName + ") limit " + str(amount))
             db.conn.commit()
         else:
