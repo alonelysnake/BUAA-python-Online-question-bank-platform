@@ -67,6 +67,7 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
             historyCard.setName(log[3])
             assert isinstance(log[5], datetime.datetime)
             historyCard.setTime(str(log[5]).split('.')[0])
+            self.analysisCardsLayout.addWidget(historyCard)
         # for bank in QuestionBank.getLists():
         #     assert isinstance(bank, QuestionBank)
         #     analysisCard = MyBankCard(self.analysisCards, bank)
