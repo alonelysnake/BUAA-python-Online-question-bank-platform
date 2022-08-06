@@ -174,7 +174,7 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
             for i in range(len(self.tests)):
                 if self.answers[i] != self.tests[i].getAnswer():
                     children[i].setStyleSheet("color:red")
-                    wrongs.append(self.tests[i].getIndex())
+                    wrongs.append(str(self.tests[i].getIndex()))
                     CUR_USER.addExercise(self.tests[i], 1)
                 else:
                     children[i].setStyleSheet("color:green")
