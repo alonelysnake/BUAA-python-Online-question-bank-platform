@@ -11,6 +11,8 @@ from question.QuestionBank import QuestionBank
 from user.User import CUR_USER
 from function.ExamGeneration import ExamGeneration
 
+import datetime
+
 
 class MyPushButton(QPushButton):
     jump2Question = pyqtSignal(int)
@@ -42,6 +44,7 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         self.banks = {}
         self.updateBanks()
         self.bank = bank
+        self.testBank = None
         self.tests = []
         self.curIndex = 0
         self.answers = []
@@ -71,6 +74,7 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
 
     # 显示自测界面
     def showTest(self, bid: int):
+        self.testBank = self.banks[bid]
         self.tests = self.banks[bid].getQuestions()
         for i in range(len(self.tests)):
             button = MyPushButton(i)
@@ -166,13 +170,16 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
             self.answerLabel.show()
             self.groundTruth.show()
             children = self.questionButtons.children()[1:]
+            wrongs = []
             for i in range(len(self.tests)):
                 if self.answers[i] != self.tests[i].getAnswer():
                     children[i].setStyleSheet("color:red")
+                    wrongs.append(self.tests[i].getIndex())
                     CUR_USER.addExercise(self.tests[i], 1)
                 else:
                     children[i].setStyleSheet("color:green")
                     CUR_USER.addExercise(self.tests[i], 0)
+            CUR_USER.addListExercise(self.testBank, wrongs, datetime.datetime.now())
 
     # 查看某一题单详细信息时的槽函数（和选题生成题单共用一个界面）
     def seeBankDetail(self, bid: int):
