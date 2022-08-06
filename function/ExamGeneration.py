@@ -17,7 +17,8 @@ class ExamGeneration:
         db.cursor.execute('use base_name')
         db.cursor.execute("select * from bank_name where id='" + str(bankId) + "'")
         bankName = db.cursor.fetchone()[2]
-        db.createBank(listName, 1, bankId)
+        if not db.createBank(listName, 1, bankId):
+            return
         if model == "auto":
             # print("insert into " + listName + " select * from banks." + bankName + " where id>=((select max(id)
             # from banks." + bankName + " )-(select min(id) from banks." + bankName + "))* RAND() + (SELECT MIN(Id)

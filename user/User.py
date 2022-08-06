@@ -3,6 +3,7 @@
 # @Author  : Kazeya
 # @File    : User.py
 # @Description :用户类
+import datetime
 import time
 
 from DatabaseUtil import DB
@@ -69,15 +70,17 @@ class User:
         db.conn.commit()
 
     # mistakes: "index1,index2,index3,...", date:"yyyy-mm-dd hh:mm:ss"
-    def addListExercise(self,questionBank:QuestionBank, mistakes: str, date: str):
+    def addListExercise(self,questionBank:QuestionBank, mistakes:list, date: str):
         if not self.isLogin:
             return
+        mistakes = ','.join(mistakes)
+        print(mistakes)
         lid = questionBank.getBid()
         listName = questionBank.getName()
         bid = questionBank.getFid()
         db.selectDatabase('list')
         db.cursor.execute("select count(*) from " + listName)
-        qsum = db.cursor.fetchone()
+        qsum = db.cursor.fetchone()[0]
         db.selectDatabase('data')
         values = "('" + str(bid) + "','" + str(lid) + "','" + str(
             qsum) + "','" + listName + "','" + mistakes + "','" + date + "')"
@@ -190,9 +193,8 @@ class UserUtil:
 
 
 if __name__ == '__main__':
-    UserUtil.register('Kazeya', '123456')
     CUR_USER.addLike(1, 1)
-    UserUtil.login('Kazeya', '1234567')
-    UserUtil.login('kazeyaa', '123456')
-    UserUtil.login('Kazeya', '123456')
+    UserUtil.login('123', '123')
+    bank = QuestionBank('科目一试卷1',1)
+    CUR_USER.addListExercise(bank,['1','2','3'],'2022-12-05 11:12:13')
     print(CUR_USER.isLike(1,3))
