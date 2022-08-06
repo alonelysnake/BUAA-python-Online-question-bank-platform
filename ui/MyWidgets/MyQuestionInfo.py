@@ -20,7 +20,6 @@ class MyQuestionInfo(Ui_Form, QWidget):
     def show(self, question: Question = None):
         self.question = question
         if question:
-            print("ok")
             # 主客观题的差异化设置
             if question.getType() == CHOICE:
                 self.setObjectQuestion(question)
@@ -68,8 +67,8 @@ class MyQuestionInfo(Ui_Form, QWidget):
 
     def like(self):
         if not CUR_USER.isLike(self.question.getBid(),self.question.getIndex()):
-            self.likeButton.setText("收藏")
+            self.likeButton.setText("取消收藏")
             CUR_USER.addLike(self.question.getBid(), self.question.getIndex())
         else:
-            self.likeButton.setText("取消收藏")
+            self.likeButton.setText("收藏")
             CUR_USER.delLike(self.question.getBid(),self.question.getIndex())
