@@ -68,7 +68,9 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         for card in self.questionCategory.children():
             if isinstance(card, MyQuestionCard) and card.isChecked():
                 indexList.append(card.getIndex())
-        ExamGeneration.generate(self.bank.getBid(), self.newBankName.toPlainText(), len(indexList), indexList, "manual")
+        if not ExamGeneration.generate(self.bank.getBid(), self.newBankName.toPlainText(),
+                                       len(indexList), indexList, "manual"):
+            return
         self.updateBanks()
         self.back2BankChoose()
 
