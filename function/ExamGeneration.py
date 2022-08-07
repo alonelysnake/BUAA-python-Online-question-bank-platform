@@ -12,13 +12,13 @@ from DatabaseUtil import DB
 class ExamGeneration:
 
     @classmethod
-    def generate(cls, bankId: int, listName: str, amount: int, index: list, model="auto"):
+    def generate(cls, bankId: int, listName: str, amount: int, index: list, model="auto") -> bool:
         db = DB()
         db.cursor.execute('use base_name')
         db.cursor.execute("select * from bank_name where id='" + str(bankId) + "'")
         bankName = db.cursor.fetchone()[2]
         if not db.createBank(listName, 1, bankId):
-            return
+            return False
         if model == "auto":
             # print("insert into " + listName + " select * from banks." + bankName + " where id>=((select max(id)
             # from banks." + bankName + " )-(select min(id) from banks." + bankName + "))* RAND() + (SELECT MIN(Id)
@@ -34,6 +34,7 @@ class ExamGeneration:
                     "insert into " + listName + " select * from banks." + bankName + \
                     " where id=" + "'" + str(i) + "'")
             db.conn.commit()
+        return True
 
 
 if __name__ == '__main__':
