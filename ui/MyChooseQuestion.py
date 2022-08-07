@@ -1,5 +1,3 @@
-import random
-
 from ui.ChooseQuestion import Ui_MainWindow
 from ui.MyWidgets.MyQuestionCard import MyQuestionCard
 from ui.MyWidgets.MyBankCard import MyBankCard
@@ -48,6 +46,7 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         self.tests = []
         self.curIndex = 0
         self.answers = []
+        self.cnt = 0  # 生成题单时已选择的题目数
 
         self.manualButton.clicked.connect(self.manualGenerate)
         self.randomButton.clicked.connect(self.randomGenerate)
@@ -106,6 +105,7 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         self.newBankName.setPlainText("")
         self.newBankName.show()
         self.label.show()
+        self.cnt = 0
 
     # 回到题单选择界面
     def back2BankChoose(self):
@@ -208,7 +208,13 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
             if not ((selLike and not CUR_USER.isLike(bid, qid)) or (selWrong and not CUR_USER.isWrong(bid, qid))):
                 newQuestionCard = MyQuestionCard(self.questionCategory, question, select=select)
                 newQuestionCard.clickDetail.connect(self.seeDetail)
+                if bank == self.bank:
+                    newQuestionCard.cnt.connect(self.questionCount)
                 self.questionCategoryLayout.addWidget(newQuestionCard)
+
+    def questionCount(self, num):
+        self.cnt += num
+        self.manualButton.setDisabled(self.cnt == 0)
 
     def updateBanks(self):
         for bank in QuestionBank.getLists():

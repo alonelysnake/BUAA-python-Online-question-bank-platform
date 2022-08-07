@@ -6,11 +6,13 @@ from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
 
 from question.Question import Question
 
+
 # 题目的缩略表示
 class MyQuestionCard(QWidget, Ui_Form):
     clickDetail = pyqtSignal(int, int)
+    cnt = pyqtSignal(int)  # 生成题单时增加的题目数量
 
-    def __init__(self, parent, question:Question, select=False):
+    def __init__(self, parent, question: Question, select=False):
         super(MyQuestionCard, self).__init__(parent)
         self.setupUi(self)
         self.index = question.getIndex()
@@ -39,6 +41,12 @@ class MyQuestionCard(QWidget, Ui_Form):
 
     def isChecked(self):
         return self.chooseButton.isChecked()
+
+    def addQuestion(self):
+        if self.isChecked():
+            self.cnt.emit(1)
+        else:
+            self.cnt.emit(-1)
 
     def resizeEvent(self, qResizeEvent: QResizeEvent):
         super(MyQuestionCard, self).resizeEvent(qResizeEvent)
