@@ -68,10 +68,13 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         loginWindow = MyLogin(dialog)
         while dialog.exec_() == 1 and not loginWindow.isLogin:
             continue
+        if CUR_USER.isLogin:
+            self.nameLabel.setText("欢迎用户 "+CUR_USER.name)
 
     def logoutEvent(self):
         UserUtil.logout()
         QMessageBox.information(self, "成功", "已退出登录")
+        self.nameLabel.setText("当前无用户登录")
 
     def analyseEvent(self):
         if CUR_USER.isLogin:

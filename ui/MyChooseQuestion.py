@@ -181,7 +181,7 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
                 else:
                     children[i].setStyleSheet("color:green")
                     CUR_USER.addExercise(self.tests[i], 0)
-            CUR_USER.addListExercise(self.testBank, wrongs, datetime.datetime.now())
+            CUR_USER.addListExercise(self.testBank, wrongs, str(datetime.datetime.now()))
 
     # 查看某一题单详细信息时的槽函数（和选题生成题单共用一个界面）
     def seeBankDetail(self, bid: int):

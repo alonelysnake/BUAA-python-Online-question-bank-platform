@@ -75,8 +75,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>754</width>
-             <height>494</height>
+             <width>98</width>
+             <height>28</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="wrongQuestionsLayout"/>
@@ -91,7 +91,7 @@
       <widget class="QWidget" name="page3">
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
-         <widget class="myWindow" name="questionInfo" native="true"/>
+         <widget class="MyQuestionInfo" name="questionInfo" native="true"/>
         </item>
        </layout>
       </widget>
@@ -106,6 +106,12 @@
    <class>myWindow</class>
    <extends>QWidget</extends>
    <header>function.Analysis</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MyQuestionInfo</class>
+   <extends>QWidget</extends>
+   <header>ui.MyWidgets.MyQuestionInfo.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

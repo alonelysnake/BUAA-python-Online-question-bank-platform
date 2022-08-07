@@ -41,9 +41,7 @@ class Ui_MainWindow(object):
         self.analysisCardsLayout.setObjectName("analysisCardsLayout")
         self.scrollArea.setWidget(self.analysisCards)
         self.gridLayout_2.addWidget(self.scrollArea, 1, 0, 1, 1)
-        print("aa")
         self.graph = myWindow(self.page0)
-        print("bb")
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -60,7 +58,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.wrongQuestions = QtWidgets.QWidget()
-        self.wrongQuestions.setGeometry(QtCore.QRect(0, 0, 754, 494))
+        self.wrongQuestions.setGeometry(QtCore.QRect(0, 0, 98, 28))
         self.wrongQuestions.setObjectName("wrongQuestions")
         self.wrongQuestionsLayout = QtWidgets.QVBoxLayout(self.wrongQuestions)
         self.wrongQuestionsLayout.setObjectName("wrongQuestionsLayout")
@@ -76,7 +74,7 @@ class Ui_MainWindow(object):
         self.page3.setObjectName("page3")
         self.gridLayout_5 = QtWidgets.QGridLayout(self.page3)
         self.gridLayout_5.setObjectName("gridLayout_5")
-        self.questionInfo = myWindow(self.page3)
+        self.questionInfo = MyQuestionInfo(self.page3)
         self.questionInfo.setObjectName("questionInfo")
         self.gridLayout_5.addWidget(self.questionInfo, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.page3)
@@ -95,3 +93,4 @@ class Ui_MainWindow(object):
         self.analysisButton.setText(_translate("MainWindow", "成绩分析"))
         self.wrongButton.setText(_translate("MainWindow", "错题统计"))
 from function.Analysis import myWindow
+from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
