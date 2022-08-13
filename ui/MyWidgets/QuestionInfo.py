@@ -19,7 +19,7 @@ class Ui_Form(object):
         self.gridLayout.setObjectName("gridLayout")
         self.backButton = QtWidgets.QCommandLinkButton(Form)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("E:\\coding\\python\\homework\\Online-question-bank-platform\\ui\\MyWidgets\\../../resource/back.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("resource/back.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.backButton.setIcon(icon)
         self.backButton.setObjectName("backButton")
         self.gridLayout.addWidget(self.backButton, 0, 0, 1, 1)

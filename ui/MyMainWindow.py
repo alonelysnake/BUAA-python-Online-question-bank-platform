@@ -20,10 +20,10 @@ newWindow = None
 class MyMainWindow(Ui_MainWindow, QMainWindow):
     switch2reviseFile = pyqtSignal(QMainWindow, str)  # 跳转到上传后修改的信号
 
-    def __init__(self, mainWindow, bank: QuestionBank):
+    def __init__(self, bank: QuestionBank):
         super(MyMainWindow, self).__init__()
-        self.setupUi(mainWindow)
-        self.mainWindow = mainWindow
+        self.setupUi(self)
+        #self.mainWindow = self
         self.questionDetail.backSignal.connect(self.backFromDetail)
         self.addQuestionButton.triggered.connect(self.uploadFileEvent)
         self.selfTestButton.triggered.connect(self.selfTestEvent)
@@ -45,7 +45,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         uploadWindow = MyChooseLoadFile(dialog)
         if dialog.exec_() == QDialog.Accepted:
             # TODO 识别文件并跳转到修改界面
-            self.switch2reviseFile.emit(self.mainWindow, uploadWindow.filepath)
+            self.switch2reviseFile.emit(self, uploadWindow.filepath)
             pass
         else:
             # 取消读取，正常返回
@@ -53,9 +53,12 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
 
     # 主界面到自测界面
     def selfTestEvent(self):
-        newWindow = QMainWindow()
-        chooseWindow = MyChooseQuestion(newWindow, self, self.bank)
-        newWindow.show()
+        if not CUR_USER.isLogin:
+            QMessageBox.information(self, "错误", "请先登录")
+            self.loginEvent()
+            return
+        chooseWindow = MyChooseQuestion(self, self.bank)
+        chooseWindow.show()
 
     def registerEvent(self):
         dialog = QDialog()
@@ -69,7 +72,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
         while dialog.exec_() == 1 and not loginWindow.isLogin:
             continue
         if CUR_USER.isLogin:
-            self.nameLabel.setText("欢迎用户 "+CUR_USER.name)
+            self.nameLabel.setText("欢迎用户 " + CUR_USER.name)
 
     def logoutEvent(self):
         UserUtil.logout()
@@ -78,11 +81,8 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
 
     def analyseEvent(self):
         if CUR_USER.isLogin:
-            # TODO 新建窗口后一直只闪一下
-            global newWindow
-            newWindow = QMainWindow()
-            analyseWindow = MyAnalysis(newWindow, self, self.bank)
-            newWindow.show()
+            analyseWindow = MyAnalysis(self, self.bank)
+            analyseWindow.show()
         else:
             QMessageBox.information(self, "错误", "请先登录")
             self.loginEvent()
@@ -90,7 +90,7 @@ class MyMainWindow(Ui_MainWindow, QMainWindow):
     def seeDetail(self, bid, qid):
         self.menuBar.hide()
         self.stackedWidget.setCurrentIndex(1)
-        question=self.bank.getQuestion(qid)
+        question = self.bank.getQuestion(qid)
         self.questionDetail.show(question=question)
 
     def backFromDetail(self):

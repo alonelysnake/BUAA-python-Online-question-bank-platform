@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>105</height>
+    <height>146</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -49,9 +49,32 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </item>
+     <item alignment="Qt::AlignRight">
+      <widget class="QCommandLinkButton" name="choose">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../resource/add.png</normaloff>../resource/add.png</iconset>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
-   <item alignment="Qt::AlignBottom">
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

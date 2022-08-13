@@ -14,10 +14,10 @@ import os
 class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
     switch2mainWindow = pyqtSignal(QMainWindow)
 
-    def __init__(self, mainWindow, bank: QuestionBank):
+    def __init__(self, bank: QuestionBank):
         super(MyReviseLoadFile, self).__init__()
-        self.setupUi(mainWindow)
-        self.mainWindow = mainWindow
+        self.setupUi(self)
+        #self.mainWindow = self
 
         self.selectButton.clicked.connect(self.switchQuestionType)
         self.fillButton.clicked.connect(self.switchQuestionType)
@@ -70,7 +70,7 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
             # 存储并返回到主界面
             self.bank.addQuestions(self.newQuestions)
             # TODO mainwindow更新题库
-            self.switch2mainWindow.emit(self.mainWindow)
+            self.switch2mainWindow.emit(self)
             return
         self.showQuestion()
 
@@ -138,3 +138,8 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         newSelection = MySelectionCard(self.selectionBox)
         newSelection.setChoice(len(self.selectionBox.children()) - 2)
         self.selectionLayout.addWidget(newSelection)
+
+    def closeEvent(self, event):
+        print("gg")
+        self.hide()
+        self.switch2mainWindow.emit(self)

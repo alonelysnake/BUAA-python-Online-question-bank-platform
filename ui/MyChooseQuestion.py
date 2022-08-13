@@ -27,9 +27,9 @@ class MyPushButton(QPushButton):
 
 # 自测前生成题单界面
 class MyChooseQuestion(Ui_MainWindow, QMainWindow):
-    def __init__(self, window, parent, bank: QuestionBank):
+    def __init__(self, parent, bank: QuestionBank):
         super(MyChooseQuestion, self).__init__(parent=parent)
-        self.setupUi(window)
+        self.setupUi(self)
         self.questionDetail.backSignal.connect(self.backFromDetail)
         self.addBankButton.clicked.connect(self.jumpBankGenerate)
         self.backButton.clicked.connect(self.back2BankChoose)
@@ -38,7 +38,6 @@ class MyChooseQuestion(Ui_MainWindow, QMainWindow):
         self.answerLabel.hide()
         self.groundTruth.hide()
 
-        self.mainWindow = window
         self.banks = {}
         self.updateBanks()
         self.bank = bank

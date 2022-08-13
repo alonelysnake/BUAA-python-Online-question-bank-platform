@@ -46,6 +46,10 @@
           <property name="text">
            <string>随机生成</string>
           </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../resource/next.png</normaloff>../resource/next.png</iconset>
+          </property>
          </widget>
         </item>
         <item row="0" column="0">
@@ -59,6 +63,10 @@
           <property name="text">
            <string>返回</string>
           </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../resource/back.png</normaloff>../resource/back.png</iconset>
+          </property>
          </widget>
         </item>
         <item row="9" column="1" alignment="Qt::AlignRight">
@@ -71,6 +79,10 @@
           </property>
           <property name="text">
            <string>手动生成</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../resource/next.png</normaloff>../resource/next.png</iconset>
           </property>
          </widget>
         </item>
@@ -247,8 +259,8 @@ p, li { white-space: pre-wrap; }
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>287</width>
-                 <height>233</height>
+                 <width>98</width>
+                 <height>28</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="selectionsLayout"/>

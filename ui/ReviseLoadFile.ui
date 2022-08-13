@@ -151,6 +151,10 @@
       <property name="text">
        <string>下一题</string>
       </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../resource/next.png</normaloff>../resource/next.png</iconset>
+      </property>
      </widget>
     </item>
    </layout>

@@ -2,13 +2,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 import datetime
 
-# from function.ScoreAnalysis import ApplicationWindow
-
 from question.QuestionBank import QuestionBank
 from question.Question import Question
 from user.User import CUR_USER
-
-from function.Analysis import myWindow
 
 from ui.Analysis import Ui_MainWindow
 from ui.MyWidgets.MyQuestionInfo import MyQuestionInfo
@@ -18,15 +14,13 @@ from ui.MyWidgets.MyHistoryCard import MyHistoryCard
 
 
 class MyAnalysis(Ui_MainWindow, QMainWindow):
-    def __init__(self, window, parent, bank: QuestionBank):
+    def __init__(self, parent, bank: QuestionBank):
         super(MyAnalysis, self).__init__(parent=parent)
-        self.setupUi(window)
+        self.setupUi(self)
 
         self.analysisCardsLayout.setAlignment(Qt.AlignTop)
         self.wrongQuestionsLayout.setAlignment(Qt.AlignTop)
         self.graph.logs = CUR_USER.getLogs(bank.getBid())
-        print(bank.getBid())
-        print(CUR_USER.getLogs(bank.getBid()))
 
         self.bank = bank
 
@@ -47,13 +41,6 @@ class MyAnalysis(Ui_MainWindow, QMainWindow):
         self.stackedWidget.setCurrentIndex(1)
         self.wrongButton.setDisabled(True)
         self.analysisButton.setDisabled(False)
-
-    # 查看详细的分析结果图
-    def seeAnalysis(self, bid):
-        # TODO 创建一个新的子窗口，展示分析结果
-        # analysisWindow = ApplicationWindow(CUR_USER.getLogs(bid))
-        # analysisWindow.show()
-        pass
 
     # 查看错题的详细内容
     def seeWrongDetail(self, bid, qid):

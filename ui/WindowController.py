@@ -9,26 +9,27 @@ from question.QuestionBank import QuestionBank
 
 class WindowController:
     def __init__(self, bank: QuestionBank):
-        window = QMainWindow()
-        self.mainWindow = MyMainWindow(window, bank)
+        #window = QMainWindow()
+        self.mainWindow = MyMainWindow(bank)
         self.mainWindow.switch2reviseFile.connect(self.showReviseFile)
-        window.show()
+        #window.show()
+        self.mainWindow.show()
 
-        window = QMainWindow()
-        self.reviseFileWindow = MyReviseLoadFile(window, bank)
+        #window = QMainWindow()
+        self.reviseFileWindow = MyReviseLoadFile(bank)
         self.reviseFileWindow.switch2mainWindow.connect(self.showMainWindow)
 
     # 显示上传后修改的界面
     def showReviseFile(self, window, path):
         window.hide()
         self.reviseFileWindow.initAttribute(path)
-        self.reviseFileWindow.mainWindow.show()
+        self.reviseFileWindow.show()
         print("load revise load file success")
 
     def showMainWindow(self, window):
         window.hide()
         self.mainWindow.updateQuestions()
-        self.mainWindow.mainWindow.show()
+        self.mainWindow.show()
         print("come back to mainwindow success")
 
 

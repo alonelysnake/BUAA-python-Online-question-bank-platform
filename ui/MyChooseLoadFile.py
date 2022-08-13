@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QDialog
+from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 import sys
 
@@ -12,8 +12,15 @@ class MyChooseLoadFile(QDialog, Ui_chooseLoadFile):
         self.setupUi(chooseLoadFile)
         self.buttonBox.accepted.connect(self.accept)
         self.filepath = ""
+        self.choose.clicked.connect(self.file)
 
         chooseLoadFile.setWindowFlags(Qt.WindowCloseButtonHint)
+
+    def file(self):
+        newPaths = QFileDialog.getOpenFileNames(self, "open file dialog", "C:\\users\\administrator\\Desktop",
+                                                "支持格式 (*.jpg *.jpeg *.png *.pdf)")
+        for path in newPaths[0]:
+            self.textEdit.append(path)
 
     # 成功返回时要记录文件路径
     def accept(self):
