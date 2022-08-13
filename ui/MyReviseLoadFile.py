@@ -17,7 +17,6 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
     def __init__(self, bank: QuestionBank):
         super(MyReviseLoadFile, self).__init__()
         self.setupUi(self)
-        #self.mainWindow = self
 
         self.selectButton.clicked.connect(self.switchQuestionType)
         self.fillButton.clicked.connect(self.switchQuestionType)
@@ -38,6 +37,7 @@ class MyReviseLoadFile(Ui_MainWindow, QMainWindow):
         self.pos = 0
         # 得到题目列表
         self.questionsText.clear()
+        self.newQuestions.clear()
         recognize = Paddleocr("", "")
         for path in set(paths.split("\n")):
             print(path)

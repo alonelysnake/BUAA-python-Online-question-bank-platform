@@ -21,6 +21,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>文件地址</string>
        </property>
@@ -28,10 +34,16 @@
      </item>
      <item>
       <widget class="MyQTextEdit" name="textEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>16777215</height>
+         <height>60</height>
         </size>
        </property>
        <property name="markdown">
@@ -69,6 +81,9 @@ p, li { white-space: pre-wrap; }
        <property name="icon">
         <iconset>
          <normaloff>../resource/add.png</normaloff>../resource/add.png</iconset>
+       </property>
+       <property name="description">
+        <string/>
        </property>
       </widget>
      </item>

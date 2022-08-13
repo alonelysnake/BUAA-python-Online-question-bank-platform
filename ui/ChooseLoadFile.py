@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:\coding\python\homework\Online-question-bank-platform\ui\ChooseLoadFile.ui'
+# Form implementation generated from reading ui file 'ChooseLoadFile.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -21,10 +21,20 @@ class Ui_chooseLoadFile(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(chooseLoadFile)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
         self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
         self.textEdit = MyQTextEdit(chooseLoadFile)
-        self.textEdit.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.textEdit.sizePolicy().hasHeightForWidth())
+        self.textEdit.setSizePolicy(sizePolicy)
+        self.textEdit.setMaximumSize(QtCore.QSize(16777215, 60))
         self.textEdit.setMarkdown("")
         self.textEdit.setObjectName("textEdit")
         self.horizontalLayout.addWidget(self.textEdit)
@@ -39,6 +49,7 @@ class Ui_chooseLoadFile(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("resource/add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.choose.setIcon(icon)
+        self.choose.setDescription("")
         self.choose.setObjectName("choose")
         self.horizontalLayout.addWidget(self.choose, 0, QtCore.Qt.AlignRight)
         self.verticalLayout.addLayout(self.horizontalLayout)
