@@ -92,12 +92,13 @@ class User:
             return
         table = str(self.id) + "_mistakes"
         questions = []
+        db.selectDatabase('data')
         if bid == -1:
-            db.selectDatabase('data')
             db.cursor.execute("select * from " + table)
             mistakes = db.cursor.fetchall()
         else:
-            mistakes = db.fetchAll('data', table, 'bid', str(bid),'qid')
+            db.cursor.execute("select qid from " + table + " where wrong_times>'0'")
+            mistakes = db.cursor.fetchall()
         db.cursor.execute("use base_name")
         db.cursor.execute("select name from bank_name where id='" + str(bid) + "'")
         bankName = db.cursor.fetchone()[0]

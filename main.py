@@ -5,6 +5,8 @@ from question.QuestionBank import QuestionBank
 from DatabaseUtil import DB
 from ui.WindowController import WindowController
 
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 
 if __name__ == '__main__':
     # app = QApplication(sys.argv)
@@ -17,7 +19,7 @@ if __name__ == '__main__':
     db.initial()
     db.createBank('科目一',0,0)
     bank = QuestionBank("科目一", 0)
-    db.createBank('科目一试卷1',1,bank.getBid())
+    # db.createBank('科目一试卷1',1,bank.getBid())
     app = QApplication(sys.argv)
     controller = WindowController(bank)
     app.exec_()
