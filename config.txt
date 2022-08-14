@@ -1,0 +1,2 @@
+user=root
+pwd=123456

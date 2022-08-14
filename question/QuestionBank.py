@@ -4,7 +4,6 @@
 # @File    : QuestionBank.py
 # @Description : 题库、题单类
 
-import pymysql
 from DatabaseUtil import DB
 
 from question.Question import Question

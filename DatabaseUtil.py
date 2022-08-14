@@ -6,13 +6,16 @@
 
 import pymysql
 
+with open('config.txt','r') as f:
+    user = f.readline().split('=')[1].split('\n')[0]
+    pwd = f.readline().split('=')[1]
 
 class DB():
     LOC = ['bank', 'list']
 
     def __init__(self):
         if not hasattr(DB, "_first_init"):
-            self.conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='123456', charset='utf8')
+            self.conn = pymysql.connect(host='127.0.0.1', port=3306, user=user, password=pwd, charset='utf8')
             self.cursor = self.conn.cursor()
             DB._first_init = True
 
